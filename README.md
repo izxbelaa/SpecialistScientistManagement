@@ -3,6 +3,15 @@
 ## Overview
 The Special Scientists Management System (ΕΕ) is a web-based application designed to manage special scientists working at TEPAK. The system streamlines the hiring process, enrollment, and automatic integration with the Moodle Learning Management System (LMS).
 
+## Team
+**Team 2:**
+- Izabela Nedyalkova
+- Christos Aristotelous
+- Andrea Papadopoulou
+- Katerina Giorgallou
+- Christos Zavos
+- Konstantinos Christou
+
 ## Features
 - **Admin Module**: User and system management.
 - **Recruitment Module**: Special scientist hiring process.
