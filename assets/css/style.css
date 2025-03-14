@@ -1,0 +1,94 @@
+body {
+    background-color: #F7F7F7;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+.container {
+    max-width: 500px;
+    margin-top: 80px;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    color: black;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #003366;
+    font-weight: bold;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #003366;
+    font-weight: semi-bold;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #003366;
+}
+
+.btn {
+    margin-top: 15px;
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.text-center img {
+    max-width: 180px;
+    margin-bottom: 15px;
+}
+
+a {
+    color: #003366;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0056b3;
+}
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h4 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: #003366;
+}
+
+.sidebar .nav {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #003366;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: #e9ecef;
+    color: #003366;
+}
