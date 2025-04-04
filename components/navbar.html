@@ -1,15 +1,35 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #05294e;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="../assets/img/whitelogo.png" alt="Tepak Logo" width="130" height="50" class="d-inline-block align-top" >
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="../auth/login.html"> Login </a></li>
-            </ul>
-        </div>
+      <a class="navbar-brand" href="#">
+        <img src="../assets/img/whitelogo.png" alt="Tepak Logo" width="130" height="50" class="d-inline-block align-top">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Sidebar Items for Mobile: Visible only on mobile devices -->
+        <ul class="navbar-nav d-lg-none">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../user_settings/settings.php">Settings</a>
+          </li>
+        </ul>
+        <!-- Right-aligned Items (e.g., Login) -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../auth/login.html">Login</a>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
+  
