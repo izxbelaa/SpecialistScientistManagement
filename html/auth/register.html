@@ -81,6 +81,22 @@
   </div>
   <!-- Header End -->
 
+  <!-- Display messages from register.php -->
+<div class="mb-3">
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    const success = urlParams.get('success');
+
+    if (error) {
+      document.write(`<div class="alert alert-danger">${decodeURIComponent(error)}</div>`);
+    } else if (success) {
+      document.write(`<div class="alert alert-success">Η εγγραφή ήταν επιτυχής! <a href='login.html'>Συνδεθείτε εδώ</a>.</div>`);
+    }
+  </script>
+</div>
+
+
   <!-- Register Form Start -->
   <div class="container-xxl py-5">
     <div class="container">
@@ -88,28 +104,37 @@
         <div class="col-lg-6">
           <form method="POST" action="../../php/register.php">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
-              <label for="first_name">First Name</label>
+              <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+              <label for="first_name">Όνομα *</label>
+              <div class="invalid-feedback">Το όνομα είναι υποχρεωτικό.</div>
             </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
-              <label for="last_name">Last Name</label>
+              <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name">
+              <label for="middle_name">Μεσαίο Όνομα</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" name="email" placeholder="Email" required>
-              <label for="email">Email</label>
+              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+              <label for="last_name">Επώνυμο *</label>
+              <div class="invalid-feedback">Το επώνυμο είναι υποχρεωτικό.</div>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="password" placeholder="Password" required>
-              <label for="password">Password</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+              <label for="email">Ηλεκτρονική Διευθήνση *</label>
+              <div class="invalid-feedback">Ηλεκτρονική Διευθήνση είναι υποχρεωτική.</div>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
-              <label for="confirm_password">Confirm Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+              <label for="password">Κωδικός Προσβασης *</label>
+              <div class="invalid-feedback">Ο κωδικός Προσβασης είναι υποχρεωτικός.</div>
             </div>
-            <button type="submit" class="btn btn-success w-100 py-3">Register</button>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+              <label for="confirm_password">Επιβεβαίωση Κωδικού Προσβασης *</label>
+              <div class="invalid-feedback">Η επαληθέση του κωδικου προσβασης δεν ταιριαζει.</div>
+            </div>
+            <button type="submit" class="btn btn-success w-100 py-3">Εγγραφή</button>
             <p class="mt-3 text-center">
-              Already have an account? <a href="login.html">Login</a>
+              Έχετε ήδη λογαριασμό? <a href="login.html">Σύνδεση</a>
             </p>
           </form>
         </div>
@@ -210,6 +235,7 @@
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
   <!-- Template Javascript -->
   <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/register-validation.js"></script>
 </body>
 
 </html>
