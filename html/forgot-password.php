@@ -8,7 +8,7 @@
   <meta content="Register page" name="keywords">
   <meta content="Register page for Cyprus University of Technology" name="description">
   <!-- Favicon -->
-  <link href="../../assets/img/logo.png" rel="icon">
+  <link href="../assets/img/logo.png" rel="icon">
   <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,12 +17,12 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <!-- Libraries Stylesheet -->
-  <link href="../../lib/animate/animate.min.css" rel="stylesheet">
-  <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../lib/animate/animate.min.css" rel="stylesheet">
+  <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <!-- Customized Bootstrap Stylesheet -->
-  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
   <!-- Template Stylesheet -->
-  <link href="../../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -68,11 +68,11 @@
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
-          <h1 class="display-3 text-white animated slideInDown">Register</h1>
+          <h1 class="display-3 text-white animated slideInDown">Forgot Password</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../../index.html">Home</a></li>
-              <li class="breadcrumb-item text-white active" aria-current="page">Register</li>
+              <li class="breadcrumb-item"><a class="text-white" href="auth/login.html">Login</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Forgot Password</li>
             </ol>
           </nav>
         </div>
@@ -81,67 +81,39 @@
   </div>
   <!-- Header End -->
 
-  <!-- Display messages from register.php -->
-<div class="mb-3">
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-    const success = urlParams.get('success');
-
-    if (error) {
-      document.write(`<div class="alert alert-danger">${decodeURIComponent(error)}</div>`);
-    } else if (success) {
-      document.write(`<div class="alert alert-success">Η εγγραφή ήταν επιτυχής! <a href='login.html'>Συνδεθείτε εδώ</a>.</div>`);
-    }
-  </script>
-</div>
-
-
-  <!-- Register Form Start -->
-  <div class="container-xxl py-5">
+<!-- Form -->
+<div class="container-xxl py-5">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6">
-          <form method="POST" action="../../php/register.php">
+          <form id="forgot-password-form">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
-              <label for="first_name">Όνομα *</label>
-              <div class="invalid-feedback">Το όνομα είναι υποχρεωτικό.</div>
-            </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name">
-              <label for="middle_name">Μεσαίο Όνομα</label>
-            </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
-              <label for="last_name">Επώνυμο *</label>
-              <div class="invalid-feedback">Το επώνυμο είναι υποχρεωτικό.</div>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-              <label for="email">Ηλεκτρονική Διεύθυνση *</label>
-              <div class="invalid-feedback">Ηλεκτρονική Διεύθυνση είναι υποχρεωτική.</div>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-              <label for="password">Κωδικός Προσβασης *</label>
-              <div class="invalid-feedback">Ο κωδικός Προσβασης είναι υποχρεωτικός.</div>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-              <label for="confirm_password">Επιβεβαίωση Κωδικού Προσβασης *</label>
-              <div class="invalid-feedback">Η επαληθέση του κωδικου προσβασης δεν ταιριαζει.</div>
-            </div>
-            <button type="submit" class="btn btn-success w-100 py-3">Εγγραφή</button>
+  <input type="email"
+         class="form-control"
+         id="email"
+         name="email"
+         placeholder="Ηλεκτρονική Διεύθυνση"
+         required>
+  <label for="email">Ηλεκτρονική Διεύθυνση *</label>
+  <div id="emailError" class="invalid-feedback d-none">
+    Παρακαλώ εισάγετε έγκυρη διεύθυνση email.
+  </div>
+</div>
+
+
+            <button type="submit" class="btn btn-primary w-100 py-3">Αποστολή Συνδέσμου Επαναφοράς</button>
             <p class="mt-3 text-center">
-              Έχετε ήδη λογαριασμό? <a href="login.html">Σύνδεση</a>
+              Θυμήθηκες τον κωδικό σου; <a href="login.html">Σύνδεση</a>
             </p>
           </form>
+          <div id="message" class="mt-3 text-center"></div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Register Form End -->
+
 
   <!-- Footer Start -->
   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -227,15 +199,15 @@
 
   <!-- JavaScript Libraries -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="../../lib/wow/wow.min.js"></script>
-  <script src="../../lib/easing/easing.min.js"></script>
-  <script src="../../lib/waypoints/waypoints.min.js"></script>
-  <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../lib/wow/wow.min.js"></script>
+  <script src="../lib/easing/easing.min.js"></script>
+  <script src="../lib/waypoints/waypoints.min.js"></script>
+  <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
   <!-- Bootstrap Bundle JS -->
-  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
   <!-- Template Javascript -->
-  <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/register.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/register.js"></script>
 </body>
 
 </html>
