@@ -91,21 +91,49 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Account Settings</h6>
-                <h1 class="mb-5">Update Your Account Information</h1>
+                <h6 class="section-title bg-white text-center text-primary px-3">Ρυθμισεις Λογαριασμου</h6>
+                <h1 class="mb-5">Ενημέρωση Στοιχείων Λογαριασμού</h1>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <form>
-                        <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="Your Email">
-                            <label for="email">Your Email</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-                            <label for="password">Password</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 py-3">Update Settings</button>
+                    <div class="form-floating mb-3">
+    <input type="text" name="first_name" class="form-control" id="first_name" placeholder="Όνομα">
+    <label for="first_name">Όνομα</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+<div class="form-floating mb-3">
+    <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Επώνυμο">
+    <label for="last_name">Επώνυμο</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+<div class="form-floating mb-3">
+    <input type="email" name="email" class="form-control" id="email" placeholder="Ηλεκτρονική Διεύθυνση">
+    <label for="email">Ηλεκτρονική Διεύθυνση</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+<div class="form-floating mb-3">
+    <input type="text" name="phone" class="form-control" id="phone" placeholder="Αριθμός Τηλεφώνου">
+    <label for="phone">Αριθμός Τηλεφώνου</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+<div class="form-floating mb-3">
+    <input type="password" name="new_password" class="form-control" id="new_password" placeholder="Νέος Κωδικός">
+    <label for="new_password">Νέος Κωδικός</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+<div class="form-floating mb-3">
+    <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Επιβεβαίωση Κωδικού">
+    <label for="confirm_password">Επιβεβαίωση Νέου Κωδικού</label>
+    <div class="invalid-feedback"></div>
+</div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-3">Ενημέρωση Στοιχείων</button>
                     </form>
                 </div>
             </div>
@@ -202,6 +230,7 @@
     <script src="/lib/easing/easing.min.js"></script>
     <script src="/lib/waypoints/waypoints.min.js"></script>
     <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../assets/js/settings.js"></script>
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
 </body>
