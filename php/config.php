@@ -1,5 +1,5 @@
 <?php
-$host = 'websrv1.cut.ac.cy';          // Or the internal IP, if required
+$host = 'localhost';          // Or the internal IP, if required
 $db   = 'cei326omada2';
 $user = 'cei326omada2user';
 $pass = 'Vp5!2BNFh!cHiN!U';
