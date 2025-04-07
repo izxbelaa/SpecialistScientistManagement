@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +47,7 @@
 
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-    <a href="../../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+    <a href="../../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
       <img src="../../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -52,7 +55,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../../index.html" class="nav-item nav-link">Home</a>
+        <a href="../../index.php" class="nav-item nav-link">Home</a>
         <a href="../about.html" class="nav-item nav-link">About</a>
         <a href="../courses.html" class="nav-item nav-link">Courses</a>
         <div class="nav-item dropdown">
@@ -65,9 +68,22 @@
         </div>
         <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
       </div>
-      <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-        Register<i class="fa fa-arrow-right ms-3"></i>
-      </a>
+      <?php if (isset($_SESSION['username'])): ?>
+  <div class="dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <?php echo htmlspecialchars($_SESSION['username']); ?>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+      <li><a class="dropdown-item" href="../../php/logout.php">Logout</a></li>
+      <!-- You can add more items here if needed -->
+    </ul>
+  </div>
+<?php else: ?>
+  <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+    Register <i class="fa fa-arrow-right ms-3"></i>
+  </a>
+<?php endif; ?>
+
     </div>
   </nav>
   <!-- Navbar End -->
@@ -80,7 +96,7 @@
           <h1 class="display-3 text-white animated slideInDown">Login</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../../index.html">Home</a></li>
+              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Home</a></li>
               <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
             </ol>
           </nav>
@@ -95,24 +111,21 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6">
-          <!-- Update the form action as needed -->
+          <!-- The form submits to the backend processing script located at ../../php/login.php -->
           <form id="login-form" method="POST" action="../../php/login.php">
             <div class="form-floating mb-3">
               <input type="email" class="form-control" id="login-email" name="email" placeholder="Email">
               <label for="login-email">Ηλεκτρονική Διεύθυνση</label>
               <div class="invalid-feedback">Το email είναι υποχρεωτικό ή μη έγκυρο.</div>
             </div>
-            
             <div class="form-floating mb-3">
               <input type="password" class="form-control" id="login-password" name="password" placeholder="Password">
-              <label for="login-password">Κωδικος</label>
+              <label for="login-password">Κωδικός</label>
               <div class="invalid-feedback">Ο κωδικός είναι υποχρεωτικός.</div>
             </div>
-
             <div class="text-end mb-3">
-              <a href="forgot-password.html" class="text-primary">Ξεχάσατε τον κωδικό;</a>
+              <a href="/html/forgot-password.php" class="text-primary">Ξεχάσατε τον κωδικό;</a>
             </div>
-            
             <button type="submit" class="btn btn-primary w-100 py-3">Σύνδεση</button>
             <p class="mt-3 text-center">
               Δεν έχετε λογαριασμό? <a href="register.html">Εγγραφή</a>
@@ -216,6 +229,7 @@
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
   <!-- Template Javascript -->
   <script src="../../assets/js/main.js"></script>
+  <!-- Login Javascript (for client-side validation) -->
   <script src="../../assets/js/login.js"></script>
 </body>
 
