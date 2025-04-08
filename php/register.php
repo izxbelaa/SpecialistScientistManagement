@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
-include '../php/config.php';
-
+include 'config.php';
+include '../php_classes/Users.php'; // Path to your class
 $success = false;
 $errors = [];
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['confirm_password'] = "Οι κωδικοί δεν ταιριάζουν.";
     }
 
-    // Email uniqueness
+    // Check for duplicate email
     if (empty($errors)) {
         try {
             $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
@@ -47,15 +47,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Εισαγωγή στη βάση
+    // Insert into DB using Users class values
     if (empty($errors)) {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $user = new Users(
+                null,               // id
+                $first_name,
+                $last_name,
+                $middle_name,
+                $email,
+                $hashed_password,
+                0,                  // type_of_user
+                0,                  // logged_in
+                0                   // disabled_user
+            );
+
             $stmt = $pdo->prepare("
-                INSERT INTO users (first_name, middle_name, last_name, email, password, type_of_user)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO users (first_name, middle_name, last_name, email, password, type_of_user, logged_in, disabled_user)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ");
-            $stmt->execute([$first_name, $middle_name, $last_name, $email, $hashed_password, 0]);
+
+            $stmt->execute([
+                $user->first_name,
+                $user->middle_name,
+                $user->last_name,
+                $user->email,
+                $user->password,
+                $user->type_of_user,
+                $user->logged_in,
+                $user->disabled_user
+            ]);
 
             echo json_encode(['success' => true]);
             exit;

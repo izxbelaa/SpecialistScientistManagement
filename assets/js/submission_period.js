@@ -1,71 +1,80 @@
-// submission_period.js
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("submissionForm");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const startDateInput = document.getElementById("startDate");
+  const endDateInput = document.getElementById("endDate");
+  const schoolSelect = document.getElementById("schoolSelect");
+  const currentSettings = document.getElementById("currentSettings");
 
-class SubmissionPeriodManager {
-    constructor(formId) {
-      this.form = document.getElementById(formId);
-      this.startInput = this.form.querySelector("#startDate");
-      this.endInput = this.form.querySelector("#endDate");
-      this.currentSettingsSpan = this.form.querySelector("#currentSettings");
-      this.cancelBtn = this.form.querySelector("#cancelBtn");
-  
-      this.bindEvents();
-      this.loadCurrentSettings();
-    }
-  
-    // Bind event listeners to form and buttons.
-    bindEvents() {
-      this.form.addEventListener('submit', this.handleSubmit.bind(this));
-      this.cancelBtn.addEventListener('click', this.handleCancel.bind(this));
-    }
-  
-    // Load current submission period settings.
-    loadCurrentSettings() {
-      // In a real application, fetch these values from your backend.
-      const currentStart = "2025-04-10T09:00";
-      const currentEnd = "2025-04-15T17:00";
-      this.currentSettingsSpan.textContent = `Current Submission Period: ${currentStart} to ${currentEnd}`;
-      
-      // Pre-fill the inputs for convenience.
-      this.startInput.value = currentStart;
-      this.endInput.value = currentEnd;
-    }
-  
-    // Handle form submission.
-    handleSubmit(event) {
-      event.preventDefault();
-      const startValue = this.startInput.value;
-      const endValue = this.endInput.value;
-      
-      if (new Date(startValue) >= new Date(endValue)) {
-        alert("End Date/Time must be after Start Date/Time.");
-        return;
-      }
-      
-      // Simulate saving the settings.
-      console.log("Saving Submission Period:", startValue, endValue);
-      
-      // You can use fetch() to send data to the server here.
-      // Example:
-      // fetch('api/saveSubmissionPeriod', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ start: startValue, end: endValue })
-      // })
-      // .then(response => response.json())
-      // .then(data => console.log(data));
-  
-      alert("Submission period updated successfully.");
-    }
-  
-    // Handle the cancel button click.
-    handleCancel() {
-      this.form.reset();
-      this.loadCurrentSettings();
+  // Δημιουργία error span για το σφάλμα
+  const dateError = document.createElement("div");
+  dateError.classList.add("text-danger", "mt-1");
+  dateError.style.fontSize = "0.875rem";
+  endDateInput.parentElement.appendChild(dateError);
+
+  // Μορφοποίηση ημερομηνίας για εμφάνιση
+  function formatDateTime(datetime) {
+    const date = new Date(datetime);
+    return date.toLocaleString("el-GR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  // Ενημέρωση preview
+  function updateCurrentSettings() {
+    const school = schoolSelect.options[schoolSelect.selectedIndex]?.text || "";
+    const start = startDateInput.value;
+    const end = endDateInput.value;
+
+    if (school && start && end) {
+      currentSettings.textContent = `Σχολή: ${school}, Έναρξη: ${formatDateTime(start)}, Λήξη: ${formatDateTime(end)}`;
+    } else {
+      currentSettings.textContent = "Οι τρέχουσες ρυθμίσεις θα εμφανιστούν εδώ.";
     }
   }
-  
-  // Initialize the SubmissionPeriodManager when the page loads.
-  document.addEventListener('DOMContentLoaded', () => {
-    new SubmissionPeriodManager("submissionForm");
+
+  // Real-time έλεγχος εγκυρότητας
+  function validateDates() {
+    const start = new Date(startDateInput.value);
+    const end = new Date(endDateInput.value);
+
+    if (startDateInput.value && endDateInput.value && end <= start) {
+      endDateInput.classList.add("is-invalid");
+      dateError.textContent = "Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.";
+      return false;
+    } else {
+      endDateInput.classList.remove("is-invalid");
+      dateError.textContent = "";
+      return true;
+    }
+  }
+
+  // Υποβολή φόρμας
+  form.addEventListener("submit", function (e) {
+    if (!validateDates()) {
+      e.preventDefault(); // Μην επιτρέψεις την υποβολή
+    }
   });
-  
+
+  // Cancel button καθαρίζει τη φόρμα
+  cancelBtn.addEventListener("click", function () {
+    form.reset();
+    dateError.textContent = "";
+    endDateInput.classList.remove("is-invalid");
+    currentSettings.textContent = "Οι τρέχουσες ρυθμίσεις θα εμφανιστούν εδώ.";
+  });
+
+  // Συνδέουμε τα real-time validation events
+  [startDateInput, endDateInput].forEach((input) => {
+    input.addEventListener("input", function () {
+      validateDates();
+      updateCurrentSettings();
+    });
+  });
+
+  schoolSelect.addEventListener("change", updateCurrentSettings);
+});
