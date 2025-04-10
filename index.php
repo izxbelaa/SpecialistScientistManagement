@@ -72,12 +72,14 @@ include 'php/session_check.php';
       <?php echo htmlspecialchars($_SESSION['username']); ?>
     </a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-      <li><a class="dropdown-item" href="../../php/logout.php">Logout</a></li>
+      <li><a class="dropdown-item" href="html/edit_user.php">User Settings</a></li>
+      <li><a class="dropdown-item" href="php/logout.php">Logout</a></li>
+     
       <!-- You can add more items here if needed -->
     </ul>
   </div>
 <?php else: ?>
-  <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+  <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
     Login <i class="fa fa-arrow-right ms-3"></i>
   </a>
 <?php endif; ?>
