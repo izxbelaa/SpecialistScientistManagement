@@ -161,12 +161,14 @@ try {
                             <label for="password">Νέος Κωδικός</label>
                             <div class="form-text">Αφήστε κενό αν δεν θέλετε αλλαγή κωδικού.</div>
                             <div id="password_error" class="error-message"></div>
+                            <div id="password_strength" class="mt-2"></div>
                         </div>
 
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
                             <label for="confirm_password">Επιβεβαίωση Νέου Κωδικού</label>
                             <div id="confirm_password_error" class="error-message"></div>
+                            <div id="password_match" class="mt-2"></div>
                         </div>
 
                         <div class="d-grid gap-2">
@@ -263,6 +265,78 @@ try {
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
     <script>
+        // Password validation function
+        function validatePassword(password) {
+            const errors = [];
+            if (password.length < 8) {
+                errors.push("Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες");
+            }
+            if (!/[A-Z]/.test(password)) {
+                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα");
+            }
+            if (!/[a-z]/.test(password)) {
+                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα");
+            }
+            if (!/[0-9]/.test(password)) {
+                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν αριθμό");
+            }
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα ειδικό σύμβολο (!@#$%^&*(),.?\":{}|<>)");
+            }
+            return errors;
+        }
+
+        // Function to update password strength indicator
+        function updatePasswordStrength(password) {
+            const strengthIndicator = document.getElementById('password_strength');
+            const errors = validatePassword(password);
+            
+            if (password.length === 0) {
+                strengthIndicator.innerHTML = '';
+                return;
+            }
+
+            if (errors.length > 0) {
+                strengthIndicator.innerHTML = errors.map(error => 
+                    `<div class="text-danger"><i class="fas fa-times-circle"></i> ${error}</div>`
+                ).join('');
+            } else {
+                strengthIndicator.innerHTML = '<div class="text-success"><i class="fas fa-check-circle"></i> Ο κωδικός πληροί όλες τις απαιτήσεις</div>';
+            }
+        }
+
+        // Function to check if passwords match
+        function checkPasswordMatch(password, confirmPassword) {
+            const matchIndicator = document.getElementById('password_match');
+            if (confirmPassword.length === 0) {
+                matchIndicator.innerHTML = '';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                matchIndicator.innerHTML = '<div class="text-success"><i class="fas fa-check-circle"></i> Οι κωδικοί ταιριάζουν</div>';
+            } else {
+                matchIndicator.innerHTML = '<div class="text-danger"><i class="fas fa-times-circle"></i> Οι κωδικοί δεν ταιριάζουν</div>';
+            }
+        }
+
+        // Add event listeners for password validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm_password');
+
+            // Add real-time validation
+            passwordInput.addEventListener('input', function() {
+                updatePasswordStrength(this.value);
+                checkPasswordMatch(this.value, confirmPasswordInput.value);
+            });
+
+            confirmPasswordInput.addEventListener('input', function() {
+                checkPasswordMatch(passwordInput.value, this.value);
+            });
+        });
+
+        // Form submission handler
         document.getElementById('editProfileForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -270,6 +344,22 @@ try {
             document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
             
             const formData = new FormData(this);
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+            
+            // Validate password if provided
+            if (password) {
+                const errors = validatePassword(password);
+                if (errors.length > 0) {
+                    document.getElementById('password_error').textContent = errors[0];
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    document.getElementById('confirm_password_error').textContent = "Οι κωδικοί δεν ταιριάζουν";
+                    return;
+                }
+            }
             
             fetch('../php/edit_user.php', {
                 method: 'POST',
