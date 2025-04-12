@@ -1,0 +1,202 @@
+[12-Apr-2025 09:02:55 Europe/Berlin] PHP Warning:  require_once(php_classes/Academy.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php on line 21
+[12-Apr-2025 09:02:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php_classes/Academy.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php:21
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php on line 21
+[12-Apr-2025 09:03:04 Europe/Berlin] PHP Warning:  require_once(php_classes/Academy.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php on line 21
+[12-Apr-2025 09:03:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php_classes/Academy.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php:21
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php on line 21
+[12-Apr-2025 09:04:35 Europe/Berlin] Error in academies.php: Academy class file not found
+[12-Apr-2025 09:04:35 Europe/Berlin] Stack trace: #0 {main}
+[12-Apr-2025 09:04:44 Europe/Berlin] Error in academies.php: Academy class file not found
+[12-Apr-2025 09:04:44 Europe/Berlin] Stack trace: #0 {main}
+[12-Apr-2025 09:05:21 Europe/Berlin] Received action: get
+[12-Apr-2025 09:05:21 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:05:35 Europe/Berlin] Received action: create
+[12-Apr-2025 09:05:35 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => chris
+    [code] => 212
+)
+
+[12-Apr-2025 09:05:35 Europe/Berlin] Creating academy - Name: chris, Code: 212
+[12-Apr-2025 09:05:35 Europe/Berlin] Success creating academy: Array
+(
+    [success] => 1
+    [message] => Academy created successfully
+    [data] => Array
+        (
+            [id] => 1
+            [academy_name] => chris
+            [academy_code] => 212
+        )
+
+)
+
+[12-Apr-2025 09:05:37 Europe/Berlin] Received action: get
+[12-Apr-2025 09:05:37 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:05:56 Europe/Berlin] Received action: get
+[12-Apr-2025 09:05:56 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[12-Apr-2025 09:05:59 Europe/Berlin] Received action: update
+[12-Apr-2025 09:05:59 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => chris
+    [code] => 2122
+    [id] => 1
+)
+
+[12-Apr-2025 09:06:01 Europe/Berlin] Received action: get
+[12-Apr-2025 09:06:01 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:06:03 Europe/Berlin] Received action: get
+[12-Apr-2025 09:06:03 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[12-Apr-2025 09:06:08 Europe/Berlin] Received action: delete
+[12-Apr-2025 09:06:08 Europe/Berlin] POST data: Array
+(
+    [action] => delete
+    [id] => 1
+)
+
+[12-Apr-2025 09:06:10 Europe/Berlin] Received action: get
+[12-Apr-2025 09:06:10 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:09:25 Europe/Berlin] Received action: get
+[12-Apr-2025 09:09:25 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:09:35 Europe/Berlin] Received action: create
+[12-Apr-2025 09:09:35 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => fewjfi
+    [code] => 
+)
+
+[12-Apr-2025 09:09:35 Europe/Berlin] Creating academy - Name: fewjfi, Code: 
+[12-Apr-2025 09:09:35 Europe/Berlin] Error in academies.php: Academy name and code are required
+[12-Apr-2025 09:09:35 Europe/Berlin] Stack trace: #0 {main}
+[12-Apr-2025 09:09:43 Europe/Berlin] Received action: create
+[12-Apr-2025 09:09:43 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => fewjfi
+    [code] => 326
+)
+
+[12-Apr-2025 09:09:43 Europe/Berlin] Creating academy - Name: fewjfi, Code: 326
+[12-Apr-2025 09:09:43 Europe/Berlin] Success creating academy: Array
+(
+    [success] => 1
+    [message] => Academy created successfully
+    [data] => Array
+        (
+            [id] => 2
+            [academy_name] => fewjfi
+            [academy_code] => 326
+        )
+
+)
+
+[12-Apr-2025 09:09:44 Europe/Berlin] Received action: get
+[12-Apr-2025 09:09:44 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[12-Apr-2025 09:09:53 Europe/Berlin] Received action: create
+[12-Apr-2025 09:09:53 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => chris
+    [code] => 326
+)
+
+[12-Apr-2025 09:09:53 Europe/Berlin] Creating academy - Name: chris, Code: 326
+[12-Apr-2025 09:09:53 Europe/Berlin] Error in academies.php: An academy with this code already exists
+[12-Apr-2025 09:09:53 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(59): Academy->validateInput('chris', '326')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(61): Academy->create('chris', '326')
+#2 {main}
+[12-Apr-2025 09:09:59 Europe/Berlin] Received action: create
+[12-Apr-2025 09:09:59 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => chris
+    [code] => 326
+)
+
+[12-Apr-2025 09:09:59 Europe/Berlin] Creating academy - Name: chris, Code: 326
+[12-Apr-2025 09:09:59 Europe/Berlin] Error in academies.php: An academy with this code already exists
+[12-Apr-2025 09:09:59 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(59): Academy->validateInput('chris', '326')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(61): Academy->create('chris', '326')
+#2 {main}
+[12-Apr-2025 09:10:44 Europe/Berlin] Received action: create
+[12-Apr-2025 09:10:44 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => chris
+    [code] => 326
+)
+
+[12-Apr-2025 09:10:44 Europe/Berlin] Creating academy - Name: chris, Code: 326
+[12-Apr-2025 09:10:44 Europe/Berlin] Error in academies.php: An academy with this code already exists
+[12-Apr-2025 09:10:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(59): Academy->validateInput('chris', '326')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(61): Academy->create('chris', '326')
+#2 {main}
+[12-Apr-2025 09:10:50 Europe/Berlin] Received action: create
+[12-Apr-2025 09:10:50 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => chris
+    [code] => 32444
+)
+
+[12-Apr-2025 09:10:50 Europe/Berlin] Creating academy - Name: chris, Code: 32444
+[12-Apr-2025 09:10:50 Europe/Berlin] Success creating academy: Array
+(
+    [success] => 1
+    [message] => Academy created successfully
+    [data] => Array
+        (
+            [id] => 3
+            [academy_name] => chris
+            [academy_code] => 32444
+        )
+
+)
+
+[12-Apr-2025 09:10:51 Europe/Berlin] Received action: get
+[12-Apr-2025 09:10:51 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
