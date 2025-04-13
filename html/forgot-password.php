@@ -2,51 +2,31 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Register - Special Scientists - CUT</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="Register page" name="keywords">
-  <meta content="Register page for Cyprus University of Technology" name="description">
-  <!-- Favicon -->
-  <link href="../assets/img/logo.png" rel="icon">
-  <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="utf-8" />
+  <title>Forgot Password - Special Scientists - CUT</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="../assets/img/logo.png" rel="icon" />
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <!-- Icon Font Stylesheet -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- Libraries Stylesheet -->
   <link href="../lib/animate/animate.min.css" rel="stylesheet">
   <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <!-- Customized Bootstrap Stylesheet -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Template Stylesheet -->
   <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Spinner Start -->
-  <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-  <!-- Spinner End -->
-
-  <!-- Navbar Start -->
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-    <a href="../../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <img src="../../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
+    <a href="../../index.php" class="navbar-brand px-4 px-lg-5">
+      <img src="../../assets/img/logocut.png" width="150" height="60" alt="Logo" />
     </a>
-    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
         <a href="../../index.php" class="nav-item nav-link">Home</a>
         <a href="../about.html" class="nav-item nav-link">About</a>
         <a href="../courses.html" class="nav-item nav-link">Courses</a>
+
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
           <div class="dropdown-menu fade-down m-0">
@@ -56,20 +36,18 @@
             <a href="../404.html" class="dropdown-item">404 Page</a>
           </div>
         </div>
+
         <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
       </div>
-      <!-- (Optional) You can remove or adjust the Join Now button if needed -->
-      <a href="#" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Register<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
   </nav>
-  <!-- Navbar End -->
 
-  <!-- Header Start -->
+  <!-- Header -->
   <div class="container-fluid bg-primary py-5 mb-5 page-header">
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
-          <h1 class="display-3 text-white animated slideInDown">Forgot Password</h1>
+          <h1 class="display-3 text-white">Forgot Password</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
               <li class="breadcrumb-item"><a class="text-white" href="auth/login.php">Login</a></li>
@@ -80,28 +58,17 @@
       </div>
     </div>
   </div>
-  <!-- Header End -->
 
-<!-- Form -->
-<div class="container-xxl py-5">
+  <!-- Forgot Password Form -->
+  <div class="container-xxl py-5">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6">
           <form id="forgot-password-form">
             <div class="form-floating mb-3">
-            <div class="form-floating mb-3">
-            <div class="form-floating mb-3">
-  <input type="email"
-         class="form-control"
-         id="email"
-         name="email"
-         placeholder="Ηλεκτρονική Διεύθυνση"
-         required>
-  <label for="email">Ηλεκτρονική Διεύθυνση *</label>
-  <div id="emailError" class="invalid-feedback d-none">
-    Παρακαλώ εισάγετε έγκυρη διεύθυνση email.
-  </div>
-</div>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Ηλεκτρονική Διεύθυνση" required>
+              <label for="email">Ηλεκτρονική Διεύθυνση *</label>
+            </div>
 
 
             <button type="submit" class="btn btn-primary w-100 py-3">Αποστολή Συνδέσμου Επαναφοράς</button>
@@ -115,100 +82,81 @@
     </div>
   </div>
 
-
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Quick Link</h4>
-          <a class="btn btn-link" href="#">About Us</a>
-          <a class="btn btn-link" href="#">Contact Us</a>
-          <a class="btn btn-link" href="#">Privacy Policy</a>
-          <a class="btn btn-link" href="#">Terms & Condition</a>
-          <a class="btn btn-link" href="#">FAQs & Help</a>
+  <!-- Verification Code Modal -->
+  <div class="modal fade" id="codeModal" tabindex="-1" aria-labelledby="codeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="codeModalLabel">Εισάγετε τον Κωδικό Επαλήθευσης</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Contact</h4>
-          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-          <div class="d-flex pt-2">
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Gallery</h4>
-          <div class="row g-2 pt-2">
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-1.jpg" alt="">
+        <div class="modal-body">
+          <form id="codeForm">
+            <div class="mb-3">
+              <label for="verificationCode" class="form-label">Κωδικός Επαλήθευσης</label>
+              <input type="text" class="form-control" id="verificationCode" placeholder="Εισάγετε τον κωδικό σας" required>
             </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-2.jpg" alt="">
-            </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-3.jpg" alt="">
-            </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-2.jpg" alt="">
-            </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-3.jpg" alt="">
-            </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-1.jpg" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Newsletter</h4>
-          <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-          <div class="position-relative mx-auto" style="max-width: 400px;">
-            <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="copyright">
-        <div class="row">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-            Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
-          </div>
-          <div class="col-md-6 text-center text-md-end">
-            <div class="footer-menu">
-              <a href="#">Home</a>
-              <a href="#">Cookies</a>
-              <a href="#">Help</a>
-              <a href="#">FQAs</a>
-            </div>
-          </div>
+            <div id="codeError" class="text-danger mb-3" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary">Υποβολή Κωδικού</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  <!-- Footer End -->
 
-  <!-- Back to Top -->
-  <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('forgot-password-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const messageDiv = document.getElementById('message');
 
-  <!-- JavaScript Libraries -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="../lib/wow/wow.min.js"></script>
-  <script src="../lib/easing/easing.min.js"></script>
-  <script src="../lib/waypoints/waypoints.min.js"></script>
-  <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-  <!-- Bootstrap Bundle JS -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
-  <!-- Template Javascript -->
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/register.js"></script>
+      fetch('../php/send-reset-email.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          messageDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+          new bootstrap.Modal(document.getElementById('codeModal')).show();
+        } else {
+          messageDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
+      })
+      .catch(() => {
+        messageDiv.innerHTML = `<div class="alert alert-danger">Σφάλμα αποστολής. Προσπαθήστε ξανά.</div>`;
+      });
+    });
+
+    document.getElementById('codeForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const code = document.getElementById('verificationCode').value.trim();
+      const codeError = document.getElementById('codeError');
+
+      fetch('../php/verify-code.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = "reset-password-form.php";
+        } else {
+          codeError.style.display = 'block';
+          codeError.textContent = data.message || "Λανθασμένος κωδικός. Προσπαθήστε ξανά.";
+        }
+      })
+      .catch(() => {
+        codeError.style.display = 'block';
+        codeError.textContent = "Σφάλμα επικοινωνίας. Προσπαθήστε ξανά.";
+      });
+    });
+  </script>
 </body>
 
 </html>

@@ -432,3 +432,99 @@
     padding-right: 0;
     border-right: none;
 }
+
+
+
+
+/********** user table CSS **********/
+:root {
+    --primary: #06BBCC;
+    --light: #F0FBFC;
+    --dark: #181d38;
+}
+
+/* Existing styles remain unchanged */
+
+/* ---------------- New User Table Styling ---------------- */
+
+/* Reduce overall card width */
+.card {
+    max-width: 1200px; /* Adjust based on preference */
+    margin: auto; /* Center the card */
+}
+
+/* Table Styling */
+#usersTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Reduce Table Cell Padding & Font Size */
+#usersTable th, #usersTable td {
+    padding: 6px 8px; /* Less padding for a compact look */
+    font-size: 14px; /* Reduce font size */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Reduce Header Background & Text Size */
+#usersTable thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Adjust Specific Column Widths */
+#usersTable th:nth-child(1),  
+#usersTable td:nth-child(1) { width: 15%; } /* Name */
+
+#usersTable th:nth-child(2),  
+#usersTable td:nth-child(2) { width: 15%; } /* Surname */
+
+#usersTable th:nth-child(4),  
+#usersTable td:nth-child(4) { width: 25%; } /* Email */
+
+#usersTable th:last-child,
+#usersTable td:last-child { width: 10%; } /* Actions */
+
+/* Reduce Form Input Size */
+#entriesSelect, #searchInput {
+    font-size: 14px;
+    padding: 6px 8px;
+}
+
+/* Adjust Dropdown Menu */
+#usersTable .dropdown-menu {
+    font-size: 13px;
+    min-width: 120px;
+}
+
+/* Reduce Button & Dropdown Sizes (without affecting global .btn) */
+#usersTable .btn {
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+/* Reduce Pagination Button Size */
+#paginationControls button {
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+/* Adjust Spacing of Pagination & Entries Info */
+.d-flex {
+    gap: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #usersTable th, #usersTable td {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+    #usersTable .btn, 
+    #usersTable .dropdown-menu, 
+    #entriesSelect, 
+    #searchInput {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+}
