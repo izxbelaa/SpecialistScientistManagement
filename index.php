@@ -62,6 +62,8 @@ include 'php/session_check.php';
                         <a href="html/submission_period.html" class="dropdown-item">Submission Period</a>
                         <a href="html/testimonial.html" class="dropdown-item">Testimonial</a>
                         <a href="html/404.html" class="dropdown-item">404 Page</a>
+                        <a href="html/tables.php" class="dropdown-item">Admin Tables</a>
+                        <a href="html/academies.php" class="dropdown-item">Academies</a>
                     </div>
                 </div>
                 <a href="php/settings.php" class="nav-item nav-link">Settings</a>
@@ -73,11 +75,12 @@ include 'php/session_check.php';
     </a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
       <li><a class="dropdown-item" href="../../php/logout.php">Logout</a></li>
+      <li><a class="dropdown-item" href="html/edit_user.php">Edit user</a></li>
       <!-- You can add more items here if needed -->
     </ul>
   </div>
 <?php else: ?>
-  <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+  <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
     Login <i class="fa fa-arrow-right ms-3"></i>
   </a>
 <?php endif; ?>
@@ -570,6 +573,24 @@ include 'php/session_check.php';
         </div>
     </div>
     <!-- Footer End -->
+
+
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
