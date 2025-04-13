@@ -56,6 +56,7 @@ include 'php/session_check.php';
                 <a href="index.php" class="nav-item nav-link active">Home</a>
                 <a href="html/about.html" class="nav-item nav-link">About</a>
                 <a href="html/courses.html" class="nav-item nav-link">Courses</a>
+                <a href="html/departments.html" class="nav-item nav-link">Departments</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
