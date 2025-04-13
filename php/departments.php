@@ -1,82 +1,70 @@
 <?php
-require_once 'config.php';
+include 'config.php';
 header('Content-Type: application/json');
+session_start();
 
-// 🧠 Action dispatcher (GET and POST)
-$action = $_GET['action'] ?? $_POST['action'] ?? null;
 
-// ✅ GET departments + academies (used on page load)
-if ($action === 'fetch_all') {
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch ($method) {
+  case 'GET':
     try {
-        $stmt1 = $pdo->query("SELECT * FROM Departments");
-        $departments = $stmt1->fetchAll();
+      // Φέρνουμε τα Τμήματα
+      $stmt = $pdo->query("SELECT * FROM departments");
+      $departments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt2 = $pdo->query("SELECT * FROM Academies");
-        $academies = $stmt2->fetchAll();
+      // Φέρνουμε και τις Σχολές
+      $academyStmt = $pdo->query("SELECT id, academy_name FROM academies ORDER BY academy_name");
+      $academies = $academyStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode([
-            'success' => true,
-            'departments' => $departments,
-            'academies' => $academies
-        ]);
-    } catch (PDOException $e) {
-        echo json_encode([
-            'success' => false,
-            'message' => $e->getMessage()
-        ]);
+      echo json_encode([
+        'success' => true,
+        'departments' => $departments,
+        'academies' => $academies
+      ]);
+    } catch (Exception $e) {
+      echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
-    exit;
-}
+    break;
 
-// ✅ SAVE or UPDATE department
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'save' || $action === 'edit')) {
+  case 'POST':
     $id = $_POST['department_id'] ?? null;
     $academy_id = $_POST['academy_id'] ?? null;
-    $department_name = trim($_POST['department_name'] ?? '');
-    $department_code = trim($_POST['department_code'] ?? '');
+    $name = $_POST['department_name'] ?? null;
+    $code = $_POST['department_code'] ?? null;
 
-    if ( !$department_name || !$department_code) {
-        echo json_encode(['success' => false, 'message' => 'Συμπληρώστε όλα τα πεδία.']);
-        exit;
+    if (!$academy_id || !$name || !$code) {
+      echo json_encode(['success' => false, 'message' => 'Όλα τα πεδία είναι υποχρεωτικά.']);
+      exit;
     }
 
-    try {
-        if ($action === 'edit' && $id) {
-            $stmt = $pdo->prepare("UPDATE Departments SET academy_id = ?, department_name = ?, department_code = ? WHERE id = ?");
-            $stmt->execute([$academy_id, $department_name, $department_code, $id]);
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO Departments (academy_id, department_name, department_code) VALUES (?, ?, ?)");
-            $stmt->execute([$academy_id, $department_name, $department_code]);
-        }
-
-        echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Σφάλμα βάσης: ' . $e->getMessage()]);
+    if ($id) {
+      $stmt = $pdo->prepare("UPDATE departments SET academy_id = ?, department_name = ?, department_code = ? WHERE id = ?");
+      $success = $stmt->execute([$academy_id, $name, $code, $id]);
+    } else {
+      $stmt = $pdo->prepare("INSERT INTO departments (academy_id, department_name, department_code) VALUES (?, ?, ?)");
+      $success = $stmt->execute([$academy_id, $name, $code]);
     }
-    exit;
-}
 
-// ✅ DELETE department
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    // Convert DELETE body to POST-style array
-    parse_str(file_get_contents("php://input"), $_DELETE);
-    $id = $_DELETE['id'] ?? null;
+    echo json_encode(['success' => $success]);
+    break;
+
+  case 'DELETE':
+    parse_str(file_get_contents("php://input"), $deleteData);
+    $id = $deleteData['id'] ?? null;
 
     if (!$id) {
-        echo json_encode(['success' => false, 'message' => 'Missing ID.']);
-        exit;
+      echo json_encode(['success' => false, 'message' => 'Δεν δόθηκε ID.']);
+      exit;
     }
 
-    try {
-        $stmt = $pdo->prepare("DELETE FROM Departments WHERE id = ?");
-        $stmt->execute([$id]);
-        echo json_encode(['success' => true]);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Σφάλμα κατά τη διαγραφή.']);
-    }
-    exit;
+    $stmt = $pdo->prepare("DELETE FROM departments WHERE id = ?");
+    $success = $stmt->execute([$id]);
+
+    echo json_encode(['success' => $success]);
+    break;
+
+  default:
+    echo json_encode(['success' => false, 'message' => 'Μη υποστηριζόμενη μέθοδος']);
 }
-
-// ❌ Unknown action
-echo json_encode(['success' => false, 'message' => 'Μη έγκυρη ενέργεια.']);
-exit;
+?>
