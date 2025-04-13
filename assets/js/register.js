@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const feedback = input.parentElement.querySelector(".invalid-feedback");
 
     if (validators[name]) {
-      // Real-time validation on typing
       input.addEventListener("input", () => {
         const isValid = validators[name](input.value);
 
@@ -36,14 +35,14 @@ document.addEventListener("DOMContentLoaded", function () {
           if (feedback) feedback.textContent = "";
         }
       });
-
-      // Removed automatic validation on page load:
-      // input.dispatchEvent(new Event("input"));
     }
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent form submission
+
     let hasErrors = false;
+    const formData = new FormData(form);
 
     form.querySelectorAll("input").forEach((input) => {
       const name = input.name;
@@ -64,7 +63,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (hasErrors) {
-      e.preventDefault();
+      showModal("Registration Failed", "Παρακαλώ συμπληρώστε σωστά τα πεδία.");
+      return;
+    }
+
+    try {
+      const response = await fetch("../../php/register.php", {
+        method: "POST",
+        body: formData, 
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        showModal("Registration Successful", "Η εγγραφή ολοκληρώθηκε με επιτυχία!");
+        form.reset(); // Reset the form after successful registration
+      } else {
+        const errorMessages = Object.values(result.errors).join("<br>");
+        showModal("Registration Failed", errorMessages);
+      }
+    } catch (error) {
+      showModal("Error", "Κάτι πήγε στραβά. Παρακαλώ προσπαθήστε ξανά.");
     }
   });
+
+  function showModal(title, message) {
+    const modalTitle = document.querySelector("#registerModal .modal-title");
+    const modalBody = document.querySelector("#registerModal .modal-body");
+    const modal = new bootstrap.Modal(document.getElementById("registerModal"));
+
+    modalTitle.textContent = title;
+    modalBody.innerHTML = message;
+    modal.show();
+  }
 });
