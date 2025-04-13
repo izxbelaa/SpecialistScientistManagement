@@ -78,14 +78,14 @@
         <a href="../../index.php" class="nav-item nav-link">Home</a>
         <a href="../about.html" class="nav-item nav-link">About</a>
         <a href="../courses.html" class="nav-item nav-link">Courses</a>
-        <a href="html/departments.html" class="nav-item nav-link">Departments</a>
+        <a href="html/departments.php" class="nav-item nav-link">Departments</a>
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
           <div class="dropdown-menu fade-down m-0">
             <a href="../team.html" class="dropdown-item">Our Team</a>
             <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
             <a href="../404.html" class="dropdown-item">404 Page</a>
-            <a href="../departments.html" class="dropdown-item">Departments</a>
+            <a href="../departments.php" class="dropdown-item">Departments</a>
           </div>
         </div>
         <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
@@ -169,35 +169,34 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="departmentForm">
-            <input type="hidden" id="department_id" name="department_id">
-            <div class="row g-3">
+        <form id="departmentForm">
+  <!-- Add this hidden field -->
+  <input type="hidden" name="action" value="save">
   
-          <!-- Ακαδημία -->
-        <div class="col-md-6">
-            <label for="academy_id" class="form-label">Σχολή *</label>
-            <select id="academy_id" name="academy_id" class="form-select" required>
-            <option value="">Επιλέξτε Σχολή</option>
-            </select>
-            <div class="invalid-feedback">Πρέπει να επιλέξετε σχολή.</div>
-        </div>
-  
-            <!-- Όνομα Τμήματος -->
-            <div class="col-md-6">
-                <label for="department_name" class="form-label">Όνομα Τμήματος *</label>
-                <input type="text" class="form-control" id="department_name" name="department_name" required>
-                <div class="invalid-feedback">Το όνομα τμήματος είναι υποχρεωτικό.</div>
-            </div>
-            
-              <!-- Κωδικός Τμήματος -->
-            <div class="col-md-6">
-                <label for="department_code" class="form-label">Κωδικός Τμήματος *</label>
-                <input type="text" class="form-control" id="department_code" name="department_code" required>
-                <div class="invalid-feedback">Ο κωδικός τμήματος είναι υποχρεωτικός.</div>
-            </div>
-            
-            </div>
-          </form>
+  <input type="hidden" id="department_id" name="department_id">
+  <!-- Other fields -->
+  <div class="row g-3">
+    <!-- Ακαδημία -->
+    <div class="col-md-6">
+      <label for="academy_id" class="form-label">Σχολή</label>
+      <select id="academy_id" name="academy_id" class="form-select">
+        <option value="">Επιλέξτε Σχολή</option>
+        <!-- Other options loaded dynamically -->
+      </select>
+    </div>
+    <!-- Όνομα Τμήματος -->
+    <div class="col-md-6">
+      <label for="department_name" class="form-label">Όνομα Τμήματος *</label>
+      <input type="text" class="form-control" id="department_name" name="department_name" required>
+    </div>
+    <!-- Κωδικός Τμήματος -->
+    <div class="col-md-6">
+      <label for="department_code" class="form-label">Κωδικός Τμήματος *</label>
+      <input type="text" class="form-control" id="department_code" name="department_code" required>
+    </div>
+  </div>
+</form>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ΑΚΥΡΩΣΗ</button>
