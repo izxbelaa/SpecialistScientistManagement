@@ -78,3 +78,168 @@
     [action] => get
 )
 
+[13-Apr-2025 13:08:17 Europe/Berlin] Received action: get
+[13-Apr-2025 13:08:17 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[13-Apr-2025 13:08:21 Europe/Berlin] Received action: get
+[13-Apr-2025 13:08:21 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 2
+)
+
+[14-Apr-2025 11:43:57 Europe/Berlin] Received action: get
+[14-Apr-2025 11:43:57 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 11:46:59 Europe/Berlin] Received action: get
+[14-Apr-2025 11:46:59 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 11:51:38 Europe/Berlin] Received action: get
+[14-Apr-2025 11:51:38 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 11:53:17 Europe/Berlin] Received action: get
+[14-Apr-2025 11:53:17 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 11:53:21 Europe/Berlin] Received action: get
+[14-Apr-2025 11:53:21 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:06:30 Europe/Berlin] Received action: get
+[14-Apr-2025 12:06:30 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:06:32 Europe/Berlin] Received action: get
+[14-Apr-2025 12:06:32 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[14-Apr-2025 12:06:56 Europe/Berlin] Received action: get
+[14-Apr-2025 12:06:56 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:10:44 Europe/Berlin] Received action: get
+[14-Apr-2025 12:10:44 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:10:48 Europe/Berlin] Received action: get
+[14-Apr-2025 12:10:48 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[14-Apr-2025 12:11:06 Europe/Berlin] Received action: get
+[14-Apr-2025 12:11:06 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:36:21 Europe/Berlin] Received action: get
+[14-Apr-2025 12:36:21 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:36:36 Europe/Berlin] Received action: create
+[14-Apr-2025 12:36:36 Europe/Berlin] POST data: Array
+(
+    [action] => create
+    [name] => testesttest
+    [code] => 32231
+)
+
+[14-Apr-2025 12:36:36 Europe/Berlin] Creating academy - Name: testesttest, Code: 32231
+[14-Apr-2025 12:36:36 Europe/Berlin] Success creating academy: Array
+(
+    [success] => 1
+    [message] => Academy created successfully
+    [data] => Array
+        (
+            [id] => 3
+            [academy_name] => testesttest
+            [academy_code] => 32231
+        )
+
+)
+
+[14-Apr-2025 12:36:37 Europe/Berlin] Received action: get
+[14-Apr-2025 12:36:37 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:36:42 Europe/Berlin] Received action: get
+[14-Apr-2025 12:36:42 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[14-Apr-2025 12:36:51 Europe/Berlin] Received action: get
+[14-Apr-2025 12:36:51 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:45:06 Europe/Berlin] Received action: get
+[14-Apr-2025 12:45:06 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:45:10 Europe/Berlin] Received action: delete
+[14-Apr-2025 12:45:10 Europe/Berlin] POST data: Array
+(
+    [action] => delete
+    [id] => 3
+)
+
+[14-Apr-2025 12:45:11 Europe/Berlin] Received action: get
+[14-Apr-2025 12:45:11 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:45:25 Europe/Berlin] Received action: get
+[14-Apr-2025 12:45:25 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:52:08 Europe/Berlin] Received action: get
+[14-Apr-2025 12:52:08 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[14-Apr-2025 12:52:13 Europe/Berlin] Received action: get
+[14-Apr-2025 12:52:13 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
