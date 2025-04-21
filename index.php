@@ -62,6 +62,7 @@ include 'php/session_check.php';
                     <div class="dropdown-menu fade-down m-0">
                         <a href="html/submission_period.html" class="dropdown-item">Submission Period</a>
                         <a href="html/testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="html/application.php" class="dropdown-item">Applications</a>
                         <a href="html/404.html" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
