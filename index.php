@@ -63,6 +63,7 @@ include 'php/session_check.php';
                         <a href="html/submission_period.html" class="dropdown-item">Submission Period</a>
                         <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
                         <a href="html/testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="html/application.php" class="dropdown-item">Applications</a>
                         <a href="html/404.html" class="dropdown-item">404 Page</a>
                         <a href="html/tables.php" class="dropdown-item">Admin Tables</a>
                         <a href="html/academies.php" class="dropdown-item">Academies</a>
