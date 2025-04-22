@@ -25,5 +25,20 @@ class Users {
         $this->logged_in = $logged_in;
         $this->disabled_user = $disabled_user;
     }
+
+    public function getUserTypeName() {
+        $types = [
+            0 => "Χρήστης",             // User
+            1 => "Υποψήφιος",           // Candidate
+            2 => "Ειδικός Επιστήμονας", // Special Scientist
+            3 => "Επιθεωρητής",         // Inspector
+            4 => "Προϊστάμενος Ανθρώπινου Δυναμικού", // Head of HR
+            5 => "Διαχειριστής"         // Admin
+        ];
+    
+        return $types[$this->type_of_user] ?? "Άγνωστος"; // Unknown
+    }
+    
+    
 }
 ?>

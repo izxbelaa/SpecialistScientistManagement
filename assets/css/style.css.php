@@ -1,8 +1,28 @@
+<?php
+include '../../php/config.php';
+
+$stmt = $pdo->query("SELECT site_color, light_color, dark_color FROM colors LIMIT 1");
+$settings = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Set color variables; provide default values if the query doesn't return results.
+if ($settings) {
+    $primary = $settings['site_color'];
+    $light   = $settings['light_color'];
+    $dark    = $settings['dark_color'];
+} else {
+    $primary = "#06BBCC";    // default primary color
+    $light   = "#F0FBFC";    // default light color
+    $dark    = "#181d38";    // default dark color
+}
+
+header('Content-Type: text/css; charset=utf-8');
+?>
+
 /********** Template CSS **********/
 :root {
-    --primary: #06BBCC;
-    --light: #F0FBFC;
-    --dark: #181d38;
+    --primary: <?php echo $primary; ?>;
+    --light: <?php echo $light; ?>;
+    --dark: <?php echo $dark; ?>;
 }
 
 .fw-medium {
@@ -438,9 +458,9 @@
 
 /********** user table CSS **********/
 :root {
-    --primary: #06BBCC;
-    --light: #F0FBFC;
-    --dark: #181d38;
+    --primary: <?php echo $primary; ?>;
+    --light: <?php echo $light; ?>;
+    --dark: <?php echo $dark; ?>;
 }
 
 /* Existing styles remain unchanged */

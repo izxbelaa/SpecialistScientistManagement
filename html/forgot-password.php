@@ -12,7 +12,7 @@
   <link href="../lib/animate/animate.min.css" rel="stylesheet">
   <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/style.css.php" rel="stylesheet">
 </head>
 
 <body>
