@@ -1,20 +1,23 @@
+<?php include '../php/session_check.php'; ?>
 <?php
-session_start();
+include '../php/get-user-type.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+// Only allow access if user is "Διαχειριστής" (Admin in Greek)
+if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειριστής") {
+    header("Location: ./auth/login.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>Manage Academies - Special Scientists - CUT</title>
+    <title>Special Scientists - CUT</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Manage Academies page" name="keywords">
-    <meta content="Manage Academies page for Cyprus University of Technology" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
     <!-- Favicon -->
     <link href="../assets/img/logo.png" rel="icon">
@@ -38,6 +41,7 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
 </head>
+
 <body>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -58,38 +62,50 @@ if (!isset($_SESSION['user_id'])) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="../index.php" class="nav-item nav-link">Home</a>
-                <a href="../about.html" class="nav-item nav-link">About</a>
-                <a href="../courses.html" class="nav-item nav-link">Courses</a>
+                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="courses.html" class="nav-item nav-link">Courses</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="../team.html" class="dropdown-item">Our Team</a>
-                        <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="../404.html" class="dropdown-item">404 Page</a>
+                        <a href="team.html" class="dropdown-item">Our Team</a>
+                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="404.html" class="dropdown-item">404 Page</a>
+                        <a href="admin-settings.php" class="dropdown-item">Admin Settings</a>
                     </div>
                 </div>
-                <a href="../php/settings.php" class="nav-item nav-link">Settings</a>
+                <a href="contact.html" class="nav-item nav-link">Settings</a>
             </div>
-            <div class="d-flex align-items-center">
-                <span class="nav-item nav-link me-3"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="../index.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-                    <i class="fa fa-arrow-left me-3"></i>Back
+            <?php if (isset($_SESSION['username'])): ?>
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <?php echo htmlspecialchars($_SESSION['username']); ?>
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="../php/logout.php">Logout</a></li>
+                <!-- You can add more items here if needed -->
+                </ul>
             </div>
+            <?php else: ?>
+            <a href="./auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+                Login <i class="fa fa-arrow-right ms-3"></i>
+            </a>
+            <?php endif; ?>        
         </div>
     </nav>
     <!-- Navbar End -->
+
+
 
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Manage Courses</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Admin Settings</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="../index.php">Home</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Manage Courses</li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Admin Settings</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -98,122 +114,50 @@ if (!isset($_SESSION['user_id'])) {
     </div>
     <!-- Header End -->
 
+    <!-- Admin Settings Start -->
+    <div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow p-4">
+                <h3 class="mb-4 text-center">Ρυθμίσεις Διαχειριστή</h3>
 
-    
-    <!-- Courses Management Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow">
-                    <div class="card-body p-5">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h2 class="mb-0">Course List</h2>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CourseModal">
-                                <i class="fa fa-plus me-2"></i>Add New Course
-                            </button>
-                        </div>
-
-                        <!-- Search bar and entries per page -->
-                        <div class="d-flex justify-content-between mb-3">
-                            <input type="text" id="searchInput" class="form-control w-50" placeholder="Search Courses..." oninput="searchCourses()">
-                            <select id="entriesPerPage" class="form-control w-25" onchange="loadCourses()">
-                                <option value="5">5 entries</option>
-                                <option value="10" selected>10 entries</option>
-                                <option value="20">20 entries</option>
-                                <option value="100">100 entries</option>
-                            </select>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Department</th>
-                                        <th>Name</th>
-                                        <th>Code</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="CourseTableBody">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Pagination controls -->
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center" id="paginationControls">
-                                <!-- Pagination will be loaded here -->
-                            </ul>
-                        </nav>
+                <form id="settingsForm" enctype="multipart/form-data">
+                    <!-- Color Pickers -->
+                    <div class="mb-3">
+                        <label for="site_color" class="form-label">Κύριο Χρώμα</label>
+                        <input type="color" class="form-control form-control-color" name="site_color" id="site_color">
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="light_color" class="form-label">Χρώμα Φόντου (Light)</label>
+                        <input type="color" class="form-control form-control-color" name="light_color" id="light_color">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dark_color" class="form-label">Σκούρο Χρώμα (Dark)</label>
+                        <input type="color" class="form-control form-control-color" name="dark_color" id="dark_color">
+                    </div>
+
+                    <!-- Logo Uploads -->
+                    <div class="mb-3">
+                        <label for="logo" class="form-label">Ανέβασμα logo.png</label>
+                        <input type="file" name="logo" accept="image/*" class="form-control">
+                        <img id="logoPreview" src="../assets/img/logo.png" class="img-thumbnail mt-2" width="150">
+                    </div>
+                    <div class="mb-3">
+                        <label for="logocut" class="form-label">Ανέβασμα logocut.png</label>
+                        <input type="file" name="logocut" accept="image/*" class="form-control">
+                        <img id="logocutPreview" src="../assets/img/logocut.png" class="img-thumbnail mt-2" height="60">
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Αποθήκευση</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<!-- Course Management End -->
-
-
-    <!-- Course Modal -->
-    <div class="modal fade" id="CourseModal" tabindex="-1" aria-labelledby="CourseModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="CourseModalLabel">Add New Course</h5>
-                <input type="hidden" id="isEditing" value="0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="academyForm">
-                        <input type="hidden" id="CourseId" name="id">
-                        <div class="mb-3">
-                            <label for="DepartmentName" class="form-label">Department Name *</label>
-                            <input type="text" class="form-control" id="DepartmentName" name="departmentname" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="CourseName" class="form-label">Course Name *</label>
-                            <input type="text" class="form-control" id="CourseName" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="CourseCode" class="form-label">Course Code *</label>
-                            <input type="text" class="form-control" id="CourseCode" name="code" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveCourse">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="DeleteModalLabel">Confirm Deletion</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this course?
-        <input type="hidden" id="deleteCourseId">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="confirmDelete">Yes, Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
+<!-- Admin Settings End -->
+   
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -276,6 +220,16 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                         &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                        Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="#">Home</a>
+                            <a href="#">Cookies</a>
+                            <a href="#">Help</a>
+                            <a href="#">FQAs</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -293,10 +247,13 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../lib/easing/easing.min.js"></script>
     <script src="../lib/waypoints/waypoints.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-
+    <script src="../assets/js/settings.js"></script>
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/courses.js"></script>
-
+    <!-- Custom JavaScript for Admin Settings -->
+    <script src="../assets/js/admin-settings.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-</html> 
+
+</html>

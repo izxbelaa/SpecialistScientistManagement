@@ -29,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['username'] = $user->first_name;
-                header("Location: ../../index.php");
+                $_SESSION['user_type'] = $user->getUserTypeName(); // Save readable role
+                header("Location: ../index.php");
                 exit;
             } else {
                 $errors[] = "Λανθασμένο email ή κωδικός.";
