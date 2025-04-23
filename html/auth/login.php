@@ -230,6 +230,7 @@ session_start();
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
   <!-- Template Javascript -->
   <script src="../../assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Login Javascript (for client-side validation) -->
   <script src="../../assets/js/login.js"></script>
 </body>
