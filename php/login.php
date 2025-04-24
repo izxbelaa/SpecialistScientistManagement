@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo json_encode([
                     "success" => true,
-                    "redirect" => "/index.php"           
+                    "redirect" => "../../index.php",
                      ]);
                 exit;
             } else {

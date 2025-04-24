@@ -66,7 +66,7 @@ include 'php/session_check.php';
                         <a href="./html/404.html" class="dropdown-item">404 Page</a>
                         <a href="./html/tables.php" class="dropdown-item">Admin Tables</a>
                         <a href="./html/academies.php" class="dropdown-item">Academies</a>
-                        <?php if ($_SESSION['user_type'] == 'Διαχειριστής'): ?>
+                        <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
                             <a href="./html/admin-settings.php" class="dropdown-item">Admin Settings</a>
                             <a href="./html/requests-admin.php" class="dropdown-item">Admin Requests</a>
                         <?php endif; ?>

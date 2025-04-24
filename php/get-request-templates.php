@@ -35,12 +35,12 @@ try {
                 $html .= '<td>' . htmlspecialchars($row['courses'] ?? 'N/A') . '</td>';
                 $html .= '<td class="text-center">
                             <div class="d-flex justify-content-center">
-                                <a href="#" class="btn text-info edit-template" data-id="' . $row['id'] . '">
+                                <button class="btn text-info edit-template" data-id="' . $row['id'] . '">
                                     <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn text-danger delete-template" data-id="' . $row['id'] . '">
+                                </button>
+                                <button class="btn text-danger delete-template" data-id="' . $row['id'] . '">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </div>
                           </td>';
                 $html .= '</tr>';
