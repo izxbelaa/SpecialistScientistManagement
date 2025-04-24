@@ -239,8 +239,8 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
               <th>A/A</th>
               <th>Template Title</th>
               <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+              <th>Start Date/Time</th>
+              <th>End Date/Time</th>
               <th>Academies</th>
               <th>Departments</th>
               <th>Courses</th>
@@ -295,12 +295,18 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" required>
+                <label for="startDate" class="form-label">Start Date and Time</label>
+                <div class="d-flex gap-2">
+                  <input type="date" class="form-control" id="startDate" name="startDate" required>
+                  <input type="time" class="form-control" id="startTime" name="startTime" required>
+                </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" class="form-control" id="endDate" name="endDate" required>
+                <label for="endDate" class="form-label">End Date and Time</label>
+                <div class="d-flex gap-2">
+                  <input type="date" class="form-control" id="endDate" name="endDate" required>
+                  <input type="time" class="form-control" id="endTime" name="endTime" required>
+                </div>
               </div>
             </div>
             <div id="academyContainer">
