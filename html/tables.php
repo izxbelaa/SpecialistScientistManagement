@@ -29,6 +29,9 @@
 
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -55,16 +58,16 @@
                 <a href="about.html" class="nav-item nav-link">About</a>
                 <a href="courses.html" class="nav-item nav-link">Courses</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="team.html" class="dropdown-item">Our Team</a>
                         <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item active">404 Page</a>
+                        <a href="404.html" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -75,12 +78,12 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Not Found</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Admin Tables</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">404</li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Admin Tables</li>
                         </ol>
                     </nav>
                 </div>
@@ -90,22 +93,108 @@
     <!-- Header End -->
 
 
-    <!-- 404 Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container text-center">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
-                    <h1 class="display-1">404</h1>
-                    <h1 class="mb-4">Page Not Found</h1>
-                    <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5" href="">Go Back To Home</a>
-                </div>
+    <!-- User List Start -->
+
+
+<!-- Users Table -->
+<div class="card shadow-lg">
+    <h5 class="card-header bg-table-header">Users</h5>
+    <div class="table-responsive p-3">
+        <!-- Search Input -->
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search users...">
+        
+        <table id="usersTable" class="table table-hover">
+            <thead class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Middle Name</th>
+                    <th>Email</th>
+                    <th>Type of User</th>
+                    <th>Disabled User</th>
+                    <th>Actions</th> <!-- New Actions column -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls (Entries per page) -->
+        <div class="d-flex justify-content-between">
+            <div>
+                <label for="entriesSelect">Show entries: </label>
+                <select id="entriesSelect" class="form-select" style="width: 100px;">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <div>
+                <span id="entriesCount">Showing 1 to 5 of 100 entries</span>
             </div>
         </div>
+
+        <!-- Pagination Buttons -->
+        <div id="paginationControls" class="d-flex justify-content-center mt-3">
+            <!-- Pagination buttons will be dynamically inserted here -->
+        </div>
     </div>
-    <!-- 404 End -->
-        
+</div>
+
+
+
+
+<!-- Modal for editing user information -->
+<div class="modal" tabindex="-1" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editUserForm">
+          <div class="mb-3">
+            <label for="editFirstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="editFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="editLastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="editLastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="editMiddleName" class="form-label">Middle Name</label>
+            <input type="text" class="form-control" id="editMiddleName">
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="editEmail" required>
+          </div>
+          <div class="mb-3">
+            <label for="editUserType" class="form-label">User Type</label>
+            <input type="text" class="form-control" id="editUserType" required>
+          </div>
+          <div class="mb-3">
+            <label for="editDisabledUser" class="form-label">Disabled User</label>
+            <select class="form-select" id="editDisabledUser">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--  User List End -->
+
+    
+
+
+   
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -203,6 +292,10 @@
 
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
+
+    <!-- JavaScript for User List -->
+    <script src="../assets/js/users-table-admin.js"></script>
+    
 </body>
 
 </html>

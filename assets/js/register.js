@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const feedback = input.parentElement.querySelector(".invalid-feedback");
 
     if (validators[name]) {
-      // Real-time validation on typing
       input.addEventListener("input", () => {
         const isValid = validators[name](input.value);
 
@@ -36,14 +35,14 @@ document.addEventListener("DOMContentLoaded", function () {
           if (feedback) feedback.textContent = "";
         }
       });
-
-      // Removed automatic validation on page load:
-      // input.dispatchEvent(new Event("input"));
     }
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent form submission
+
     let hasErrors = false;
+    const formData = new FormData(form);
 
     form.querySelectorAll("input").forEach((input) => {
       const name = input.name;
@@ -64,7 +63,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (hasErrors) {
-      e.preventDefault();
+      showModal("Αποτυχία Εγγραφής", "Παρακαλώ συμπληρώστε σωστά τα πεδία.", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("../../php/register.php", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        showModal("Επιτυχής Εγγραφή", "Η εγγραφή ολοκληρώθηκε με επιτυχία!", "success");
+        form.reset();
+      } else {
+        const errorMessages = Object.values(result.errors).join("<br>");
+        showModal("Αποτυχία Εγγραφής", errorMessages, "error");
+      }
+    } catch (error) {
+      showModal("Σφάλμα", "Κάτι πήγε στραβά. Παρακαλώ προσπαθήστε ξανά.", "error");
     }
   });
+
+  function showModal(title, message, icon = "info") {
+    Swal.fire({
+      title: title,
+      html: message,
+      icon: icon,
+      confirmButtonText: "OK",
+    });
+  }
 });

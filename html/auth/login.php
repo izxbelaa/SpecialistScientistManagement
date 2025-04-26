@@ -33,7 +33,7 @@ session_start();
   <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Template Stylesheet -->
-  <link href="../../assets/css/style.css" rel="stylesheet">
+  <link href="../../assets/css/style.css.php" rel="stylesheet">
 </head>
 
 <body>
@@ -62,6 +62,7 @@ session_start();
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
           <div class="dropdown-menu fade-down m-0">
             <a href="../team.html" class="dropdown-item">Our Team</a>
+            <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
             <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
             <a href="../404.html" class="dropdown-item">404 Page</a>
           </div>
@@ -229,6 +230,7 @@ session_start();
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
   <!-- Template Javascript -->
   <script src="../../assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Login Javascript (for client-side validation) -->
   <script src="../../assets/js/login.js"></script>
 </body>

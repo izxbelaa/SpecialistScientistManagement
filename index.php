@@ -24,14 +24,14 @@ include 'php/session_check.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="./lib/animate/animate.min.css" rel="stylesheet">
+    <link href="./lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="./assets/css/style.css.php" rel="stylesheet">
 </head>
 
 <body>
@@ -46,7 +46,7 @@ include 'php/session_check.php';
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <img src="assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
+            <img src="./assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -54,19 +54,30 @@ include 'php/session_check.php';
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
+
                 <a href="html/about.html" class="nav-item nav-link">About</a>
                 <a href="html/lms-courses.html" class="nav-item nav-link">LMS Courses</a>
-                <a href="html/departments.php" class="nav-item nav-link">Departments</a>
+                <a href="./html/courses.php" class="nav-item nav-link">Courses</a>
+                <a href="./html/departments.php" class="nav-item nav-link">Departments</a>
+
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="html/submission_period.html" class="dropdown-item">Submission Period</a>
-                        <a href="html/testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="html/application.php" class="dropdown-item">Applications</a>
-                        <a href="html/404.html" class="dropdown-item">404 Page</a>
+
+                        <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+
+                        <a href="./html/testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="./html/application.php" class="dropdown-item">Applications</a>
+                        <a href="./html/404.html" class="dropdown-item">404 Page</a>
+                        <a href="./html/tables.php" class="dropdown-item">Admin Tables</a>
+                        <a href="./html/academies.php" class="dropdown-item">Academies</a>
+                        <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
+                            <a href="./html/admin-settings.php" class="dropdown-item">Admin Settings</a>
+                            <a href="./html/requests-admin.php" class="dropdown-item">Admin Requests</a>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <a href="php/settings.php" class="nav-item nav-link">Settings</a>
+                <a href="./php/settings.php" class="nav-item nav-link">Settings</a>
             </div>
             <?php if (isset($_SESSION['username'])): ?>
   <div class="dropdown">
@@ -74,12 +85,13 @@ include 'php/session_check.php';
       <?php echo htmlspecialchars($_SESSION['username']); ?>
     </a>
     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-      <li><a class="dropdown-item" href="../../php/logout.php">Logout</a></li>
+      <li><a class="dropdown-item" href="./php/logout.php">Logout</a></li>
+      <li><a class="dropdown-item" href="./html/edit_user.php">Edit user</a></li>
       <!-- You can add more items here if needed -->
     </ul>
   </div>
 <?php else: ?>
-  <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+  <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
     Login <i class="fa fa-arrow-right ms-3"></i>
   </a>
 <?php endif; ?>
@@ -92,7 +104,7 @@ include 'php/session_check.php';
     <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="assets/img/about-1.jpg" alt="">
+                <img class="img-fluid" src="./assets/img/about-1.jpg" alt="">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -107,7 +119,7 @@ include 'php/session_check.php';
                 </div>
             </div>
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="assets/img/about-3.jpg" alt="">
+                <img class="img-fluid" src="./assets/img/about-3.jpg" alt="">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -572,6 +584,24 @@ include 'php/session_check.php';
         </div>
     </div>
     <!-- Footer End -->
+
+
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -580,13 +610,13 @@ include 'php/session_check.php';
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="./lib/wow/wow.min.js"></script>
+    <script src="./lib/easing/easing.min.js"></script>
+    <script src="./lib/waypoints/waypoints.min.js"></script>
+    <script src="./lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="assets/js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
     <script>
   window.addEventListener("DOMContentLoaded", () => {
     const alert = document.getElementById("success-alert");

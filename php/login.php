@@ -1,7 +1,9 @@
 <?php
 include 'config.php';
+include '../php_classes/Users.php';
 session_start();
 
+header('Content-Type: application/json');
 
 $errors = [];
 
@@ -15,16 +17,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($errors)) {
         try {
-            // Adjust the query to also fetch the username for the greeting.
-            // Make sure your "users" table has a "username" column.
-            $stmt = $pdo->prepare("SELECT id, first_name, password FROM users WHERE email = ?");
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->execute([$email]);
-            $user = $stmt->fetch();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['first_name'];  // Store the username for the greeting
-                header("Location: ../index.php"); // Redirect to homepage or dashboard
+            if ($row && password_verify($password, $row['password'])) {
+                $user = new Users(
+                    $row['id'], $row['first_name'], $row['last_name'], $row['middle_name'],
+                    $row['email'], $row['password'], $row['type_of_user'],
+                    $row['logged_in'], $row['disabled_user']
+                );
+
+                $_SESSION['user_id'] = $user->id;
+                $_SESSION['username'] = $user->first_name;
+                $_SESSION['user_type'] = $user->getUserTypeName();
+
+                echo json_encode([
+                    "success" => true,
+                    "redirect" => "../../index.php",
+                     ]);
                 exit;
             } else {
                 $errors[] = "Λανθασμένο email ή κωδικός.";
@@ -35,10 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// If there are errors, store them in session and redirect back to the login page.
-if (!empty($errors)) {
-    $_SESSION['login_errors'] = $errors;
-    header("Location: ../html/auth/login.php");
-    exit;
-}
-?>
+echo json_encode([
+    "success" => false,
+    "message" => implode(" ", $errors)
+]);
+exit;

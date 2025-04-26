@@ -12,7 +12,7 @@
   <link href="../lib/animate/animate.min.css" rel="stylesheet">
   <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/style.css.php" rel="stylesheet">
 </head>
 
 <body>
@@ -26,6 +26,17 @@
         <a href="../../index.php" class="nav-item nav-link">Home</a>
         <a href="../about.html" class="nav-item nav-link">About</a>
         <a href="../courses.html" class="nav-item nav-link">Courses</a>
+
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+          <div class="dropdown-menu fade-down m-0">
+            <a href="../team.html" class="dropdown-item">Our Team</a>
+            <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+            <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
+            <a href="../404.html" class="dropdown-item">404 Page</a>
+          </div>
+        </div>
+
         <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
       </div>
     </div>
