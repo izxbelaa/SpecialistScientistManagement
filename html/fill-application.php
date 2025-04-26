@@ -5,12 +5,19 @@
   <title>Συμπλήρωση Αίτησης</title>
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .preview-box {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #555;
-    }
-  </style>
+  .btn-white {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+  }
+
+  .btn-white:hover {
+    background-color: #007bff; /* Bootstrap μπλε */
+    color: #fff;
+    border-color: #007bff;
+  }
+</style>
 </head>
 
 <body class="container-fluid px-0">
@@ -61,7 +68,10 @@
       </div>
 
       <div class="col-12 d-flex gap-3">
-        <button type="button" id="saveDraft" class="btn btn-warning">Αποθήκευση Πρόχειρης</button>
+      <button type="button" id="saveDraft" class="btn btn-white">
+  Αποθήκευση Πρόχειρης
+</button>
+
         <button type="submit" class="btn btn-success">Τελική Υποβολή</button>
       </div>
     </form>
@@ -87,7 +97,7 @@
       }
     });
 
-    // 🔢 Δημιουργία μοναδικού αριθμού αίτησης
+    // Δημιουργία μοναδικού αριθμού αίτησης
     function generateApplicationNumber() {
       const year = new Date().getFullYear();
       const random = Math.floor(100000 + Math.random() * 900000); // 6 ψηφία

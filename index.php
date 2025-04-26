@@ -54,9 +54,12 @@ include 'php/session_check.php';
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
-                <a href="./html/about.html" class="nav-item nav-link">About</a>
+
+                <a href="html/about.html" class="nav-item nav-link">About</a>
+                <a href="html/lms-courses.html" class="nav-item nav-link">LMS Courses</a>
                 <a href="./html/courses.php" class="nav-item nav-link">Courses</a>
                 <a href="./html/departments.php" class="nav-item nav-link">Departments</a>
+
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
