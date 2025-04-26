@@ -405,8 +405,15 @@ function saveTemplate(form) {
     // Add basic form fields
     formData.append('templateTitle', form.find('#templateTitle').val());
     formData.append('templateDescription', form.find('#templateDescription').val());
-    formData.append('startDate', form.find('#startDate').val());
-    formData.append('endDate', form.find('#endDate').val());
+    
+    // Combine date and time for start and end
+    const startDate = form.find('#startDate').val();
+    const startTime = form.find('#startTime').val();
+    const endDate = form.find('#endDate').val();
+    const endTime = form.find('#endTime').val();
+    
+    formData.append('startDate', `${startDate} ${startTime}`);
+    formData.append('endDate', `${endDate} ${endTime}`);
 
     // Add academies
     form.find('.academy-select').each(function() {
@@ -517,8 +524,19 @@ function loadTemplateForEdit(templateId) {
                     $('#templateId').val(template.id);
                     $('#templateTitle').val(template.title);
                     $('#templateDescription').val(template.description);
-                    $('#startDate').val(template.date_start);
-                    $('#endDate').val(template.date_end);
+                    
+                    // Split datetime into date and time
+                    if (template.date_start) {
+                        const [startDate, startTime] = template.date_start.split(' ');
+                        $('#startDate').val(startDate);
+                        $('#startTime').val(startTime);
+                    }
+                    
+                    if (template.date_end) {
+                        const [endDate, endTime] = template.date_end.split(' ');
+                        $('#endDate').val(endDate);
+                        $('#endTime').val(endTime);
+                    }
 
                     // Clear existing rows except first ones
                     $('.academy-row:not(:first)').remove();
@@ -526,14 +544,12 @@ function loadTemplateForEdit(templateId) {
 
                     // Load academies first
                     loadAcademies($('.academy-select:first')).then(() => {
-                        // Set academy values
+                        // Set academy values and trigger changes
                         if (template.academy_ids && template.academy_ids.length > 0) {
                             template.academy_ids.forEach((academyId, index) => {
                                 if (index === 0) {
-                                    // Set first academy
                                     $('.academy-select:first').val(academyId).trigger('change');
                                 } else {
-                                    // Add new row for additional academies
                                     $('.add-academy:last').click();
                                     setTimeout(() => {
                                         $('.academy-select:last').val(academyId).trigger('change');
@@ -542,16 +558,13 @@ function loadTemplateForEdit(templateId) {
                             });
                         }
 
-                        // Wait for departments to load
+                        // Set department values after a delay to ensure academies are loaded
                         setTimeout(() => {
-                            // Set department values
                             if (template.department_ids && template.department_ids.length > 0) {
                                 template.department_ids.forEach((departmentId, index) => {
                                     if (index === 0) {
-                                        // Set first department
                                         $('.department-select:first').val(departmentId).trigger('change');
                                     } else {
-                                        // Add new row for additional departments
                                         $('.add-department:last').click();
                                         setTimeout(() => {
                                             $('.department-select:last').val(departmentId).trigger('change');
@@ -560,9 +573,8 @@ function loadTemplateForEdit(templateId) {
                                 });
                             }
 
-                            // Wait for courses to load
+                            // Set course values after departments are loaded
                             setTimeout(() => {
-                                // Set course values
                                 if (template.course_ids && template.course_ids.length > 0) {
                                     template.course_ids.forEach(courseId => {
                                         $(`#coursesContainer input[value="${courseId}"]`).prop('checked', true);

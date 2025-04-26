@@ -40,98 +40,8 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
 
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
+    <link href="../assets/css/requests-admin.css" rel="stylesheet">
 
-    <style>
-    /* Example custom styles similar to your submission period page */
-    .search-header {
-      background-color: #ffffff;
-      padding: 2rem 0;
-      margin-bottom: 2rem;
-    }
-    .search-box-wrapper {
-      max-width: 700px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .search-box-wrapper input {
-      padding-right: 40px;
-      border-radius: 8px;
-    }
-    .search-box-wrapper i {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #4c8ad5;
-    }
-    .btn-orange {
-      background-color: #0099ff;
-      color: white;
-      border: none;
-    }
-    .btn-orange:hover {
-      background-color: #f3ece7;
-    }
-    .bg-table-header {
-      background-color: var(--primary);
-      color: white;
-    }
-    
-    /* Action button styles */
-    .text-info {
-      color: #00BCD4 !important;
-    }
-    .text-danger {
-      color: #F44336 !important;
-    }
-    td .btn {
-      padding: 0.25rem 0.4rem;
-      margin: 0;
-      background: transparent;
-      border: none;
-    }
-    td .btn:hover {
-      background: transparent;
-    }
-    td .btn i {
-      font-size: 1.1rem;
-    }
-    .d-flex.justify-content-center .btn {
-      line-height: 1;
-    }
-    td .btn:focus {
-      box-shadow: none;
-    }
-    
-    /* Course section styles */
-    .department-section {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-    
-    .department-header {
-        color: #495057;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #dee2e6;
-    }
-    
-    .form-check {
-        margin-bottom: 8px;
-        margin-left: 10px;
-    }
-    
-    .form-check-label {
-        color: #6c757d;
-    }
-    
-    .form-check-input:checked + .form-check-label {
-        color: #212529;
-        font-weight: 500;
-    }
-    </style>
 </head>
 
 <body>
@@ -228,45 +138,45 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
 
   <!-- Requests Table -->
   <div class="container mt-4">
-    <div class="card shadow-lg">
-      <div class="card-header bg-table-header">
-        Requests
-      </div>
-      <div class="table-responsive p-3">
-        <table id="requestsTable" class="table table-bordered table-hover">
-          <thead class="table-light">
-            <tr>
-              <th>A/A</th>
-              <th>Template Title</th>
-              <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Academies</th>
-              <th>Departments</th>
-              <th>Courses</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Table rows will be populated dynamically -->
-          </tbody>
-        </table>
-        <!-- Pagination Controls (optional) -->
-        <div class="d-flex justify-content-between">
-          <div>
-            <label for="entriesSelect">Show entries: </label>
-            <select id="entriesSelect" class="form-select" style="width: 100px;">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-            </select>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-3"><i class="fas fa-list me-2"></i>Requests List</h5>
+        <div class="table-responsive p-3">
+          <table id="requestsTable" class="table table-bordered table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>A/A</th>
+                <th>Template Title</th>
+                <th>Description</th>
+                <th>Start Date/Time</th>
+                <th>End Date/Time</th>
+                <th>Academies</th>
+                <th>Departments</th>
+                <th>Courses</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Table rows will be populated dynamically -->
+            </tbody>
+          </table>
+          <!-- Pagination Controls (optional) -->
+          <div class="d-flex justify-content-between">
+            <div>
+              <label for="entriesSelect">Show entries: </label>
+              <select id="entriesSelect" class="form-select" style="width: 100px;">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+            <div>
+              <span id="entriesCount">Showing 1 to 5 of 50 entries</span>
+            </div>
           </div>
-          <div>
-            <span id="entriesCount">Showing 1 to 5 of 50 entries</span>
+          <div id="paginationControls" class="d-flex justify-content-center mt-3">
+            <!-- Pagination buttons go here if needed -->
           </div>
-        </div>
-        <div id="paginationControls" class="d-flex justify-content-center mt-3">
-          <!-- Pagination buttons go here if needed -->
         </div>
       </div>
     </div>
@@ -295,12 +205,18 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" required>
+                <label for="startDate" class="form-label">Start Date and Time</label>
+                <div class="d-flex gap-2">
+                  <input type="date" class="form-control" id="startDate" name="startDate" required>
+                  <input type="time" class="form-control" id="startTime" name="startTime" required>
+                </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" class="form-control" id="endDate" name="endDate" required>
+                <label for="endDate" class="form-label">End Date and Time</label>
+                <div class="d-flex gap-2">
+                  <input type="date" class="form-control" id="endDate" name="endDate" required>
+                  <input type="time" class="form-control" id="endTime" name="endTime" required>
+                </div>
               </div>
             </div>
             <div id="academyContainer">

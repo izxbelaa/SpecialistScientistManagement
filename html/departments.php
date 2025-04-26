@@ -296,6 +296,9 @@
   <!-- Template Javascript -->
   <script src="../assets/js/departments.js"></script>
 
+<!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
   <script src="../assets/js/main.js"></script>
 </body>
 

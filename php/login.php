@@ -1,7 +1,9 @@
 <?php
 include 'config.php';
-include '../php_classes/Users.php'; // Adjust path as needed
+include '../php_classes/Users.php';
 session_start();
+
+header('Content-Type: application/json');
 
 $errors = [];
 
@@ -20,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($row && password_verify($password, $row['password'])) {
-                // Create a Users object from the database row
                 $user = new Users(
                     $row['id'], $row['first_name'], $row['last_name'], $row['middle_name'],
                     $row['email'], $row['password'], $row['type_of_user'],
@@ -29,8 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['username'] = $user->first_name;
-                $_SESSION['user_type'] = $user->getUserTypeName(); // Save readable role
-                header("Location: ../index.php");
+                $_SESSION['user_type'] = $user->getUserTypeName();
+
+                echo json_encode([
+                    "success" => true,
+                    "redirect" => "../../index.php",
+                     ]);
                 exit;
             } else {
                 $errors[] = "Λανθασμένο email ή κωδικός.";
@@ -41,9 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-if (!empty($errors)) {
-    $_SESSION['login_errors'] = $errors;
-    header("Location: ../html/auth/login.php");
-    exit;
-}
-?>
+echo json_encode([
+    "success" => false,
+    "message" => implode(" ", $errors)
+]);
+exit;

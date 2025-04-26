@@ -1,0 +1,99 @@
+/* Example custom styles similar to your submission period page */
+.search-header {
+  background-color: #ffffff;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+.search-box-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+.search-box-wrapper input {
+  padding-right: 40px;
+  border-radius: 8px;
+}
+.search-box-wrapper i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4c8ad5;
+}
+.btn-orange {
+  background-color: #0099ff;
+  color: white;
+  border: none;
+}
+.btn-orange:hover {
+  background-color: #f3ece7;
+}
+
+/* Action button styles */
+.text-info {
+  color: #fff !important;
+  background-color: #0099ff !important;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+.text-danger {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+}
+td .btn {
+  padding: 0.375rem 0.75rem;
+  margin: 0 0.25rem;
+  border: none;
+}
+td .btn:hover {
+  opacity: 0.85;
+}
+td .btn i {
+  font-size: 0.875rem;
+}
+.d-flex.justify-content-center .btn {
+  line-height: 1;
+}
+td .btn:focus {
+  box-shadow: none;
+}
+
+/* Course section styles */
+.department-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.department-header {
+    color: #495057;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.form-check {
+    margin-bottom: 8px;
+    margin-left: 10px;
+}
+
+.form-check-label {
+    color: #6c757d;
+}
+
+.form-check-input:checked + .form-check-label {
+    color: #212529;
+    font-weight: 500;
+}
+
+/* Add styles for A/A column */
+.requests-table th:first-child,
+.requests-table td:first-child {
+    width: 60px;
+    min-width: 60px;
+    text-align: center;
+}

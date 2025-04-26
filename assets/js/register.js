@@ -63,36 +63,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (hasErrors) {
-      showModal("Registration Failed", "Παρακαλώ συμπληρώστε σωστά τα πεδία.");
+      showModal("Αποτυχία Εγγραφής", "Παρακαλώ συμπληρώστε σωστά τα πεδία.", "error");
       return;
     }
 
     try {
       const response = await fetch("../../php/register.php", {
         method: "POST",
-        body: formData, 
+        body: formData,
       });
       const result = await response.json();
 
       if (result.success) {
-        showModal("Registration Successful", "Η εγγραφή ολοκληρώθηκε με επιτυχία!");
-        form.reset(); // Reset the form after successful registration
+        showModal("Επιτυχής Εγγραφή", "Η εγγραφή ολοκληρώθηκε με επιτυχία!", "success");
+        form.reset();
       } else {
         const errorMessages = Object.values(result.errors).join("<br>");
-        showModal("Registration Failed", errorMessages);
+        showModal("Αποτυχία Εγγραφής", errorMessages, "error");
       }
     } catch (error) {
-      showModal("Error", "Κάτι πήγε στραβά. Παρακαλώ προσπαθήστε ξανά.");
+      showModal("Σφάλμα", "Κάτι πήγε στραβά. Παρακαλώ προσπαθήστε ξανά.", "error");
     }
   });
 
-  function showModal(title, message) {
-    const modalTitle = document.querySelector("#registerModal .modal-title");
-    const modalBody = document.querySelector("#registerModal .modal-body");
-    const modal = new bootstrap.Modal(document.getElementById("registerModal"));
-
-    modalTitle.textContent = title;
-    modalBody.innerHTML = message;
-    modal.show();
+  function showModal(title, message, icon = "info") {
+    Swal.fire({
+      title: title,
+      html: message,
+      icon: icon,
+      confirmButtonText: "OK",
+    });
   }
 });
