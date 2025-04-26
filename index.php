@@ -60,7 +60,9 @@ include 'php/session_check.php';
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="./html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+
+                        <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+
                         <a href="./html/testimonial.html" class="dropdown-item">Testimonial</a>
                         <a href="./html/application.php" class="dropdown-item">Applications</a>
                         <a href="./html/404.html" class="dropdown-item">404 Page</a>
