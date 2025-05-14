@@ -120,62 +120,105 @@ try {
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <form id="editProfileForm" method="POST" action="../php/edit_user.php">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="first_name" name="first_name" 
-                                   value="<?php echo htmlspecialchars($user['first_name']); ?>" placeholder="First Name" required>
-                            <label for="first_name">Όνομα *</label>
-                            <div id="first_name_error" class="error-message"></div>
-                        </div>
+  <form id="editProfileForm" method="POST" action="../php/edit_user.php">
+        <h5 class="mt-5 mb-3 text-primary">Προσωπικά Στοιχεία Αιτητή</h5>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="middle_name" name="middle_name" 
-                                   value="<?php echo htmlspecialchars($user['middle_name']); ?>" placeholder="Middle Name">
-                            <label for="middle_name">Μεσαίο Όνομα</label>
-                        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dob" name="dob" value="<?= htmlspecialchars($user['dob'] ?? '') ?>">
+            <label for="dob">Ημερομηνία Γέννησης</label>
+        </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="last_name" name="last_name" 
-                                   value="<?php echo htmlspecialchars($user['last_name']); ?>" placeholder="Last Name" required>
-                            <label for="last_name">Επώνυμο *</label>
-                            <div id="last_name_error" class="error-message"></div>
-                        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="gender" name="gender">
+                <option value="" disabled selected>-- Επιλέξτε --</option>
+                <option value="M" <?= ($user['gender'] ?? '') === 'M' ? 'selected' : '' ?>>Άρρεν</option>
+                <option value="F" <?= ($user['gender'] ?? '') === 'F' ? 'selected' : '' ?>>Θήλυ</option>
+            </select>
+            <label for="gender">Φύλο</label>
+        </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" name="email" 
-                                   value="<?php echo htmlspecialchars($user['email']); ?>" placeholder="Email" required>
-                            <label for="email">Email *</label>
-                            <div class="form-text">Απαιτείται ο τρέχων κωδικός για την αλλαγή του email.</div>
-                            <div id="email_error" class="error-message"></div>
-                        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="social_security_number" name="social_security_number" value="<?= htmlspecialchars($user['social_security_number'] ?? '') ?>" placeholder="ΑΚΑ">
+            <label for="social_security_number">Αριθμός Κοινωνικής Ασφάλισης (ΑΚΑ)</label>
+        </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password">
-                            <label for="old_password">Τρέχων Κωδικός *</label>
-                            <div class="form-text">Απαιτείται για την αλλαγή του email ή του κωδικού.</div>
-                            <div id="old_password_error" class="error-message"></div>
-                        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="cypriot_id" name="cypriot_id" value="<?= htmlspecialchars($user['cypriot_id'] ?? '') ?>" placeholder="ΑΔΤ">
+            <label for="cypriot_id">Αριθμός Ταυτότητας</label>
+        </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="New Password">
-                            <label for="password">Νέος Κωδικός</label>
-                            <div class="form-text">Αφήστε κενό αν δεν θέλετε αλλαγή κωδικού.</div>
-                            <div id="password_error" class="error-message"></div>
-                            <div id="password_strength" class="mt-2"></div>
-                        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="postal_code" name="postal_code" value="<?= htmlspecialchars($user['postal_code'] ?? '') ?>" placeholder="Τ.Κ.">
+            <label for="postal_code">Ταχυδρομικός Κώδικας</label>
+        </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-                            <label for="confirm_password">Επιβεβαίωση Νέου Κωδικού</label>
-                            <div id="confirm_password_error" class="error-message"></div>
-                            <div id="password_match" class="mt-2"></div>
-                        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="street_address" name="street_address" value="<?= htmlspecialchars($user['street_address'] ?? '') ?>" placeholder="Οδός και Αριθμός">
+            <label for="street_address">Οδός και Αριθμός</label>
+        </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary w-100 py-3">Αποθήκευση Αλλαγών</button>
-                            <a href="../index.php" class="btn btn-secondary w-100 py-3">Ακύρωση</a>
-                        </div>
-                    </form>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="city" name="city" value="<?= htmlspecialchars($user['city'] ?? '') ?>" placeholder="Πόλη">
+            <label for="city">Πόλη</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="country" name="country" value="<?= htmlspecialchars($user['country'] ?? '') ?>" placeholder="Χώρα">
+            <label for="country">Χώρα</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="municipality" name="municipality" value="<?= htmlspecialchars($user['municipality'] ?? '') ?>" placeholder="Δήμος">
+            <label for="municipality">Δήμος</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="community" name="community" value="<?= htmlspecialchars($user['community'] ?? '') ?>" placeholder="Κοινότητα">
+            <label for="community">Κοινότητα</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nationality" name="nationality" value="<?= htmlspecialchars($user['nationality'] ?? '') ?>" placeholder="Εθνικότητα">
+            <label for="nationality">Εθνικότητα</label>
+        </div>
+
+        <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="university_email" name="university_email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
+            <label for="university_email">Πανεπιστημιακό Email</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="mobile_phone" name="mobile_phone" value="<?= htmlspecialchars($user['mobile_phone'] ?? '') ?>" placeholder="Κινητό Τηλέφωνο">
+            <label for="mobile_phone">Κινητό Τηλέφωνο</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="landline_phone" name="landline_phone" value="<?= htmlspecialchars($user['landline_phone'] ?? '') ?>" placeholder="Σταθερό Τηλέφωνο">
+            <label for="landline_phone">Σταθερό Τηλέφωνο</label>
+        </div>
+
+        <h5 class="mt-5 mb-3 text-primary">Ασφάλεια</h5>
+
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Τρέχων Κωδικός">
+            <label for="old_password">Τρέχων Κωδικός</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Νέος Κωδικός">
+            <label for="password">Νέος Κωδικός</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Επιβεβαίωση Κωδικού">
+            <label for="confirm_password">Επιβεβαίωση Κωδικού</label>
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary w-100 py-3">Αποθήκευση Αλλαγών</button>
+            <a href="../index.php" class="btn btn-secondary w-100 py-3">Ακύρωση</a>
+        </div>
+    </form>
                 </div>
             </div>
         </div>
@@ -264,127 +307,138 @@ try {
 
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
-    <script>
-        // Password validation function
-        function validatePassword(password) {
-            const errors = [];
-            if (password.length < 8) {
-                errors.push("Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες");
-            }
-            if (!/[A-Z]/.test(password)) {
-                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα");
-            }
-            if (!/[a-z]/.test(password)) {
-                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα");
-            }
-            if (!/[0-9]/.test(password)) {
-                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν αριθμό");
-            }
-            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-                errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα ειδικό σύμβολο (!@#$%^&*(),.?\":{}|<>)");
-            }
-            return errors;
+ <script>
+    // Password validation function
+    function validatePassword(password) {
+        const errors = [];
+        if (password.length < 8) {
+            errors.push("Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες");
+        }
+        if (!/[A-Z]/.test(password)) {
+            errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα");
+        }
+        if (!/[a-z]/.test(password)) {
+            errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα");
+        }
+        if (!/[0-9]/.test(password)) {
+            errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν αριθμό");
+        }
+        if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+            errors.push("Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα ειδικό σύμβολο (!@#$%^&*(),.?\":{}|<>)");
+        }
+        return errors;
+    }
+
+    function updatePasswordStrength(password) {
+        const strengthIndicator = document.getElementById('password_strength');
+        const errors = validatePassword(password);
+
+        if (!strengthIndicator) return;
+
+        if (password.length === 0) {
+            strengthIndicator.innerHTML = '';
+            return;
         }
 
-        // Function to update password strength indicator
-        function updatePasswordStrength(password) {
-            const strengthIndicator = document.getElementById('password_strength');
-            const errors = validatePassword(password);
-            
-            if (password.length === 0) {
-                strengthIndicator.innerHTML = '';
-                return;
-            }
+        strengthIndicator.innerHTML = errors.length > 0
+            ? errors.map(e => `<div class="text-danger"><i class="fas fa-times-circle"></i> ${e}</div>`).join('')
+            : '<div class="text-success"><i class="fas fa-check-circle"></i> Ο κωδικός πληροί όλες τις απαιτήσεις</div>';
+    }
 
-            if (errors.length > 0) {
-                strengthIndicator.innerHTML = errors.map(error => 
-                    `<div class="text-danger"><i class="fas fa-times-circle"></i> ${error}</div>`
-                ).join('');
-            } else {
-                strengthIndicator.innerHTML = '<div class="text-success"><i class="fas fa-check-circle"></i> Ο κωδικός πληροί όλες τις απαιτήσεις</div>';
-            }
-        }
+    function checkPasswordMatch(password, confirmPassword) {
+        const matchIndicator = document.getElementById('password_match');
+        if (!matchIndicator) return;
 
-        // Function to check if passwords match
-        function checkPasswordMatch(password, confirmPassword) {
-            const matchIndicator = document.getElementById('password_match');
-            if (confirmPassword.length === 0) {
-                matchIndicator.innerHTML = '';
-                return;
-            }
-            
-            if (password === confirmPassword) {
-                matchIndicator.innerHTML = '<div class="text-success"><i class="fas fa-check-circle"></i> Οι κωδικοί ταιριάζουν</div>';
-            } else {
-                matchIndicator.innerHTML = '<div class="text-danger"><i class="fas fa-times-circle"></i> Οι κωδικοί δεν ταιριάζουν</div>';
-            }
-        }
+        matchIndicator.innerHTML = confirmPassword.length === 0
+            ? ''
+            : (password === confirmPassword
+                ? '<div class="text-success"><i class="fas fa-check-circle"></i> Οι κωδικοί ταιριάζουν</div>'
+                : '<div class="text-danger"><i class="fas fa-times-circle"></i> Οι κωδικοί δεν ταιριάζουν</div>');
+    }
 
-        // Add event listeners for password validation
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirm_password');
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
 
-            // Add real-time validation
-            passwordInput.addEventListener('input', function() {
+        if (passwordInput && confirmPasswordInput) {
+            passwordInput.addEventListener('input', function () {
                 updatePasswordStrength(this.value);
                 checkPasswordMatch(this.value, confirmPasswordInput.value);
             });
 
-            confirmPasswordInput.addEventListener('input', function() {
+            confirmPasswordInput.addEventListener('input', function () {
                 checkPasswordMatch(passwordInput.value, this.value);
             });
-        });
+        }
+    });
 
-        // Form submission handler
-        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Clear previous errors
-            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-            
-            const formData = new FormData(this);
-            const password = formData.get('password');
-            const confirmPassword = formData.get('confirm_password');
-            
-            // Validate password if provided
-            if (password) {
-                const errors = validatePassword(password);
-                if (errors.length > 0) {
-                    document.getElementById('password_error').textContent = errors[0];
-                    return;
-                }
-                
-                if (password !== confirmPassword) {
-                    document.getElementById('confirm_password_error').textContent = "Οι κωδικοί δεν ταιριάζουν";
-                    return;
-                }
+    document.getElementById('editProfileForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+        const formData = new FormData(this);
+        const password = formData.get('password');
+        const confirmPassword = formData.get('confirm_password');
+
+        if (password) {
+            const errors = validatePassword(password);
+            if (errors.length > 0) {
+                const errEl = document.getElementById('password_error');
+                if (errEl) errEl.textContent = errors[0];
+                return;
             }
-            
-            fetch('../php/edit_user.php', {
-                method: 'POST',
-                body: formData
-            })
+            if (password !== confirmPassword) {
+                const matchEl = document.getElementById('confirm_password_error');
+                if (matchEl) matchEl.textContent = "Οι κωδικοί δεν ταιριάζουν";
+                return;
+            }
+        }
+
+        fetch('../php/edit_user.php', {
+            method: 'POST',
+            body: formData
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Οι αλλαγές αποθηκεύτηκαν επιτυχώς!');
-                    window.location.href = '../index.php';
-                } else {
-                    // Display errors
-                    Object.entries(data.errors).forEach(([field, message]) => {
-                        const errorElement = document.getElementById(`${field}_error`);
-                        if (errorElement) {
-                            errorElement.textContent = message;
-                        }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Επιτυχία',
+                        text: 'Οι αλλαγές αποθηκεύτηκαν επιτυχώς!',
+                        confirmButtonText: 'ΟΚ',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => {
+                        window.location.href = '../index.php';
                     });
+                } else {
+                    for (const [field, msg] of Object.entries(data.errors)) {
+                        const errorEl = document.getElementById(`${field}_error`);
+                        if (errorEl) errorEl.textContent = msg;
+                    }
+
+                    if (data.errors.general) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Σφάλμα',
+                            text: data.errors.general
+                        });
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Παρουσιάστηκε σφάλμα κατά την αποθήκευση των αλλαγών.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Σφάλμα',
+                    text: 'Απέτυχε η αποθήκευση των αλλαγών.'
+                });
             });
-        });
-    </script>
+    });
+</script>
+
+    <!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html> 
