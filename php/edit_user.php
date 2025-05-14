@@ -3,114 +3,110 @@ header('Content-Type: application/json');
 include 'config.php';
 session_start();
 
-// Check if user is logged in
+// Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'errors' => ['general' => 'Unauthorized access']]);
+    echo json_encode(['success' => false, 'errors' => ['general' => 'Δεν είστε συνδεδεμένος.']]);
     exit;
 }
 
-$success = false;
+$user_id = $_SESSION['user_id'];
 $errors = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['user_id'];
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $old_password = trim($_POST['old_password'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $confirm_pass = trim($_POST['confirm_password'] ?? '');
+// Sanitize and trim inputs
+function clean($key) {
+    return trim($_POST[$key] ?? '');
+}
 
-    // Validation
-    if (empty($first_name)) {
-        $errors['first_name'] = "Το όνομα είναι υποχρεωτικό.";
-    }
+$fields = [
+    'dob', 'gender', 'social_security_number', 'cypriot_id',
+    'postal_code', 'street_address', 'city', 'country',
+    'municipality', 'community', 'nationality', 'university_email',
+    'mobile_phone', 'landline_phone'
+];
 
-    if (empty($last_name)) {
-        $errors['last_name'] = "Το επώνυμο είναι υποχρεωτικό.";
-    }
+// Assign values
+$data = [];
+foreach ($fields as $field) {
+    $data[$field] = clean($field);
+}
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Μη έγκυρο email.";
-    }
+// Basic validations
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['dob'])) {
+    $errors['dob'] = 'Μη έγκυρη ημερομηνία.';
+}
 
-    // Get current user data for password verification
-    try {
-        $stmt = $pdo->prepare("SELECT email, password FROM users WHERE id = ?");
-        $stmt->execute([$user_id]);
-        $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        $errors['general'] = "Σφάλμα στη βάση: " . $e->getMessage();
-    }
+if (!in_array($data['gender'], ['M', 'F'], true)) {
+    $errors['gender'] = 'Μη έγκυρο φύλο.';
+}
 
-    // Verify current password for email changes or password changes
-    if (empty($errors) && ($email !== $current_user['email'] || !empty($password))) {
-        if (empty($old_password)) {
-            $errors['old_password'] = "Ο τρέχων κωδικός απαιτείται για την αλλαγή email ή κωδικού.";
-        } else if (!password_verify($old_password, $current_user['password'])) {
-            $errors['old_password'] = "Ο τρέχων κωδικός είναι λανθασμένος.";
-        }
-    }
+if (!filter_var($data['university_email'], FILTER_VALIDATE_EMAIL)) {
+    $errors['university_email'] = 'Μη έγκυρη διεύθυνση email.';
+}
 
-    // Check if email is already taken by another user
-    if (empty($errors) && $email !== $current_user['email']) {
-        try {
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-            $stmt->execute([$email, $user_id]);
-            if ($stmt->fetch()) {
-                $errors['email'] = "Το email χρησιμοποιείται ήδη.";
-            }
-        } catch (PDOException $e) {
-            $errors['general'] = "Σφάλμα στη βάση: " . $e->getMessage();
-        }
-    }
+// Validate password only if changing
+$old_password = clean('old_password');
+$new_password = clean('password');
+$confirm_password = clean('confirm_password');
+$change_password = false;
 
-    // Password validation if new password is provided
-    if (!empty($password)) {
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/', $password)) {
-            $errors['password'] = "Ο κωδικός πρέπει να περιλαμβάνει τουλάχιστον 8 χαρακτήρες, ένα κεφαλαίο, ένα πεζό και ένα σύμβολο.";
-        }
-
-        if ($password !== $confirm_pass) {
-            $errors['confirm_password'] = "Οι κωδικοί δεν ταιριάζουν.";
-        }
-    }
-
-    // Update user in database
-    if (empty($errors)) {
-        try {
-            if (!empty($password)) {
-                // Update with password
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("
-                    UPDATE users 
-                    SET first_name = ?, middle_name = ?, last_name = ?, email = ?, password = ?
-                    WHERE id = ?
-                ");
-                $stmt->execute([$first_name, $middle_name, $last_name, $email, $hashed_password, $user_id]);
-            } else {
-                // Update without password
-                $stmt = $pdo->prepare("
-                    UPDATE users 
-                    SET first_name = ?, middle_name = ?, last_name = ?, email = ?
-                    WHERE id = ?
-                ");
-                $stmt->execute([$first_name, $middle_name, $last_name, $email, $user_id]);
-            }
-
-            // Update session username if first name changed
-            $_SESSION['username'] = $first_name;
-
-            echo json_encode(['success' => true]);
-            exit;
-        } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'errors' => ['general' => "Σφάλμα κατά την ενημέρωση: " . $e->getMessage()]]);
-            exit;
-        }
+if ($new_password !== '') {
+    if (strlen($new_password) < 8 || !preg_match('/[A-Z]/', $new_password) || !preg_match('/[a-z]/', $new_password) || !preg_match('/[\W]/', $new_password)) {
+        $errors['password'] = 'Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες, 1 κεφαλαίο, 1 πεζό και 1 σύμβολο.';
+    } elseif ($new_password !== $confirm_password) {
+        $errors['confirm_password'] = 'Οι κωδικοί δεν ταιριάζουν.';
     } else {
-        echo json_encode(['success' => false, 'errors' => $errors]);
-        exit;
+        // Verify old password
+        $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+        $stmt->execute([$user_id]);
+        $row = $stmt->fetch();
+
+        if (!$row || !password_verify($old_password, $row['password'])) {
+            $errors['old_password'] = 'Ο τρέχων κωδικός είναι λανθασμένος.';
+        } else {
+            $change_password = true;
+        }
     }
 }
-?> 
+
+if (!empty($errors)) {
+    echo json_encode(['success' => false, 'errors' => $errors]);
+    exit;
+}
+
+// Perform update
+try {
+    $sql = "UPDATE users SET 
+        dob = :dob,
+        gender = :gender,
+        social_security_number = :social_security_number,
+        cypriot_id = :cypriot_id,
+        postal_code = :postal_code,
+        street_address = :street_address,
+        city = :city,
+        country = :country,
+        municipality = :municipality,
+        community = :community,
+        nationality = :nationality,
+        email = :university_email,
+        mobile_phone = :mobile_phone,
+        landline_phone = :landline_phone";
+
+    if ($change_password) {
+        $sql .= ", password = :password";
+        $data['password'] = password_hash($new_password, PASSWORD_DEFAULT);
+    }
+
+    $sql .= " WHERE id = :user_id";
+
+    $stmt = $pdo->prepare($sql);
+    $data['user_id'] = $user_id;
+    $stmt->execute($data);
+
+    echo json_encode(['success' => true]);
+    exit;
+
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'errors' => ['general' => 'Σφάλμα βάσης δεδομένων: ' . $e->getMessage()]]);
+    exit;
+}
+?>

@@ -1,5 +1,30 @@
 <?php
 include 'php/session_check.php';
+include 'php/config.php';
+
+$needsProfileCompletion = false;
+
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // These fields must be completed in order the warning to dissapear 
+    $requiredFields = [
+        'dob', 'gender', 'social_security_number', 'cypriot_id', 'postal_code',
+        'street_address', 'city', 'country',
+        'nationality', 'mobile_phone', 'email'
+    ];
+
+    foreach ($requiredFields as $field) {
+        if (empty($userData[$field])) {
+            $needsProfileCompletion = true;
+            break;
+        }
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +60,8 @@ include 'php/session_check.php';
 </head>
 
 <body>
+   
+
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -42,6 +69,7 @@ include 'php/session_check.php';
         </div>
     </div>
     <!-- Spinner End -->
+     
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
@@ -99,6 +127,12 @@ include 'php/session_check.php';
         </div>
     </nav>
     <!-- Navbar End -->
+      <?php if ($needsProfileCompletion): ?>
+  <div class="alert alert-warning text-center alert-dismissible fade show -mb-4" role="alert" style="z-index: 1;">
+    ⚠️ Παρακαλώ συμπληρώστε το προφίλ σας. <a href="html/edit_user.php" class="alert-link">Μετάβαση στην Επεξεργασία Προφίλ</a>.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php endif; ?>
 
     <!-- Carousel Start -->
     <div class="container-fluid p-0 mb-5">
