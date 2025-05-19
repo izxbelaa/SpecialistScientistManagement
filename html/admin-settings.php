@@ -151,6 +151,12 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" id="saveBtn">Αποθήκευση</button>
                     </div>
+                    <br>
+                    <div class="mb-3">
+    <label for="fullsync" class="form-label">Πλήρης Συγχρονισμός</label><br>
+    <button type="button" class="btn btn-warning mt-2" id="fullSyncBtn">Full Sync</button>
+</div>
+
                 </form>
             </div>
         </div>
@@ -254,6 +260,39 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="../assets/js/admin-settings.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+document.getElementById("fullSyncBtn").addEventListener("click", function () {
+    Swal.fire({
+        title: 'Είσαι σίγουρος;',
+        text: "Θέλεις να κάνεις Full Sync;",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ναι, συγχρονισμός!',
+        cancelButtonText: 'Ακύρωση'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('../php/full_sync.php', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    Swal.fire('Ολοκληρώθηκε!', data.message, 'success');
+                } else {
+                    Swal.fire('Σφάλμα!', data.message, 'error');
+                }
+            })
+            .catch(() => {
+                Swal.fire('Σφάλμα!', 'Απέτυχε η σύνδεση με τον server.', 'error');
+            });
+        }
+    });
+});
+</script>
+
 </body>
 
 </html>
