@@ -41,6 +41,52 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
 </head>
+<style>
+  .custom-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between switch and text */
+    cursor: pointer;
+  }
+
+  .custom-switch input[type="checkbox"] {
+    display: none;
+  }
+
+  .slider {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.3s;
+  }
+
+  .slider::before {
+    content: "";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  input:checked + .slider {
+    background-color: #0d9488; /* teal green */
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(24px);
+  }
+
+  .switch-label {
+    font-size: 1rem;
+    user-select: none;
+  }
+</style>
 
 <body>
     <!-- Spinner Start -->
@@ -152,10 +198,12 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                         <button type="submit" class="btn btn-primary" id="saveBtn">Αποθήκευση</button>
                     </div>
                     <br>
-                    <div class="mb-3">
-    <label for="fullsync" class="form-label">Πλήρης Συγχρονισμός</label><br>
-    <button type="button" class="btn btn-warning mt-2" id="fullSyncBtn">Full Sync</button>
-</div>
+                    <label class="custom-switch">
+  <input type="checkbox" id="fullSyncSwitch">
+  <span class="slider"></span>
+  <span class="switch-label">Πλήρης Συγχρονισμός</span>
+</label>
+
 
                 </form>
             </div>
@@ -260,38 +308,48 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="../assets/js/admin-settings.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-document.getElementById("fullSyncBtn").addEventListener("click", function () {
+document.getElementById('fullSyncSwitch').addEventListener('change', function () {
+  if (this.checked) {
+    // Ask confirmation before syncing
     Swal.fire({
-        title: 'Είσαι σίγουρος;',
-        text: "Θέλεις να κάνεις Full Sync;",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ναι, συγχρονισμός!',
-        cancelButtonText: 'Ακύρωση'
+      title: 'Είσαι σίγουρος;',
+      text: "Θέλεις να κάνεις Full Sync;",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Ναι, συγχρονισμός!',
+      cancelButtonText: 'Ακύρωση'
     }).then((result) => {
-        if (result.isConfirmed) {
-            fetch('../php/full_sync.php', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    Swal.fire('Ολοκληρώθηκε!', data.message, 'success');
-                } else {
-                    Swal.fire('Σφάλμα!', data.message, 'error');
-                }
-            })
-            .catch(() => {
-                Swal.fire('Σφάλμα!', 'Απέτυχε η σύνδεση με τον server.', 'error');
-            });
-        }
+      if (result.isConfirmed) {
+        fetch('../php/full_sync.php', {
+          method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            Swal.fire('Ολοκληρώθηκε!', data.message, 'success');
+          } else {
+            Swal.fire('Σφάλμα!', data.message, 'error');
+            this.checked = false; // rollback toggle
+          }
+        })
+        .catch(() => {
+          Swal.fire('Σφάλμα!', 'Απέτυχε η σύνδεση με τον server.', 'error');
+          this.checked = false;
+        });
+      } else {
+        this.checked = false; // cancel toggle if user backs out
+      }
     });
+  } else {
+    // Optional: Add logic when user disables sync
+    console.log('Full Sync disabled');
+  }
 });
 </script>
+
 
 </body>
 
