@@ -169,37 +169,60 @@ if (isset($_SESSION['user_id'])) {
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-  function acceptApplication(id) {
-    Swal.fire({
-      title: 'Επιβεβαίωση',
-      text: 'Θέλεις να αποδεχτείς την αίτηση #' + id + ';',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ναι, αποδοχή'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Αποδεκτό!', 'Η αίτηση #' + id + ' αποδεχθηκε.', 'success');
-      }
-    });
-  }
+    
+  function updateApplicationStatus(id, status) {
+  fetch('../php/update_application_status.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ id: id, status: status })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      Swal.fire('Επιτυχία!', 'Η αίτηση #' + id + ' ενημερώθηκε.', 'success')
+        .then(() => location.reload());
+    } else {
+      Swal.fire('Σφάλμα!', data.error || 'Κάτι πήγε στραβά.', 'error');
+    }
+  })
+  .catch(() => {
+    Swal.fire('Σφάλμα!', 'Δεν ήταν δυνατή η ενημέρωση.', 'error');
+  });
+}
 
-  function rejectApplication(id) {
-    Swal.fire({
-      title: 'Επιβεβαίωση',
-      text: 'Θέλεις να απορρίψεις την αίτηση #' + id + ';',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Ναι, απόρριψη'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Απορρίφθηκε!', 'Η αίτηση #' + id + ' απορρίφθηκε.', 'success');
-      }
-    });
-  }
+function acceptApplication(id) {
+  Swal.fire({
+    title: 'Επιβεβαίωση',
+    text: 'Θέλεις να αποδεχτείς την αίτηση #' + id + ';',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#28a745',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ναι, αποδοχή'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      updateApplicationStatus(id, 1);
+    }
+  });
+}
+
+function rejectApplication(id) {
+  Swal.fire({
+    title: 'Επιβεβαίωση',
+    text: 'Θέλεις να απορρίψεις την αίτηση #' + id + ';',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Ναι, απόρριψη'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      updateApplicationStatus(id, -1);
+    }
+  });
+}
+
 
   document.addEventListener('DOMContentLoaded', () => {
     fetch('../php/get-requests.php')
@@ -214,20 +237,21 @@ if (isset($_SESSION['user_id'])) {
           return;
         }
 
-        data.forEach((row, index) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${row.requester_name || 'Άγνωστος'}</td>
-            <td>${row.request_title || '-'}</td>
-            <td>${row.description || '-'}</td>
-            <td>
-              <button class="btn btn-success btn-sm me-2" onclick="acceptApplication(${row.id})">Αποδοχή</button>
-              <button class="btn btn-danger btn-sm" onclick="rejectApplication(${row.id})">Απόρριψη</button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
+     data.forEach((row, index) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${index + 1}</td>
+    <td>${row.requester_name || 'Άγνωστος'}</td>
+    <td>${row.request_title || '-'}</td>
+    <td>${row.description || '-'}</td>
+    <td>
+      <button class="btn btn-success btn-sm me-2" onclick="acceptApplication(${row.candidate_user_id})">Αποδοχή</button>
+      <button class="btn btn-danger btn-sm me-2" onclick="rejectApplication(${row.candidate_user_id})">Απόρριψη</button>
+<a class="btn btn-info btn-sm text-white" href="../php/download_cv.php?user_id=${row.user_id}" target="_blank">Λήψη Βιογραφικού</a>
+    </td>
+  `;
+  tbody.appendChild(tr);
+});
       })
       .catch(error => {
         console.error('Σφάλμα κατά τη φόρτωση:', error);
