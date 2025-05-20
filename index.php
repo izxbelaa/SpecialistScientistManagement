@@ -102,6 +102,10 @@ if (isset($_SESSION['user_id'])) {
                         <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
                             <a href="./html/admin-settings.php" class="dropdown-item">Admin Settings</a>
                             <a href="./html/requests-admin.php" class="dropdown-item">Admin Requests</a>
+                            <a href="./html/application_inspection.php" class="dropdown-item">Επιθεώρηση Αίτησης</a>
+
+
+
                         <?php endif; ?>
                     </div>
                 </div>
