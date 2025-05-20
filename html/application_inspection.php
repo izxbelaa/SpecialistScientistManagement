@@ -1,3 +1,34 @@
+<?php
+session_start();
+require_once __DIR__ . '/../php/session_check.php';
+require_once __DIR__ . '/../php/config.php';
+include '../php/config.php';
+
+$needsProfileCompletion = false;
+$userData = null;
+
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!isset($_SESSION['username']) && isset($userData['name'])) {
+    $_SESSION['username'] = $userData['name'];
+}
+
+
+    $requiredFields = [
+        'dob', 'gender', 'social_security_number', 'cypriot_id', 'postal_code',
+        'street_address', 'city', 'country', 'nationality', 'mobile_phone', 'email'
+    ];
+
+    foreach ($requiredFields as $field) {
+        if (empty($userData[$field])) {
+            $needsProfileCompletion = true;
+            break;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,7 +99,7 @@
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
+      <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60">
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
@@ -97,21 +128,21 @@
   <!-- Navbar End -->
 
     <!-- Header Start -->
-    <div class="container-fluid bg-primary py-5 mb-5 page-header">
-        <div class="container py-5">
-          <div class="row justify-content-center">
-            <div class="col-lg-10 text-center">
-              <h1 class="display-3 text-white animated slideInDown">Επιθεώρηση Αιτήσεων</h1>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb justify-content-center">
-                  <li class="breadcrumb-item"><a class="text-white" href="../index.php">Ταμπλό</a></li>
-                  <li class="breadcrumb-item text-white active" aria-current="page">Επιθεώρηση</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
+  <div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 text-center">
+          <h1 class="display-3 text-white animated slideInDown">Επιθεώρηση Αιτήσεων</h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+              <li class="breadcrumb-item"><a class="text-white" href="../index.php">Ταμπλό</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Επιθεώρηση</li>
+            </ol>
+          </nav>
         </div>
       </div>
+    </div>
+  </div>
       <!-- Header End -->
 
 <!-- Πίνακας Αιτήσεων Start -->
@@ -120,26 +151,28 @@
     <div class="table-responsive">
       <table class="table table-bordered table-striped text-center">
         <thead class="table-primary">
-          <tr>
-            <th>Α/Α</th>
-            <th>Ονοματεπώνυμο</th>
-            <th>Όνομα Αίτησης</th>
-            <th>Ενέργειες</th>
-          </tr>
-        </thead>
+  <tr>
+    <th>Α/Α</th>
+    <th>Ονοματεπώνυμο Αιτούντα</th>
+    <th>Όνομα Αίτησης</th>
+    <th>Περιγραφή</th>
+    <th>Ενέργειες</th>
+  </tr>
+</thead>
         <tbody id="applications-table-body">
-          <!-- Τα δεδομένα θα φορτωθούν δυναμικά μέσω JS -->
+          <!-- JS will fill this -->
         </tbody>
       </table>
     </div>
   </div>
-  <!-- Πίνακας Αιτήσεων End -->
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
   function acceptApplication(id) {
     Swal.fire({
       title: 'Επιβεβαίωση',
-      text: 'Είσαι σίγουρος ότι θέλεις να αποδεχτείς την αίτηση #' + id + ';',
+      text: 'Θέλεις να αποδεχτείς την αίτηση #' + id + ';',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#28a745',
@@ -148,7 +181,6 @@
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Αποδεκτό!', 'Η αίτηση #' + id + ' αποδεχθηκε.', 'success');
-        // AJAX ή backend κλήση εδώ αν χρειάζεται
       }
     });
   }
@@ -156,7 +188,7 @@
   function rejectApplication(id) {
     Swal.fire({
       title: 'Επιβεβαίωση',
-      text: 'Είσαι σίγουρος ότι θέλεις να απορρίψεις την αίτηση #' + id + ';',
+      text: 'Θέλεις να απορρίψεις την αίτηση #' + id + ';',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -165,88 +197,55 @@
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Απορρίφθηκε!', 'Η αίτηση #' + id + ' απορρίφθηκε.', 'success');
-        // AJAX ή backend κλήση εδώ αν χρειάζεται
       }
     });
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('../php/get-requests.php')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById('applications-table-body');
+        tbody.innerHTML = '';
+
+        if (!data || data.length === 0 || data.error) {
+          tbody.innerHTML = '<tr><td colspan="5">Δεν υπάρχουν αιτήσεις ή παρουσιάστηκε σφάλμα.</td></tr>';
+          if (data.error) console.error(data.error);
+          return;
+        }
+
+        data.forEach((row, index) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.requester_name || 'Άγνωστος'}</td>
+            <td>${row.request_title || '-'}</td>
+            <td>${row.description || '-'}</td>
+            <td>
+              <button class="btn btn-success btn-sm me-2" onclick="acceptApplication(${row.id})">Αποδοχή</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectApplication(${row.id})">Απόρριψη</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        console.error('Σφάλμα κατά τη φόρτωση:', error);
+        document.getElementById('applications-table-body').innerHTML =
+          '<tr><td colspan="5">Σφάλμα κατά τη φόρτωση των αιτήσεων.</td></tr>';
+      });
+  });
 </script>
 
 
-       <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Quick Link</h4>
-          <a class="btn btn-link" href="#">About Us</a>
-          <a class="btn btn-link" href="#">Contact Us</a>
-          <a class="btn btn-link" href="#">Privacy Policy</a>
-          <a class="btn btn-link" href="#">Terms & Condition</a>
-          <a class="btn btn-link" href="#">FAQs & Help</a>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Contact</h4>
-          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-          <div class="d-flex pt-2">
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-       
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Newsletter</h4>
-          <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-          <div class="position-relative mx-auto" style="max-width: 400px;">
-            <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="copyright">
-        <div class="row">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-            Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
-          </div>
-          <div class="col-md-6 text-center text-md-end">
-            <div class="footer-menu">
-              <a href="#">Home</a>
-              <a href="#">Cookies</a>
-              <a href="#">Help</a>
-              <a href="#">FQAs</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Footer End -->
-
-  <!-- Back to Top -->
-  <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-  <!-- JavaScript Libraries -->
+  <!-- Libraries -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="../lib/wow/wow.min.js"></script>
   <script src="../lib/easing/easing.min.js"></script>
   <script src="../lib/waypoints/waypoints.min.js"></script>
   <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-  <!-- Bootstrap Bundle JS -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>!
-  <!-- Template Javascript -->
-  <script src="../assets/js/application_inspection.js"></script>
-
-<!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/main.js"></script>
-</body>
 
+</body>
 </html>
