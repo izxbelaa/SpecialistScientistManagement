@@ -103,6 +103,13 @@ if (isset($_SESSION['user_id'])) {
                             <a href="./html/admin-settings.php" class="dropdown-item">Admin Settings</a>
                             <a href="./html/requests-admin.php" class="dropdown-item">Admin Requests</a>
                         <?php endif; ?>
+<?php if (isset($_SESSION['user_type']) && in_array($_SESSION['user_type'], ['Διαχειριστής', 'Επιθεωρητής'])): ?>
+
+                            <a href="./html/application_inspection.php" class="dropdown-item">Επιθεώρηση Αίτησης</a>
+                        <?php endif; ?>
+
+
+
                     </div>
                 </div>
                 <a href="./php/settings.php" class="nav-item nav-link">Settings</a>
@@ -127,6 +134,8 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </nav>
     <!-- Navbar End -->
+
+    
       <?php if ($needsProfileCompletion): ?>
   <div class="alert alert-warning text-center alert-dismissible fade show -mb-4" role="alert" style="z-index: 1;">
     ⚠️ Παρακαλώ συμπληρώστε το προφίλ σας. <a href="html/edit_user.php" class="alert-link">Μετάβαση στην Επεξεργασία Προφίλ</a>.
