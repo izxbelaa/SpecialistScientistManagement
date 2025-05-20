@@ -21,19 +21,21 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new Error("Invalid data received from backend");
       }
 
-      const templates = data.templates;
+      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const templates = data.templates.filter(t => {
+        const end = t.date_end?.split(" ")[0];
+        return end && end >= today; // keep only not-expired
+      });
 
-     templateSelect.innerHTML = '<option value="">-- Επιλέξτε --</option>';
+      templateSelect.innerHTML = '<option value="">-- Επιλέξτε --</option>';
 
-templates.forEach(t => {
-  const opt = document.createElement('option');
-  opt.value = t.id;
-  opt.textContent = t.title;
-  templateSelect.appendChild(opt);
-});
+      templates.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.title;
+        templateSelect.appendChild(opt);
+      });
 
-
-      // Handle selection
       templateSelect.addEventListener("change", () => {
         const selected = templates.find(t => t.id == templateSelect.value);
         if (!selected) return;
@@ -58,5 +60,4 @@ templates.forEach(t => {
       console.error("Fetch error:", err);
       alert("Αποτυχία φόρτωσης των δεδομένων. Δοκιμάστε ξανά.");
     });
-    
 });

@@ -39,7 +39,7 @@ if (isset($_SESSION['user_id'])) {
   <meta content="Submission period page" name="keywords">
   <meta content="Submission period page for Cyprus University of Technology" name="description">
   <!-- Favicon -->
-  <link href="../../assets/img/logo.png" rel="icon">
+  <link href="../assets/img/logo.png" rel="icon">
   <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,7 +165,9 @@ if (isset($_SESSION['user_id'])) {
   </div>
 <?php endif; ?>
 
-        <form action="../php/submit-application.php" method="POST">
+      <form action="../php/submit-application.php" method="POST" enctype="multipart/form-data">
+
+
           <div class="mb-3">
             <label for="templateSelect" class="form-label">Επιλέξτε Αίτηση</label>
             <select class="form-select" id="templateSelect" name="template_id" required>
@@ -191,6 +193,12 @@ if (isset($_SESSION['user_id'])) {
             <select class="form-select" id="courses" name="courses[]" multiple required></select>
             <small class="text-muted">Κρατήστε Ctrl (ή Cmd σε Mac) για πολλαπλή επιλογή.</small>
           </div>
+      <div class="mb-3">
+  <label for="cv" class="form-label">Επισύναψη Βιογραφικού (CV)</label>
+  <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+</div>
+
+
           <div class="mb-4" id="academyInfo"></div>
           <div class="text-center">
            <button type="submit" class="btn btn-primary px-5" <?= $needsProfileCompletion ? 'disabled' : '' ?>>Υποβολή</button>
@@ -218,6 +226,7 @@ if (isset($_SESSION['user_id'])) {
 <script src="../assets/js/application.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -230,23 +239,22 @@ if (isset($_SESSION['user_id'])) {
         showConfirmButton: false,
         timer: 2000
       });
-
-      // Remove status from URL to prevent repeat alerts on refresh
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
     }
 
     if (status === "error") {
+      const message = urlParams.get("message") || "Η αίτηση δεν καταχωρήθηκε. Προσπαθήστε ξανά.";
       Swal.fire({
         icon: "error",
         title: "Σφάλμα",
-        text: "Η αίτηση δεν καταχωρήθηκε. Προσπαθήστε ξανά.",
+        text: decodeURIComponent(message),
         confirmButtonText: "Εντάξει"
       });
+    }
 
-      // Remove error from URL
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
+    // Remove query string to avoid repeated SweetAlert on refresh
+    if (status) {
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
     }
   });
 </script>
