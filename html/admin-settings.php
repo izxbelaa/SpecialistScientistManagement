@@ -1,4 +1,7 @@
-<?php include '../php/session_check.php'; ?>
+<?php 
+include '../php/session_check.php';
+include '../php/get_full_sync_status.php'; 
+?>
 <?php
 include '../php/get-user-type.php';
 
@@ -41,6 +44,52 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
 </head>
+<style>
+  .custom-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between switch and text */
+    cursor: pointer;
+  }
+
+  .custom-switch input[type="checkbox"] {
+    display: none;
+  }
+
+  .slider {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.3s;
+  }
+
+  .slider::before {
+    content: "";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  input:checked + .slider {
+    background-color: #0d9488; /* teal green */
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(24px);
+  }
+
+  .switch-label {
+    font-size: 1rem;
+    user-select: none;
+  }
+</style>
 
 <body>
     <!-- Spinner Start -->
@@ -151,6 +200,14 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" id="saveBtn">Αποθήκευση</button>
                     </div>
+                    <br>
+                    <label class="custom-switch">
+  <input type="checkbox" id="fullSyncSwitch">
+  <span class="slider"></span>
+  <span class="switch-label">Πλήρης Συγχρονισμός</span>
+</label>
+
+
                 </form>
             </div>
         </div>
@@ -254,6 +311,9 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="../assets/js/admin-settings.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/js/full-sync.js"></script>
+
+
 </body>
 
 </html>
