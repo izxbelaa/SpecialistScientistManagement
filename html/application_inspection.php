@@ -122,7 +122,22 @@ if (isset($_SESSION['user_id'])) {
         <a href="../php/settings.php" class="nav-item nav-link">Settings</a>
       </div>
       <!-- (Optional) You can remove or adjust the Join Now button if needed -->
-      <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+     <?php if (isset($_SESSION['username'])): ?>
+  <div class="dropdown pe-4">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <?php echo htmlspecialchars($_SESSION['username']); ?>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+      <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
+      <li><a class="dropdown-item" href="../html/edit_user.php">Επεξεργασία Προφίλ</a></li>
+    </ul>
+  </div>
+<?php else: ?>
+  <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+    Login <i class="fa fa-arrow-right ms-3"></i>
+  </a>
+<?php endif; ?>
+
     </div>
   </nav>
   <!-- Navbar End -->
@@ -247,7 +262,7 @@ function rejectApplication(id) {
     <td>
       <button class="btn btn-success btn-sm me-2" onclick="acceptApplication(${row.candidate_user_id})">Αποδοχή</button>
       <button class="btn btn-danger btn-sm me-2" onclick="rejectApplication(${row.candidate_user_id})">Απόρριψη</button>
-<a class="btn btn-info btn-sm text-white" href="../php/download_cv.php?user_id=${row.user_id}" target="_blank">Λήψη Βιογραφικού</a>
+     <button class="btn btn-info btn-sm text-white" onclick="downloadCV(${row.request_id})">Λήψη Βιογραφικού</button>
     </td>
   `;
   tbody.appendChild(tr);
@@ -259,6 +274,35 @@ function rejectApplication(id) {
           '<tr><td colspan="5">Σφάλμα κατά τη φόρτωση των αιτήσεων.</td></tr>';
       });
   });
+  function downloadCV(requestId) {
+    fetch(`../php/download_cv.php?request_id=${requestId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Create a Blob from the base64-encoded file
+                const byteCharacters = atob(data.file);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+                // Create a link to download the Blob
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = data.filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                Swal.fire('Σφάλμα!', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            Swal.fire('Σφάλμα!', 'Δεν ήταν δυνατή η λήψη του βιογραφικού.', 'error');
+        });
+}
 </script>
 
 
