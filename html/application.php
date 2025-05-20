@@ -225,8 +225,9 @@ if (isset($_SESSION['user_id'])) {
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/application.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/application-filter.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);

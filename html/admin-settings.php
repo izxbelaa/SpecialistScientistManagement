@@ -1,4 +1,7 @@
-<?php include '../php/session_check.php'; ?>
+<?php 
+include '../php/session_check.php';
+include '../php/get_full_sync_status.php'; 
+?>
 <?php
 include '../php/get-user-type.php';
 
@@ -308,47 +311,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="../assets/js/admin-settings.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-document.getElementById('fullSyncSwitch').addEventListener('change', function () {
-  if (this.checked) {
-    // Ask confirmation before syncing
-    Swal.fire({
-      title: 'Είσαι σίγουρος;',
-      text: "Θέλεις να κάνεις Full Sync;",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Ναι, συγχρονισμός!',
-      cancelButtonText: 'Ακύρωση'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch('../php/full_sync.php', {
-          method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === "success") {
-            Swal.fire('Ολοκληρώθηκε!', data.message, 'success');
-          } else {
-            Swal.fire('Σφάλμα!', data.message, 'error');
-            this.checked = false; // rollback toggle
-          }
-        })
-        .catch(() => {
-          Swal.fire('Σφάλμα!', 'Απέτυχε η σύνδεση με τον server.', 'error');
-          this.checked = false;
-        });
-      } else {
-        this.checked = false; // cancel toggle if user backs out
-      }
-    });
-  } else {
-    // Optional: Add logic when user disables sync
-    console.log('Full Sync disabled');
-  }
-});
-</script>
+    <script src="../assets/js/full-sync.js"></script>
 
 
 </body>

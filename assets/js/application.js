@@ -11,33 +11,37 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  fetch("../php/application-fetch.php?fetch=templates")
-    .then(res => {
-      if (!res.ok) throw new Error("Network response was not ok");
-      return res.json();
-    })
+  fetch("../php/application-filter.php") // must return { templates, userApplications, success: true }
+    .then(res => res.json())
     .then(data => {
-      if (!data.success || !Array.isArray(data.templates)) {
-        throw new Error("Invalid data received from backend");
-      }
+      if (!data.success) throw new Error("Invalid backend response");
 
-      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-      const templates = data.templates.filter(t => {
-        const end = t.date_end?.split(" ")[0];
-        return end && end >= today; // keep only not-expired
+      const today = new Date().toISOString().split("T")[0];
+      const { templates, userApplications } = data;
+
+      // Get template IDs user already applied to (except rejected)
+      const excludedTemplateIds = userApplications
+        .filter(app => app.status !== -1)
+        .map(app => app.template_id);
+
+      // Filter out expired + already applied (unless rejected)
+      const filteredTemplates = templates.filter(t => {
+        const endDate = t.date_end?.split(" ")[0];
+        return endDate >= today && !excludedTemplateIds.includes(t.id);
       });
 
+      // Render options
       templateSelect.innerHTML = '<option value="">-- Επιλέξτε --</option>';
-
-      templates.forEach(t => {
-        const opt = document.createElement('option');
+      filteredTemplates.forEach(t => {
+        const opt = document.createElement("option");
         opt.value = t.id;
         opt.textContent = t.title;
         templateSelect.appendChild(opt);
       });
 
+      // On select, fill data
       templateSelect.addEventListener("change", () => {
-        const selected = templates.find(t => t.id == templateSelect.value);
+        const selected = filteredTemplates.find(t => t.id == templateSelect.value);
         if (!selected) return;
 
         description.value = selected.description || "";
@@ -58,6 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(err => {
       console.error("Fetch error:", err);
-      alert("Αποτυχία φόρτωσης των δεδομένων. Δοκιμάστε ξανά.");
+      alert("Αποτυχία φόρτωσης αιτήσεων.");
     });
 });
