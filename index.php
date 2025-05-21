@@ -89,39 +89,39 @@ if (isset($_SESSION['user_id'])) {
                 <a href="html/about.php" class="nav-item nav-link">Σχετικα</a>
                 <a href="html/application-status.php" class="nav-item nav-link">Application Status</a>
                 <a href="./html/application.php" class="nav-item nav-link">Applications</a>
-                <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
-        <div class="dropdown-menu fade-down m-0">
-            <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
-            <a href="./html/departments.php" class="dropdown-item">Τμήματα</a>
-            <a href="./html/academies.php" class="dropdown-item">Σχολές</a>
-        </div>
-    </div> 
-
-    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελίδες Διαχειριστή</a>
-        <div class="dropdown-menu fade-down m-0">
-            <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-            <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-            <a href="./html/requests-admin.php" class="dropdown-item">Ρυθμισεις Διαχειριστη</a>
-        </div>
-    </div>
-    <a href="./html/admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
-<?php endif; ?>
-                <?php if (isset($_SESSION['username'])): ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php echo htmlspecialchars($_SESSION['username']); ?>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="./php/logout.php">Αποσύνδεση</a></li>
-                            <li><a class="dropdown-item" href="./html/edit_user.php">Επεξεργασία Προφίλ</a></li>
-                        </ul>
-                    </li>
-                <?php else: ?>
-                    <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
+                        <a href="./html/departments.php" class="dropdown-item">Τμήματα</a>
+                        <a href="./html/academies.php" class="dropdown-item">Σχολές</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελίδες Διαχειριστή</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+                        <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+                        <a href="./html/requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="./html/statistics.php" class="dropdown-item">Στατιστικά</a>
+                    </div>
+                </div>
+                <a href="./html/admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
                 <?php endif; ?>
+            <?php if (isset($_SESSION['username'])): ?>
+                    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <?php echo htmlspecialchars($_SESSION['username']); ?>
+    </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+      <li><a class="dropdown-item" href="./php/logout.php">Αποσύνδεση</a></li>
+                            <li><a class="dropdown-item" href="./html/edit_user.php">Επεξεργασία Προφίλ</a></li>
+    </ul>
+                    </li>
+<?php else: ?>
+                    <a href="./html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+<?php endif; ?>
             </div>
         </div>
     </nav>
@@ -232,7 +232,7 @@ if (isset($_SESSION['user_id'])) {
                 <h2 class="mb-4">Πύλη Διαχείρισης Ειδικών Επιστημόνων</h2>
                 <p class="mb-3">Η εφαρμογή διαχειρίζεται τη διαδικασία πρόσληψης και εγγραφής των Ειδικών Επιστημόνων του ΤΕΠΑΚ. Παρέχει στον χρήστη αυτόματη σύνδεση και συγχρονισμό με το Moodle, προσφέροντας άμεση πρόσβαση στο εκπαιδευτικό περιβάλλον.</p>
                 <a class="btn btn-primary py-3 px-5" href="html/about.php">Διαβάστε Περισσότερα</a>
-            </div>
+                </div>
             </div>
         </div>
     </div>

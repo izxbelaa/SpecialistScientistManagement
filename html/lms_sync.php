@@ -185,6 +185,9 @@ foreach ($ees as $i => $ee) {
             <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
             <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
             <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+            <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 5): ?>
+                <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
+            <?php endif; ?>
           </div>
         </div>
         <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
