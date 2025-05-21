@@ -25,7 +25,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Favicon -->
     <link href="../assets/img/logo.png" rel="icon">
 
-    <!-- Google Web Fonts -->
+    <!-- Google Web Fonts -->x
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -218,6 +218,35 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             </div>
         </div>
     </div>
+    <!-- Backup Section: Only for Admin -->
+    <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card shadow p-4">
+                <h3 class="mb-4 text-center">Δημιουργία Αντιγράφου Ασφαλείας</h3>
+                <div class="text-center">
+                    <div class="d-flex justify-content-center gap-3">
+                        <button id="backupBtn" class="btn btn-primary px-4 py-2">
+                            <span class="d-inline-flex align-items-center">
+                                <span id="backupSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </span>
+                                <span id="backupText">Δημιουργία Backup</span>
+                            </span>
+                        </button>
+                        <button id="downloadBtn" class="btn btn-success px-4 py-2">
+                            <span class="d-inline-flex align-items-center">
+                                <i class="fas fa-download me-2"></i>
+                                <span>Λήψη Backup</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div id="backupStatus" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>
 <!-- Admin Settings End -->
    
@@ -282,10 +311,109 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="../assets/js/admin-settings.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../assets/js/full-sync.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            const backupBtn = $('#backupBtn');
+            const downloadBtn = $('#downloadBtn');
+            const backupSpinner = $('#backupSpinner');
+            const backupText = $('#backupText');
+            const backupStatus = $('#backupStatus');
+
+            backupBtn.click(function() {
+                // Disable buttons and show spinner
+                backupBtn.prop('disabled', true);
+                downloadBtn.prop('disabled', true);
+                backupSpinner.removeClass('d-none');
+                backupText.text('Δημιουργία...');
+                backupStatus.html('');
+
+                $.ajax({
+                    url: '../php/backup.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            let fileList = '';
+                            for (let db in response.files) {
+                                fileList += `<br>${db}: ${response.files[db]}`;
+                            }
+                            Swal.fire({
+                                title: 'Επιτυχία!',
+                                html: `${response.message}<br>Αρχεία backup:${fileList}<br><br>Τοποθεσία: ${response.path}`,
+                                icon: 'success'
+                            });
+                        } else {
+                            Swal.fire('Σφάλμα', response.message, 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Σφάλμα', 'Σφάλμα κατά τη δημιουργία του backup: ' + error, 'error');
+                    },
+                    complete: function() {
+                        // Re-enable buttons and hide spinner
+                        backupBtn.prop('disabled', false);
+                        downloadBtn.prop('disabled', false);
+                        backupSpinner.addClass('d-none');
+                        backupText.text('Δημιουργία Backup');
+                    }
+                });
+            });
+
+            downloadBtn.click(function() {
+                // Show loading state
+                downloadBtn.prop('disabled', true);
+                
+                // First check if there are backup files
+                $.ajax({
+                    url: '../php/download_backup.php',
+                    type: 'HEAD',
+                    error: function(xhr) {
+                        downloadBtn.prop('disabled', false);
+                        if (xhr.status === 404) {
+                            Swal.fire('Σφάλμα', 'Δεν βρέθηκαν αρχεία backup. Παρακαλώ δημιουργήστε πρώτα ένα backup.', 'error');
+                        } else {
+                            Swal.fire('Σφάλμα', 'Σφάλμα κατά τη λήψη του backup.', 'error');
+                        }
+                    },
+                    success: function() {
+                        // If check passes, trigger download
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        document.body.appendChild(iframe);
+                        
+                        iframe.src = '../php/download_backup.php';
+                        
+                        // Remove iframe after download starts
+                        setTimeout(function() {
+                            document.body.removeChild(iframe);
+                            downloadBtn.prop('disabled', false);
+                        }, 1000);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="../assets/js/full-sync.js"></script>
 
 </body>
 
 </html>
+
+
+<style>
+    .btn {
+        transition: all 0.2s ease-in-out;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    .btn:active {
+        transform: translateY(0);
+    }
+    #backupStatus {
+        min-height: 24px;
+    }
+</style>
 
