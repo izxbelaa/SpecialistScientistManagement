@@ -17,7 +17,7 @@ $dbPass = '';
 $dbHost = 'localhost';
 
 // Backup directory setup
-$backupDir = __DIR__ . '/../backups/';
+$backupDir = '/backups/';
 if (!file_exists($backupDir)) {
     if (!@mkdir($backupDir, 0775, true)) {
         header('Content-Type: application/json');
