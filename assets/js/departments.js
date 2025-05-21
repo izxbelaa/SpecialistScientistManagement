@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let departments = [];
   let academies = [];
+  let entriesPerPage = 10;
+  let currentPage = 1;
+  let filteredDepartments = [];
 
   async function fetchDepartments() {
     try {
@@ -47,25 +50,58 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderDepartments(list = departments) {
-    departmentsTableBody.innerHTML = "";
-    list.forEach((dep, index) => {
-      const academy = academies.find(a => a.id == dep.academy_id);
-      const academyName = academy ? academy.academy_name : "—";
+  // Αν υπάρχει search, να το κρατάς στο filteredDepartments
+  filteredDepartments = list;
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${dep.department_name}</td>
-        <td>${dep.department_code}</td>
-        <td>${academyName}</td>
-        <td>
+  departmentsTableBody.innerHTML = "";
+
+  // Pagination logic
+  const start = (currentPage - 1) * entriesPerPage;
+  const end = start + entriesPerPage;
+  const paginated = list.slice(start, end);
+
+  paginated.forEach((dep, index) => {
+    const academy = academies.find(a => a.id == dep.academy_id);
+    const academyName = academy ? academy.academy_name : "—";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${start + index + 1}</td>
+      <td>${dep.department_name}</td>
+      <td>${dep.department_code}</td>
+      <td>${academyName}</td>
+      <td>
+        <div style="display:flex;gap:0.5rem;">
           <button class="btn btn-sm btn-primary me-2 edit-btn" data-id="${dep.id}"><i class="fas fa-edit"></i></button>
           <button class="btn btn-sm btn-danger delete-btn" data-id="${dep.id}"><i class="fas fa-trash-alt"></i></button>
-        </td>
-      `;
-      departmentsTableBody.appendChild(row);
+        </div>
+      </td>
+    `;
+    departmentsTableBody.appendChild(row);
+  });
+
+  renderPagination(list.length);
+}
+
+function renderPagination(total) {
+  const paginationControls = document.getElementById("paginationControls");
+  paginationControls.innerHTML = "";
+
+  const totalPages = Math.ceil(total / entriesPerPage);
+  if (totalPages <= 1) return;
+
+  for (let i = 1; i <= totalPages; i++) {
+    const li = document.createElement("li");
+    li.className = "page-item" + (i === currentPage ? " active" : "");
+    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+    li.addEventListener("click", function (e) {
+      e.preventDefault();
+      currentPage = i;
+      renderDepartments(filteredDepartments.length ? filteredDepartments : departments);
     });
+    paginationControls.appendChild(li);
   }
+}
 
   addBtn.addEventListener("click", () => {
     modalTitle.textContent = "Προσθήκη Τμήματος";
@@ -177,15 +213,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  document.getElementById("searchInput").addEventListener("input", function (e) {
-    const searchValue = e.target.value.toLowerCase();
-    const filtered = departments.filter(dep =>
-      dep.department_name.toLowerCase().includes(searchValue) ||
-      dep.department_code.toLowerCase().includes(searchValue) ||
-      (academies.find(a => a.id == dep.academy_id)?.academy_name.toLowerCase().includes(searchValue) || "")
-    );
-    renderDepartments(filtered);
-  });
+document.getElementById("entriesPerPage").addEventListener("change", function (e) {
+  entriesPerPage = parseInt(e.target.value, 10);
+  currentPage = 1;
+  renderDepartments(filteredDepartments.length ? filteredDepartments : departments);
+});
+
+document.getElementById("searchInput").addEventListener("input", function (e) {
+  const searchValue = e.target.value.toLowerCase();
+  const filtered = departments.filter(dep =>
+    dep.department_name.toLowerCase().includes(searchValue) ||
+    dep.department_code.toLowerCase().includes(searchValue) ||
+    (academies.find(a => a.id == dep.academy_id)?.academy_name.toLowerCase().includes(searchValue) || "")
+  );
+  currentPage = 1; // reset page
+  renderDepartments(filtered);
+});
 
   function validateField(input, message) {
     if (!input.value.trim()) {
