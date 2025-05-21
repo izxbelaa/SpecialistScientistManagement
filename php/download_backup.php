@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Διαχειρ
 }
 
 // Backup directory
-$backupDir = __DIR__ . '/../backups/';
+$backupDir = __DIR__ . '/usr/bin/';
 
 // Get all backup files
 $files = glob($backupDir . '*.sql');
