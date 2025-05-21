@@ -18,6 +18,14 @@ if ($settings) {
 header('Content-Type: text/css; charset=utf-8');
 ?>
 
+.page-item .page-link {
+    min-width: 40px;
+    text-align: center;
+    display: inline-block;
+    /* Προαιρετικά: */
+    padding: 0.375rem 0.75rem;
+}
+
 /********** Template CSS **********/
 :root {
     --primary: <?php echo $primary; ?>;

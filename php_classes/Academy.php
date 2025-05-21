@@ -108,7 +108,7 @@ class Academy {
 
     public function getAll() {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM academies ORDER BY academy_name");
+            $stmt = $this->db->prepare("SELECT * FROM academies ORDER BY academy_code");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
