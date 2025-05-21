@@ -87,6 +87,7 @@ if (isset($_SESSION['user_id'])) {
 
                 <a href="index.php" class="nav-item nav-link active">Αρχικη</a>
                 <a href="html/about.php" class="nav-item nav-link">Σχετικα</a>
+                <a href="html/application-status.php" class="nav-item nav-link">Application Status</a>
                 <a href="./html/application.php" class="nav-item nav-link">Applications</a>
                 <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
     <div class="nav-item dropdown">

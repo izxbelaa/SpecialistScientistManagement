@@ -17,9 +17,9 @@ $dbPass = '';
 $dbHost = 'localhost';
 
 // Backup directory setup
-$backupDir = 'C:\\Users\\user\\Desktop\\Backups\\';
+$backupDir = '/backups/';
 if (!file_exists($backupDir)) {
-    if (!@mkdir($backupDir, 0755, true)) {
+    if (!@mkdir($backupDir, 0775, true)) {
         header('Content-Type: application/json');
         echo json_encode([
             'success' => false,
@@ -27,6 +27,10 @@ if (!file_exists($backupDir)) {
         ]);
         exit;
     }
+    // Set proper ownership for Ubuntu Apache
+    chmod($backupDir, 0775);
+    chown($backupDir, 'www-data');
+    chgrp($backupDir, 'www-data');
 }
 
 // Function to log errors
@@ -52,10 +56,9 @@ function createBackup($dbName, $backupDir) {
     
     // Try to find mysqldump in common locations
     $possiblePaths = [
-        'C:\\xampp\\mysql\\bin\\mysqldump.exe',  // XAMPP Windows
-        'C:\\xampp\\mysql\\bin\\mysqldump',      // XAMPP Windows (no extension)
-        '/usr/bin/mysqldump',                    // Linux
-        '/usr/local/mysql/bin/mysqldump',        // Mac
+        '/usr/bin/mysqldump',                    // Ubuntu default
+        '/opt/lampp/bin/mysqldump',              // XAMPP Linux
+        '/usr/local/mysql/bin/mysqldump',        // Custom MySQL installation
         'mysqldump'                              // If in PATH
     ];
     
@@ -133,7 +136,7 @@ try {
         $backupFiles[$db1] = basename($backupFile1);
         
         // Only proceed with second database if first backup was successful
-        $db2 = 'moodle';
+        $db2 = 'moodle_omada2';
         $backupFile2 = createBackup($db2, $backupDir);
         if ($backupFile2) {
             $backupFiles[$db2] = basename($backupFile2);

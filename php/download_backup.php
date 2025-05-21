@@ -8,7 +8,17 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Διαχειρ
 }
 
 // Backup directory
-$backupDir = 'C:\\Users\\user\\Desktop\\Backups\\';
+$backupDir = '/backups/';
+
+// Verify backup directory is readable
+if (!is_readable($backupDir)) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ο φάκελος backup δεν είναι αναγνώσιμος. Ελέγξτε τα δικαιώματα: ' . $backupDir
+    ]);
+    exit;
+}
 
 // Get all backup files
 $files = glob($backupDir . '*.sql');
