@@ -36,7 +36,7 @@ session_start();
   <link href="../../assets/css/style.css.php" rel="stylesheet">
 </head>
 
-<body>
+<body class="login-page">
   <!-- Spinner Start -->
   <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -56,7 +56,7 @@ session_start();
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
         <a href="../../index.php" class="nav-item nav-link">Home</a>
-        <a href="../about.html" class="nav-item nav-link">About</a>
+        <a href="../about.php" class="nav-item nav-link">About</a>
         <a href="../courses.html" class="nav-item nav-link">Courses</a>
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -138,81 +138,47 @@ session_start();
   </div>
   <!-- Login Form End -->
 
+
   <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Quick Link</h4>
-          <a class="btn btn-link" href="#">About Us</a>
-          <a class="btn btn-link" href="#">Contact Us</a>
-          <a class="btn btn-link" href="#">Privacy Policy</a>
-          <a class="btn btn-link" href="#">Terms & Condition</a>
-          <a class="btn btn-link" href="#">FAQs & Help</a>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Contact</h4>
-          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-          <div class="d-flex pt-2">
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
-            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Gallery</h4>
-          <div class="row g-2 pt-2">
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-1.jpg" alt="">
+<div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-4">
+        <div class="row g-4 justify-content-between align-items-start">
+
+            <!-- TEPAK Logo -->
+            <div class="col-md-3 d-flex align-items-start">
+                <img src="../../assets/img/logocut.png" alt="Tepak Logo" width="250" class="me-2 mt-1">
             </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-2.jpg" alt="">
+
+            <!-- ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ -->
+            <div class="col-md-4">
+                <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="http://localhost/SpecialistScientistManagement/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                    <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
+                </ul>
             </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-3.jpg" alt="">
+
+            <!-- ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑ -->
+            <div class="col-md-4">
+                <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑ</h6>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Αρχ. Κυπριανού 30, 3036 Λεμεσός</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-2"></i>2500 2500</p>
+                <p class="mb-2"><i class="fa fa-envelope me-2"></i>administration@cut.ac.cy</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social me-2" href="https://x.com/i/flow/login?redirect_after_login=%2Fcyunitech" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.facebook.com/CyprusUniversityTechnology/?fref=ts" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.instagram.com/cyprusuniversitytechnology" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.youtube.com/channel/UCYgPdWWp7FZguifTCdukDJA" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/school/cyprus-university-of-technology/posts/?feedView=all" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-2.jpg" alt="">
             </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-3.jpg" alt="">
-            </div>
-            <div class="col-4">
-              <img class="img-fluid bg-light p-1" src="../../assets/img/course-1.jpg" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h4 class="text-white mb-3">Newsletter</h4>
-          <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-          <div class="position-relative mx-auto" style="max-width: 400px;">
-            <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-          </div>
-        </div>
+
       </div>
     </div>
-    <div class="container">
-      <div class="copyright">
-        <div class="row">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-            Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
-          </div>
-          <div class="col-md-6 text-center text-md-end">
-            <div class="footer-menu">
-              <a href="#">Home</a>
-              <a href="#">Cookies</a>
-              <a href="#">Help</a>
-              <a href="#">FQAs</a>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <!-- Copyright -->
+    <div class="container text-center mt-4 pt-3 border-top border-secondary">
+        <p class="mb-0 small text-muted">© Cyprus University of Technology. All rights reserved.</p>
     </div>
   </div>
   <!-- Footer End -->

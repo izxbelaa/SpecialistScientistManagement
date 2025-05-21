@@ -548,3 +548,126 @@ header('Content-Type: text/css; charset=utf-8');
         padding: 4px 6px;
     }
 }
+
+/* Login page header background */
+.login-page .page-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/login.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* About page header background */
+.about-page .page-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/tepak.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.btn-social {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Κάνει τα κουμπιά κυκλικά */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff; /* Άσπρο περίγραμμα */
+    color: #ffffff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-social:hover {
+    background-color: #ffffff;
+    color: #0d6efd; /* ή κάποιο μπλε */
+}
+
+/* Prevent user dropdown from overflowing the right edge */
+.navbar .dropdown-menu-end[aria-labelledby="userDropdown"] {
+    right: 0;
+    left: auto;
+    min-width: 180px;
+    transform: translateX(0);
+}
+@media (min-width: 992px) {
+    .navbar .dropdown-menu-end[aria-labelledby="userDropdown"] {
+        right: 0;
+        left: auto;
+    }
+}
+
+/* Courses page header background */
+.courses-page .courses-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/courses.webp);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Departments page header background */
+.departments-page .departments-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/departments.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Academies page header background */
+.academies-page .academies-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/academies.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Evaluators page header background */
+.evaluators-page .evaluators-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/evaluators.webp);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Users Table page header background */
+.userstable-page .userstable-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/userstable.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Admin Applications page header background */
+.adminapps-page .adminapps-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/application-admin.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Admin Settings page header background */
+.adminsettings-page .adminsettings-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/admin-settings.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Edit User page header background */
+.edituser-page .edituser-header {
+    background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/edit-profile.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Assign button custom color */
+.btn-assign {
+    background-color: #0cc3d2 !important;
+    color: #fff !important;
+    border: none;
+    font-weight: bold;
+}
+.btn-assign:hover, .btn-assign:focus {
+    background-color: #0aa9b6 !important;
+    color: #fff !important;
+}

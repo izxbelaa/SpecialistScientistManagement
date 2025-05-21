@@ -1,0 +1,50 @@
+.category-box {
+    position: relative;
+    width: 100%;
+    height: 240px; /* Increased height for more text */
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    background: #eee;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: flex-end;
+}
+.category-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.category-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Solid or semi-transparent background */
+    background: rgba(10, 20, 50, 0.85);
+    color: #fff;
+    min-height: 60px; /* Enough for two lines */
+    width: 100%;
+    padding: 12px 16px 12px 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.category-overlay h5 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    width: 100%;
+    white-space: normal !important;   /* Allow wrapping */
+    overflow: visible !important;     /* No hiding */
+    text-overflow: unset !important;  /* No ellipsis */
+    line-height: 1.2;
+    word-break: break-word;           /* Break long words if needed */
+}
+.category-overlay small {
+    font-size: 0.9rem;
+    color: #fff; /* Ensure white text */
+    margin-left: 10px;
+} 
