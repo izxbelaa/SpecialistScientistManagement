@@ -1,3 +1,4 @@
+<?php include '../php/session_check.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,24 +76,41 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../index.php" class="nav-item nav-link">Home</a>
-        <a href="about.html" class="nav-item nav-link">About</a>
-        <a href="courses.html" class="nav-item nav-link">Courses</a>
-        <a href="html/departments.php" class="nav-item nav-link">Departments</a>
+        <a href="../index.php" class="nav-item nav-link">ΑΡΧΙΚΗ</a>
+        <a href="about.php" class="nav-item nav-link">ΣΧΕΤΙΚΑ</a>
+        <a href="application.php" class="nav-item nav-link active">APPLICATIONS</a>
         <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ΚΑΤΑΧΩΡΙΣΕΙΣ</a>
           <div class="dropdown-menu fade-down m-0">
-            <a href="team.html" class="dropdown-item">Our Team</a>
-            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-            <a href="application.php" class="dropdown-item">Applications</a>
-            <a href="404.html" class="dropdown-item">404 Page</a>
-            <a href="departments.php" class="dropdown-item">Departments</a>
+                                    <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
+
+            <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                                        <a href="academies.php" class="dropdown-item">Σχολές</a>
           </div>
         </div>
-        <a href="../php/settings.php" class="nav-item nav-link">Settings</a>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
+          <div class="dropdown-menu fade-down m-0">
+            <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+            <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+          </div>
+        </div>
+        <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+        <?php if (isset($_SESSION['username'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <?php echo htmlspecialchars($_SESSION['username']); ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
+              <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
+            </ul>
+          </li>
+        <?php else: ?>
+          <a href="auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+        <?php endif; ?>
       </div>
-      <!-- (Optional) You can remove or adjust the Join Now button if needed -->
-      <a href="./auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
   </nav>
   <!-- Navbar End -->
