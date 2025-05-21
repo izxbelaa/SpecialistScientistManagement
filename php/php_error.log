@@ -593,3 +593,15 @@
     [action] => get
 )
 
+[21-May-2025 14:43:35 Europe/Berlin] Received action: get
+[21-May-2025 14:43:35 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[21-May-2025 15:13:24 Europe/Berlin] Received action: get
+[21-May-2025 15:13:24 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
