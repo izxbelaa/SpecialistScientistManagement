@@ -141,7 +141,7 @@ try {
 
         <div class="form-floating mb-3">
             <input type="date" class="form-control" id="dob" name="dob" value="<?= htmlspecialchars($user['dob'] ?? '') ?>">
-            <label for="dob">Ημερομηνία Γέννησης</label>
+            <label for="dob">Ημερομηνία Γέννησης*</label>
         </div>
 
         <div class="form-floating mb-3">
@@ -150,37 +150,37 @@ try {
                 <option value="M" <?= ($user['gender'] ?? '') === 'M' ? 'selected' : '' ?>>Άρρεν</option>
                 <option value="F" <?= ($user['gender'] ?? '') === 'F' ? 'selected' : '' ?>>Θήλυ</option>
             </select>
-            <label for="gender">Φύλο</label>
+            <label for="gender">Φύλο*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="social_security_number" name="social_security_number" value="<?= htmlspecialchars($user['social_security_number'] ?? '') ?>" placeholder="ΑΚΑ">
-            <label for="social_security_number">Αριθμός Κοινωνικής Ασφάλισης (ΑΚΑ)</label>
+            <label for="social_security_number">Αριθμός Κοινωνικής Ασφάλισης (ΑΚΑ)*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="cypriot_id" name="cypriot_id" value="<?= htmlspecialchars($user['cypriot_id'] ?? '') ?>" placeholder="ΑΔΤ">
-            <label for="cypriot_id">Αριθμός Ταυτότητας</label>
+            <label for="cypriot_id">Αριθμός Ταυτότητας*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="postal_code" name="postal_code" value="<?= htmlspecialchars($user['postal_code'] ?? '') ?>" placeholder="Τ.Κ.">
-            <label for="postal_code">Ταχυδρομικός Κώδικας</label>
+            <label for="postal_code">Ταχυδρομικός Κώδικας*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="street_address" name="street_address" value="<?= htmlspecialchars($user['street_address'] ?? '') ?>" placeholder="Οδός και Αριθμός">
-            <label for="street_address">Οδός και Αριθμός</label>
+            <label for="street_address">Οδός και Αριθμός*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="city" name="city" value="<?= htmlspecialchars($user['city'] ?? '') ?>" placeholder="Πόλη">
-            <label for="city">Πόλη</label>
+            <label for="city">Πόλη*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="country" name="country" value="<?= htmlspecialchars($user['country'] ?? '') ?>" placeholder="Χώρα">
-            <label for="country">Χώρα</label>
+            <label for="country">Χώρα*</label>
         </div>
 
         <div class="form-floating mb-3">
@@ -195,19 +195,19 @@ try {
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="nationality" name="nationality" value="<?= htmlspecialchars($user['nationality'] ?? '') ?>" placeholder="Εθνικότητα">
-            <label for="nationality">Εθνικότητα</label>
+            <label for="nationality">Εθνικότητα*</label>
         </div>
 
         <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
 
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="university_email" name="university_email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
-            <label for="university_email">Πανεπιστημιακό Email</label>
+            <label for="university_email">Πανεπιστημιακό Email*</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="tel" class="form-control" id="mobile_phone" name="mobile_phone" value="<?= htmlspecialchars($user['mobile_phone'] ?? '') ?>" placeholder="Κινητό Τηλέφωνο">
-            <label for="mobile_phone">Κινητό Τηλέφωνο</label>
+            <label for="mobile_phone">Κινητό Τηλέφωνο*</label>
         </div>
 
         <div class="form-floating mb-3">
