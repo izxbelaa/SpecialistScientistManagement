@@ -148,9 +148,9 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <div class="card">
       <div class="card-body">
         <h5 class="card-title mb-3"><i class="fas fa-list me-2"></i>Λίστα Αιτήσεων</h5>
-        <div class="table-responsive p-3">
-          <table id="requestsTable" class="table table-bordered table-hover">
-            <thead class="table-light">
+        <div class="table-responsive">
+          <table id="requestsTable" class="table table-striped align-middle">
+            <thead>
               <tr>
                 <th>A/A</th>
                 <th>Τίτλος Αίτησης</th>
@@ -167,24 +167,24 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
               <!-- Table rows will be populated dynamically -->
             </tbody>
           </table>
-          <!-- Pagination Controls (optional) -->
-          <div class="d-flex justify-content-between">
-            <div>
-              <label for="entriesSelect">Εμφάνιση εγγραφών: </label>
-              <select id="entriesSelect" class="form-select" style="width: 100px;">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-              </select>
-            </div>
-            <div>
-              <span id="entriesCount">Εμφάνιση 1 έως 5 από 50 εγγραφών</span>
-            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+          <div>
+            <label for="entriesSelect">Εμφάνιση</label>
+            <select id="entriesSelect" class="form-select form-select-sm ms-2" style="width: 100px; display: inline-block;">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+            <span>εγγραφών</span>
           </div>
-          <div id="paginationControls" class="d-flex justify-content-center mt-3">
-            <!-- Pagination buttons go here if needed -->
+          <div>
+            <span id="entriesCount">Εμφάνιση 1 έως 5 από 50 εγγραφών</span>
           </div>
         </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center" id="paginationControls"></ul>
+        </nav>
       </div>
     </div>
   </div>

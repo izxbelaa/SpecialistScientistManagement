@@ -679,3 +679,56 @@ header('Content-Type: text/css; charset=utf-8');
     background-color: #0aa9b6 !important;
     color: #fff !important;
 }
+
+#paginationControls.pagination {
+  gap: 0 !important;
+}
+#paginationControls.pagination .page-item {
+  margin: 0 2px;
+}
+#paginationControls.pagination .page-item .page-link {
+  border-radius: 6px !important;
+  background: none !important;
+  border: none !important;
+  color: #17c1e8 !important;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: none !important;
+  transition: background 0.2s, color 0.2s;
+}
+#paginationControls.pagination .page-item.active .page-link {
+  background-color: #17c1e8 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+#paginationControls.pagination .page-item .page-link:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+table.lms-table thead th {
+  background-color: #fff !important;
+  color: #222 !important;
+}
+table.lms-table td, table.lms-table th {
+  vertical-align: middle !important;
+  color: #444 !important;
+}
+
+/* Force LMS Sync table header to white */
+#eesTable thead th,
+.lms-table thead th,
+table.lms-table thead th,
+#eesTable thead tr,
+.lms-table thead tr,
+table.lms-table thead tr {
+  background-color: #fff !important;
+  color: #222 !important;
+}
+
+/* Remove requests-table custom colors to use Bootstrap defaults */
+/* .requests-table thead th, .requests-table tbody tr:nth-of-type(odd), .requests-table tbody tr:nth-of-type(even), .requests-table td, .requests-table th { } */
