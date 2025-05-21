@@ -133,51 +133,50 @@
       </div>
       <!-- Header End -->
 
-<!-- Search + Add Department Row -->
-<div class="container mb-4">
-    <div class="row align-items-center">
-      <!-- Αναζήτηση -->
-      <div class="col-md-8">
-        <div class="search-box-wrapper position-relative">
-          <input type="text" class="form-control" id="searchInput" placeholder="Αναζήτηση τμημάτων...">
-          <i class="fas fa-search position-absolute" style="right: 15px; top: 50%; transform: translateY(-50%); color: #4c8ad5;"></i>
-        </div>
-      </div>
-      <!-- Κουμπί Προσθήκης -->
-      <div class="col-md-4 text-end">
-        <button class="btn btn-orange" id="addDepartmentBtn" data-bs-toggle="modal" data-bs-target="#departmentModal">
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h2 class="mb-0">Λιστα Τμημάτων</h2>
+        <button class="btn btn-info text-white" id="addDepartmentBtn" data-bs-toggle="modal" data-bs-target="#departmentModal">
           <i class="fas fa-plus me-2"></i>Προσθήκη Νέου Τμήματος
         </button>
       </div>
-    </div>
-  </div>
-
-
-  
-  <!-- Table for Departments -->
-<div class="container mt-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title mb-3"><i class="fas fa-list me-2"></i>Λίστα Τμημάτων</h5>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="table-light">
-              <tr>
-                <th>Α/Α</th>
-                <th>Όνομα Τμήματος</th>
-                <th>Κωδικός</th>
-                <th>Ακαδημία</th>
-                <th>Ενέργειες</th>
-              </tr>
-            </thead>
-            <tbody id="departmentsTableBody">
-              <!-- JS-Generated Rows Here -->
-            </tbody>
-          </table>
-        </div>
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <input type="text" class="form-control" id="searchInput" style="max-width:350px;min-width:200px;" placeholder="Αναζήτηση Τμημάτων..." oninput="searchDepartments()">
+        <select id="entriesPerPage" class="form-control" style="max-width:150px;min-width:120px;" onchange="loadDepartments()">
+          <option value="5">5 Τμήματα</option>
+          <option value="10" selected>10 Τμήματα</option>
+          <option value="20">20 Τμήματα</option>
+          <option value="100">100 Τμήματα</option>
+        </select>
       </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 70px; min-width: 60px;">Α/Α</th>
+              <th>Όνομα Τμήματος</th>
+              <th>Κωδικός</th>
+              <th>Ακαδημία</th>
+              <th>Ενέργειες</th>
+            </tr>
+          </thead>
+          <tbody id="departmentsTableBody">
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="paginationControls">
+          <!-- Pagination will be loaded here -->
+        </ul>
+      </nav>
     </div>
   </div>
+</div>
+
+
+
   
 <!-- Modal for Add/Edit Department -->
 <div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true">

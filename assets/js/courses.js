@@ -180,7 +180,7 @@ function renderPaginatedCourses(courses, page = 1) {
             <td>${course.course_code}</td>
             <td>
                 <button class="btn btn-sm btn-info text-white me-1" onclick="editCourse(${course.id})">
-                    <i class="fas fa-pen"></i>
+                    <i class="fas fa-edit"></i>
                 </button>
                 <button class="btn btn-sm btn-danger" onclick="deleteCourse(${course.id})">
                     <i class="fas fa-trash-alt"></i>
@@ -201,19 +201,56 @@ function renderPaginationControls(totalItems, currentPage) {
 
     if (totalPages <= 1) return;
 
-    for (let i = 1; i <= totalPages; i++) {
+    const maxPagesToShow = 7; // Πόσα κουμπιά να δείχνει συνολικά
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+
+    if (currentPage <= 3) {
+        endPage = Math.min(totalPages, maxPagesToShow - 2);
+    }
+    if (currentPage >= totalPages - 2) {
+        startPage = Math.max(1, totalPages - (maxPagesToShow - 3));
+    }
+
+    // Πρώτη σελίδα
+    if (startPage > 1) {
+        addPageBtn(1);
+        if (startPage > 2) addEllipsis();
+    }
+
+    // Ενδιάμεσες σελίδες
+    for (let i = startPage; i <= endPage; i++) {
+        addPageBtn(i);
+    }
+
+    // Τελευταία σελίδα
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) addEllipsis();
+        addPageBtn(totalPages);
+    }
+
+    function addPageBtn(i) {
         const li = document.createElement("li");
-        li.className = `page-item ${i === currentPage ? "active" : ""}`;
+        li.className = `page-item${i === currentPage ? " active" : ""}`;
 
         const btn = document.createElement("button");
         btn.className = "page-link";
         btn.textContent = i;
         btn.addEventListener("click", () => {
-            currentPage = i;
-            renderPaginatedCourses(filteredCourses(), currentPage);
+            if (currentPage !== i) {
+                currentPage = i;
+                renderPaginatedCourses(filteredCourses(), currentPage);
+            }
         });
 
         li.appendChild(btn);
+        pagination.appendChild(li);
+    }
+
+    function addEllipsis() {
+        const li = document.createElement("li");
+        li.className = "page-item disabled";
+        li.innerHTML = `<span class="page-link">...</span>`;
         pagination.appendChild(li);
     }
 }

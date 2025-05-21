@@ -1,6 +1,14 @@
 <?php 
 include '../php/session_check.php';
-include '../php/get_full_sync_status.php'; 
+require_once '../php/config.php';
+// Get the full sync status directly
+try {
+    $stmt = $pdo->query("SELECT enabled FROM full_sync LIMIT 1");
+    $row = $stmt->fetch();
+    $fullSyncEnabled = $row ? (int)$row['enabled'] : 0;
+} catch (Exception $e) {
+    $fullSyncEnabled = 0; // or handle error as needed
+}
 ?>
 <?php
 include '../php/get-user-type.php';
@@ -25,7 +33,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Favicon -->
     <link href="../assets/img/logo.png" rel="icon">
 
-    <!-- Google Web Fonts -->x
+    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
