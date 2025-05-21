@@ -97,3 +97,34 @@ td .btn:focus {
     min-width: 60px;
     text-align: center;
 }
+
+/* Action icon button style for tables */
+.btn-action {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border-radius: 6px;
+}
+
+.btn-info.btn-action {
+    background-color: #0099ff !important;
+    border: none !important;
+}
+
+.btn-info.btn-action:hover,
+.btn-info.btn-action:focus {
+    background-color: #007acc !important;
+}
+
+.btn-danger.btn-action i {
+    color: #fff !important;
+}
+
+.btn-info.btn-action i,
+.btn-danger.btn-action i {
+    color: #fff !important;
+}

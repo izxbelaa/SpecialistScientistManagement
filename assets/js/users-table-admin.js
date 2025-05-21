@@ -56,7 +56,7 @@ function setPagination(users) {
     const tableBody = document.querySelector("#usersTable tbody");
     tableBody.innerHTML = ""; // Clear the existing rows
 
-    usersToDisplay.forEach(user => {
+    usersToDisplay.forEach((user, idx) => {
         const row = document.createElement("tr");
 
         if (user.disabled_user == 1) {
@@ -64,6 +64,7 @@ function setPagination(users) {
         }
 
         row.innerHTML = `
+            <td>${start + idx + 1}</td>
             <td>${user.first_name}</td>
             <td>${user.last_name}</td>
             <td>${user.middle_name || 'N/A'}</td>
@@ -71,15 +72,12 @@ function setPagination(users) {
             <td>${user.type_of_user}</td>
             <td>${user.disabled_user ? 'Yes' : 'No'}</td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        ...
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" onclick="editUser(${user.id}, '${user.first_name}', '${user.last_name}', '${user.middle_name}', '${user.email}', '${user.type_of_user}', ${user.disabled_user})">Edit</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="deleteUser(${user.id}, this)">Delete</a></li>
-                    </ul>
-                </div>
+                <button class="btn btn-info btn-action me-1" title="Edit" onclick="editUser(${user.id}, '${user.first_name}', '${user.last_name}', '${user.middle_name}', '${user.email}', '${user.type_of_user}', ${user.disabled_user})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-action" title="Delete" onclick="deleteUser(${user.id}, this)">
+                    <i class="fas fa-trash"></i>
+                </button>
             </td>
         `;
         tableBody.appendChild(row);

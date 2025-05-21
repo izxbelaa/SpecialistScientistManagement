@@ -1,3 +1,5 @@
+<?php include '../php/session_check.php'; ?>
+=======
 <?php
 session_start();
 require_once __DIR__ . '/../php/session_check.php';
@@ -90,32 +92,52 @@ if (isset($_SESSION['user_id'])) {
   </div>
 </div>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-    <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <div class="navbar-nav ms-auto p-4 p-lg-0">
-      <a href="../index.php" class="nav-item nav-link">Home</a>
-      <a href="about.html" class="nav-item nav-link">About</a>
-      <a href="courses.html" class="nav-item nav-link">Courses</a>
-      <a href="departments.php" class="nav-item nav-link">Departments</a>
-      <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-        <div class="dropdown-menu fade-down m-0">
-          <a href="team.html" class="dropdown-item">Our Team</a>
-          <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-          <a href="application.php" class="dropdown-item">Applications</a>
-          <a href="404.html" class="dropdown-item">404 Page</a>
-          <a href="departments.php" class="dropdown-item">Departments</a>
+
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+    <a href="../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+        <a href="../index.php" class="nav-item nav-link">ΑΡΧΙΚΗ</a>
+        <a href="about.php" class="nav-item nav-link">ΣΧΕΤΙΚΑ</a>
+        <a href="application.php" class="nav-item nav-link active">APPLICATIONS</a>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ΚΑΤΑΧΩΡΙΣΕΙΣ</a>
+          <div class="dropdown-menu fade-down m-0">
+                                    <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
+
+            <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                                        <a href="academies.php" class="dropdown-item">Σχολές</a>
+          </div>
         </div>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
+          <div class="dropdown-menu fade-down m-0">
+            <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+            <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+          </div>
+        </div>
+        <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+        <?php if (isset($_SESSION['username'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <?php echo htmlspecialchars($_SESSION['username']); ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
+              <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
+            </ul>
+          </li>
+        <?php else: ?>
+          <a href="auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+        <?php endif; ?>
       </div>
-      <a href="../php/settings.php" class="nav-item nav-link">Settings</a>
-    </div>
 
    <?php if (isset($_SESSION['username'])): ?>
   <div class="dropdown me-4">
