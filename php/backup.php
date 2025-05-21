@@ -56,9 +56,10 @@ function createBackup($dbName, $backupDir) {
     
     // Try to find mysqldump in common locations
     $possiblePaths = [
-        '/usr/bin/mysqldump',                    // Ubuntu default
-        '/opt/lampp/bin/mysqldump',              // XAMPP Linux
+        '/usr/bin/mysqldump',                    // Ubuntu/Debian default
         '/usr/local/mysql/bin/mysqldump',        // Custom MySQL installation
+        '/usr/local/bin/mysqldump',              // Common server location
+        '/opt/mysql/bin/mysqldump',              // Alternative server location
         'mysqldump'                              // If in PATH
     ];
     
@@ -77,7 +78,7 @@ function createBackup($dbName, $backupDir) {
     
     // Build the command with basic options for maximum compatibility
     $command = sprintf(
-        '"%s" --routines --triggers --add-drop-table --quick -h%s -u%s -p%s %s > "%s" 2>&1',
+        '"%s" --routines --triggers --add-drop-table --quick --no-tablespaces --single-transaction -h%s -u%s -p%s %s > "%s" 2>&1',
         $mysqldump,
         $dbHost,
         $dbUser,
@@ -102,6 +103,18 @@ function createBackup($dbName, $backupDir) {
     
     if ($returnVar !== 0) {
         logError("Error backing up database $dbName. Return code: $returnVar");
+        logError("Full command output: " . implode("\n", $output));
+        
+        // Check if the error is related to permissions
+        if (strpos(implode("\n", $output), "Access denied") !== false) {
+            logError("Database access denied. Please check user permissions.");
+        }
+        
+        // Check if the database exists
+        if (strpos(implode("\n", $output), "Unknown database") !== false) {
+            logError("Database does not exist or is not accessible.");
+        }
+        
         return false;
     }
     
