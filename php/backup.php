@@ -12,9 +12,18 @@ set_time_limit(900);
 ini_set('max_execution_time', 900);
 
 // Database credentials
-$dbUser = 'root';
-$dbPass = '';
-$dbHost = 'localhost';
+$dbUser = 'cei326omada2user';
+$dbPass = 'Vp5!2BNFh!cHiN!U';
+$dbHost = 'localhost';  // This will be overridden by the actual server hostname
+
+// Get the actual database host from the configuration
+$configFile = __DIR__ . '/config.php';
+if (file_exists($configFile)) {
+    require_once $configFile;
+    if (isset($host)) {
+        $dbHost = $host;
+    }
+}
 
 // Backup directory setup
 $backupDir = __DIR__ . '/../backups';
@@ -94,25 +103,55 @@ function createBackup($dbName, $backupDir) {
     $output = [];
     $returnVar = 0;
     
-    exec($command, $output, $returnVar);
+    // Use proc_open to capture both stdout and stderr
+    $descriptorspec = array(
+        0 => array("pipe", "r"),  // stdin
+        1 => array("pipe", "w"),  // stdout
+        2 => array("pipe", "w")   // stderr
+    );
     
-    // Log any output
-    if (!empty($output)) {
-        logError("Command output for $dbName: " . implode("\n", $output));
+    $process = proc_open($command, $descriptorspec, $pipes);
+    
+    if (is_resource($process)) {
+        // Close stdin
+        fclose($pipes[0]);
+        
+        // Read stdout
+        $stdout = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+        
+        // Read stderr
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
+        
+        // Get the return value
+        $returnVar = proc_close($process);
+        
+        // Log any output
+        if (!empty($stdout)) {
+            logError("Command stdout for $dbName: " . $stdout);
+        }
+        if (!empty($stderr)) {
+            logError("Command stderr for $dbName: " . $stderr);
+        }
+    } else {
+        logError("Failed to execute command for $dbName");
+        return false;
     }
     
     if ($returnVar !== 0) {
         logError("Error backing up database $dbName. Return code: $returnVar");
-        logError("Full command output: " . implode("\n", $output));
         
-        // Check if the error is related to permissions
-        if (strpos(implode("\n", $output), "Access denied") !== false) {
+        // Check for specific error messages
+        $errorOutput = $stderr . "\n" . $stdout;
+        if (strpos($errorOutput, "Access denied") !== false) {
             logError("Database access denied. Please check user permissions.");
         }
-        
-        // Check if the database exists
-        if (strpos(implode("\n", $output), "Unknown database") !== false) {
+        if (strpos($errorOutput, "Unknown database") !== false) {
             logError("Database does not exist or is not accessible.");
+        }
+        if (strpos($errorOutput, "Can't connect") !== false) {
+            logError("Cannot connect to MySQL server. Please check if MySQL is running.");
         }
         
         return false;
