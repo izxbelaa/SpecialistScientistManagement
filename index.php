@@ -84,6 +84,7 @@ if (isset($_SESSION['user_id'])) {
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
+
                 <a href="index.php" class="nav-item nav-link active">Αρχικη</a>
                 <a href="html/about.php" class="nav-item nav-link">Σχετικα</a>
                 <a href="./html/application.php" class="nav-item nav-link">Applications</a>
@@ -95,7 +96,7 @@ if (isset($_SESSION['user_id'])) {
                             <a href="./html/departments.php" class="dropdown-item">Τμήματα</a>
                             <a href="./html/academies.php" class="dropdown-item">Σχολές</a>
                         </div>
-                    </div>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
                         <div class="dropdown-menu fade-down m-0">
