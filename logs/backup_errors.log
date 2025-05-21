@@ -1,0 +1,63 @@
+[2025-05-20 17:19:15] Error backing up database cei326omada2: 
+[2025-05-20 17:19:15] Error backing up database moodle: 
+[2025-05-20 17:19:15] One or more backups failed. Check the error log for details.
+[2025-05-20 17:19:23] Error backing up database cei326omada2: 
+[2025-05-20 17:19:23] Error backing up database moodle: 
+[2025-05-20 17:19:23] One or more backups failed. Check the error log for details.
+[2025-05-20 17:20:03] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/cei326omada2_2025-05-20_17-20-03.sql"
+[2025-05-20 17:20:03] Error backing up database cei326omada2. Return code: 1
+[2025-05-20 17:20:03] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/moodle_2025-05-20_17-20-03.sql"
+[2025-05-20 17:20:03] Error backing up database moodle. Return code: 1
+[2025-05-20 17:20:03] One or more backups failed. Check the error log for details.
+[2025-05-20 17:30:05] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/cei326omada2_2025-05-20_17-30-05.sql"
+[2025-05-20 17:30:05] Error backing up database cei326omada2. Return code: 1
+[2025-05-20 17:30:05] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/moodle_2025-05-20_17-30-05.sql"
+[2025-05-20 17:30:05] Error backing up database moodle. Return code: 1
+[2025-05-20 17:30:05] One or more backups failed. Check the error log for details.
+[2025-05-20 17:33:01] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/cei326omada2_2025-05-20_17-33-01.sql"
+[2025-05-20 17:33:01] Error backing up database cei326omada2. Return code: 7
+[2025-05-20 17:33:01] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/moodle_2025-05-20_17-33-01.sql"
+[2025-05-20 17:33:01] Error backing up database moodle. Return code: 7
+[2025-05-20 17:33:01] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-20 17:35:49] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\xampp\htdocs\SpecialistScientistManagement\php/../backups/cei326omada2_2025-05-20_17-35-49.sql"
+[2025-05-20 17:43:02] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_17-43-02.sql"
+[2025-05-20 17:43:02] Error backing up database cei326omada2. Return code: 7
+[2025-05-20 17:43:02] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\Users\user\Desktop\Backups\moodle_2025-05-20_17-43-02.sql"
+[2025-05-20 17:43:02] Error backing up database moodle. Return code: 7
+[2025-05-20 17:43:02] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-20 17:43:38] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_17-43-38.sql"
+[2025-05-20 19:31:38] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_19-31-38.sql"
+[2025-05-20 19:35:20] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_19-35-20.sql"
+[2025-05-20 19:35:20] Error backing up database cei326omada2. Return code: 7
+[2025-05-20 19:35:20] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\Users\user\Desktop\Backups\moodle_2025-05-20_19-35-20.sql"
+[2025-05-20 19:35:20] Error backing up database moodle. Return code: 7
+[2025-05-20 19:35:20] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-20 19:35:23] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_19-35-23.sql"
+[2025-05-20 19:35:23] Error backing up database cei326omada2. Return code: 7
+[2025-05-20 19:35:23] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\Users\user\Desktop\Backups\moodle_2025-05-20_19-35-23.sql"
+[2025-05-20 19:35:23] Error backing up database moodle. Return code: 7
+[2025-05-20 19:35:23] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-20 19:39:52] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_19-39-52.sql"
+[2025-05-20 19:50:53] Error backing up database cei326omada2. Return code: 1
+[2025-05-20 19:50:53] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\Users\user\Desktop\Backups\moodle_2025-05-20_19-50-53.sql"
+[2025-05-20 19:50:57] Error backing up database moodle. Return code: 1
+[2025-05-20 19:50:57] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-20 19:51:12] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-20_19-51-12.sql"
+[2025-05-21 10:30:50] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-21_10-30-50.sql"
+[2025-05-21 10:39:33] Error backing up database cei326omada2. Return code: 1
+[2025-05-21 10:39:33] Executing command: mysqldump -h localhost -u root -p**** moodle > "C:\Users\user\Desktop\Backups\moodle_2025-05-21_10-39-33.sql"
+[2025-05-21 10:39:53] Error backing up database moodle. Return code: 1
+[2025-05-21 10:39:53] Αποτυχία backup για τη βάση cei326omada2
+Αποτυχία backup για τη βάση moodle
+[2025-05-21 10:40:24] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-21_10-40-24.sql"
+[2025-05-21 10:44:08] Error backing up database cei326omada2. Return code: 1
+[2025-05-21 10:44:08] Αποτυχία backup για τη βάση cei326omada2
+[2025-05-21 10:49:45] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-21_10-49-45.sql"
+[2025-05-21 10:50:14] Error backing up database cei326omada2. Return code: 1
+[2025-05-21 10:50:14] Αποτυχία backup για τη βάση cei326omada2
+[2025-05-21 10:52:28] Executing command: mysqldump -h localhost -u root -p**** cei326omada2 > "C:\Users\user\Desktop\Backups\cei326omada2_2025-05-21_10-52-28.sql"
