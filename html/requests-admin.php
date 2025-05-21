@@ -66,7 +66,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                 <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
                 <a href="about.php" class="nav-item nav-link">Σχετικα</a>
                 <a href="application.php" class="nav-item nav-link">Applications</a>
-                <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
                         <div class="dropdown-menu fade-down m-0">
@@ -76,12 +76,13 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                                                         <a href="academies.php" class="dropdown-item">Σχολές</a>
                         </div>
                     </div>
-                    <div class="nav-item dropdown active">
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
                         <div class="dropdown-menu fade-down m-0">
                             <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
                             <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                            <a href="requests-admin.php" class="dropdown-item active">Διαχειριση Αιτησεων</a>
+                            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                            <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
                         </div>
                     </div>
                     <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>

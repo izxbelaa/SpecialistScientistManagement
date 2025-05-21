@@ -79,11 +79,11 @@
         <a href="../index.php" class="nav-item nav-link">ΑΡΧΙΚΗ</a>
         <a href="about.php" class="nav-item nav-link">ΣΧΕΤΙΚΑ</a>
         <a href="application.php" class="nav-item nav-link">APPLICATIONS</a>
+        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">ΚΑΤΑΧΩΡΙΣΕΙΣ</a>
           <div class="dropdown-menu fade-down m-0">
                                     <a href="courses.php" class="dropdown-item">Μαθήματα</a>
-
             <a href="departments.php" class="dropdown-item active">Τμήματα</a>
                                         <a href="academies.php" class="dropdown-item">Σχολές</a>
           </div>
@@ -94,9 +94,11 @@
             <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
             <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
             <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+            <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
           </div>
         </div>
         <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+        <?php endif; ?>
         <?php if (isset($_SESSION['username'])): ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -71,6 +71,7 @@
                             <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
                             <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
                             <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                            <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
                         </div>
                     </div>
                     <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
