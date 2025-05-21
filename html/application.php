@@ -1,5 +1,4 @@
-<?php include '../php/session_check.php'; ?>
-=======
+
 <?php
 session_start();
 require_once __DIR__ . '/../php/session_check.php';
@@ -139,19 +138,7 @@ if (isset($_SESSION['user_id'])) {
         <?php endif; ?>
       </div>
 
-   <?php if (isset($_SESSION['username'])): ?>
-  <div class="dropdown me-4">
-    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-      <?php echo htmlspecialchars($_SESSION['username']); ?>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-      <li><a class="dropdown-item" href="../php/logout.php">Logout</a></li>
-      <li><a class="dropdown-item" href="edit_user.php">Edit Profile</a></li>
-    </ul>
-  </div>
-<?php else: ?>
-  <a href="./auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login <i class="fa fa-arrow-right ms-3"></i></a>
-<?php endif; ?>
+ 
 
 
   </div>
