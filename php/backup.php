@@ -19,7 +19,7 @@ $dbHost = 'localhost';
 // Backup directory setup
 $backupDir = __DIR__ . '/../backups/';
 if (!file_exists($backupDir)) {
-    if (!@mkdir($backupDir, 0755, true)) {
+    if (!@mkdir($backupDir, 0775, true)) {
         header('Content-Type: application/json');
         echo json_encode([
             'success' => false,
@@ -27,6 +27,10 @@ if (!file_exists($backupDir)) {
         ]);
         exit;
     }
+    // Set proper ownership for Ubuntu Apache
+    chmod($backupDir, 0775);
+    chown($backupDir, 'www-data');
+    chgrp($backupDir, 'www-data');
 }
 
 // Function to log errors
