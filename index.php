@@ -89,24 +89,25 @@ if (isset($_SESSION['user_id'])) {
                 <a href="html/about.php" class="nav-item nav-link">Σχετικα</a>
                 <a href="./html/application.php" class="nav-item nav-link">Applications</a>
                 <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
-                        <div class="dropdown-menu fade-down m-0">
-                            <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
-                            <a href="./html/departments.php" class="dropdown-item">Τμήματα</a>
-                            <a href="./html/academies.php" class="dropdown-item">Σχολές</a>
-                        </div>
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+        <div class="dropdown-menu fade-down m-0">
+            <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
+            <a href="./html/departments.php" class="dropdown-item">Τμήματα</a>
+            <a href="./html/academies.php" class="dropdown-item">Σχολές</a>
+        </div>
+    </div> 
 
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
-                        <div class="dropdown-menu fade-down m-0">
-                            <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                            <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                            <a href="./html/requests-admin.php" class="dropdown-item">Ρυθμισεις Διαχειριστη</a>
-                        </div>
-                    </div>
-                    <a href="./html/admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
-                <?php endif; ?>
+    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελίδες Διαχειριστή</a>
+        <div class="dropdown-menu fade-down m-0">
+            <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+            <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+            <a href="./html/requests-admin.php" class="dropdown-item">Ρυθμισεις Διαχειριστη</a>
+        </div>
+    </div>
+    <a href="./html/admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+<?php endif; ?>
                 <?php if (isset($_SESSION['username'])): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
