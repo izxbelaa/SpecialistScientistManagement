@@ -202,8 +202,13 @@ try {
         <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
 
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="university_email" name="university_email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
-            <label for="university_email">Πανεπιστημιακό Email*</label>
+            <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
+            <label for="email">Email*</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="university_email" name="university_email" value="<?= htmlspecialchars($user['university_email'] ?? '') ?>" placeholder="University Email">
+            <label for="university_email">University Email</label>
         </div>
 
         <div class="form-floating mb-3">

@@ -178,10 +178,12 @@ if (isset($_SESSION['user_id'])) {
 
 
           <div class="mb-3">
-            <label for="templateSelect" class="form-label">Επιλέξτε Αίτηση</label>
-            <select class="form-select" id="templateSelect" name="template_id" required>
-              <option value="">-- Επιλέξτε --</option>
-            </select>
+            <label for="templateSelectModalInput" class="form-label">Επιλέξτε Αίτηση <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="templateSelectModalInput" placeholder="-- Επιλέξτε --" readonly required>
+              <button type="button" class="btn btn-outline-secondary" id="openTemplateModalBtn">Αναζήτηση</button>
+            </div>
+            <input type="hidden" id="template_id" name="template_id" required>
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Περιγραφή</label>
@@ -198,13 +200,13 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
           <div class="mb-4">
-            <label for="courses" class="form-label">Μαθήματα</label>
-            <select class="form-select" id="courses" name="courses[]" multiple required></select>
-            <small class="text-muted">Κρατήστε Ctrl (ή Cmd σε Mac) για πολλαπλή επιλογή.</small>
+            <label for="coursesContainer" class="form-label">Μαθήματα <span class="text-danger">*</span></label>
+            <div id="coursesContainer"></div>
+            <small class="text-muted">Επιλέξτε ένα ή περισσότερα μαθήματα.</small>
           </div>
       <div class="mb-3">
-  <label for="cv" class="form-label">Επισύναψη Βιογραφικού (CV)</label>
-  <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+  <label for="cv" class="form-label">Επισύναψη Βιογραφικού (CV) <span class="text-danger">*</span></label>
+  <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
 </div>
 
 
@@ -234,7 +236,6 @@ if (isset($_SESSION['user_id'])) {
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/application.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../assets/js/application-filter.js"></script>
 
 
 <script>
@@ -266,8 +267,34 @@ if (isset($_SESSION['user_id'])) {
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
     }
+
+    if (!templateSelectModalInput || !openTemplateModalBtn || !templateList || !templateSearchInput || !templateIdHidden || !description || !startDate || !endDate || !coursesContainer || !academyInfo) {
+      console.error("One or more elements not found in the DOM. Check your HTML.");
+      return;
+    }
   });
 </script>
+
+<!-- Modal for selecting request template -->
+<div class="modal fade" id="templateSelectModal" tabindex="-1" aria-labelledby="templateSelectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="templateSelectModalLabel">Επιλογή Αίτησης</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="templateSearchInput" class="form-control mb-3" placeholder="Αναζήτηση...">
+        <div style="max-height: 400px; overflow-y: auto;">
+          <ul class="list-group" id="templateList"></ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

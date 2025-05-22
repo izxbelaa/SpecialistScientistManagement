@@ -123,6 +123,10 @@ session_start();
               <input type="password" class="form-control" id="login-password" name="password" placeholder="Password">
               <label for="login-password">Κωδικός</label>
               <div class="invalid-feedback">Ο κωδικός είναι υποχρεωτικός.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="togglePassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
             <div class="text-end mb-3">
               <a href="/html/forgot-password.php" class="text-primary">Ξεχάσατε τον κωδικό;</a>

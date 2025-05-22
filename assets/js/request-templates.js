@@ -221,7 +221,7 @@ $(document).ready(function() {
         // Reset form and clear template ID
         $('#addRequestForm')[0].reset();
         $('#templateId').val('');
-        $('#addRequestModalLabel').text('Add New Request Template');
+        $('#addRequestModalLabel').text('Προσθήκη νέου προτύπου αιτήματος');
         
         // Clear existing rows except first ones
         $('.academy-row:not(:first)').remove();
@@ -709,7 +709,7 @@ function loadTemplateForEdit(templateId) {
                     });
 
                     // Update modal title
-                    $('#addRequestModalLabel').text('Edit Request Template');
+                    $('#addRequestModalLabel').text('Επεξεργασία προτύπου αιτήματος');
                     $('#addRequestModal').modal('show');
                 }
             } catch (e) {

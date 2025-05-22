@@ -2,6 +2,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const emailInput = document.getElementById('login-email');
   const passwordInput = document.getElementById('login-password');
   const form = document.getElementById('login-form');
+  const togglePassword = document.getElementById('togglePassword');
+
+  // Password visibility toggle
+  togglePassword.addEventListener('click', function () {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    
+    // Toggle the eye icon
+    const icon = this.querySelector('i');
+    icon.classList.toggle('bi-eye');
+    icon.classList.toggle('bi-eye-slash');
+  });
 
   emailInput.addEventListener('input', function () {
     validateEmail();

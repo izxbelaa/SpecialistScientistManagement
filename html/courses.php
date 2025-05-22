@@ -171,30 +171,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="CourseModalLabel">Add New Course</h5>
-                <input type="hidden" id="isEditing" value="0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="CourseModalLabel">Προσθήκη Νέου Μαθήματος</h5>
+                    <input type="hidden" id="isEditing" value="0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Κλείσιμο"></button>
                 </div>
                 <div class="modal-body">
                     <form id="academyForm">
                         <input type="hidden" id="CourseId" name="id">
                         <div class="mb-3">
-                            <label for="DepartmentName" class="form-label">Department Name *</label>
+                            <label for="DepartmentName" class="form-label">Όνομα Τμήματος *</label>
                             <input type="text" class="form-control" id="DepartmentName" name="departmentname" required>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseName" class="form-label">Course Name *</label>
+                            <label for="CourseName" class="form-label">Όνομα Μαθήματος *</label>
                             <input type="text" class="form-control" id="CourseName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseCode" class="form-label">Course Code *</label>
+                            <label for="CourseCode" class="form-label">Κωδικός Μαθήματος *</label>
                             <input type="text" class="form-control" id="CourseCode" name="code" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveCourse">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
+                    <button type="button" class="btn btn-primary" id="saveCourse">Αποθήκευση</button>
                 </div>
             </div>
         </div>
