@@ -26,7 +26,7 @@ try {
             exec("\"$phpPath\" \"$scriptPath\"");
         } else {
             // Linux path (server)
-            $scriptPath = 'https://cei326-omada2.cut.ac.cy/php/sync_to_moodle.php';
+            $scriptPath = 'sync_to_moodle.php';
             exec("php \"$scriptPath\" > /dev/null 2>&1 &");
         }
     }
