@@ -3,7 +3,7 @@ require_once 'config.php';
 
 // Moodle API Token and Base URL
 $token = '4a422108f9b3d9f1bba55c35bec1e607';
-$baseUrl = 'http://localhost/SpecialistScientistManagement/moodle/webservice/rest/server.php';
+$baseUrl = 'https://cei326-omada2.cut.ac.cy/moodle/webservice/rest/server.php';
 
 // Determine which report to generate based on the 'report' GET parameter
 $report = $_GET['report'] ?? '';

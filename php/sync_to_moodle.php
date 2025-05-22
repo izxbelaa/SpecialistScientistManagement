@@ -10,7 +10,7 @@ if (!$row || $row['enabled'] != 1) {
 
 // Moodle API Token
 $token = '4a422108f9b3d9f1bba55c35bec1e607';
-$baseUrl = 'http://localhost/SpecialistScientistManagement/moodle/webservice/rest/server.php';
+$baseUrl = 'https://cei326-omada2.cut.ac.cy/moodle/webservice/rest/server.php';
 
 $users = $pdo->query("SELECT * FROM users WHERE email IS NOT NULL AND type_of_user = 2")->fetchAll();
 
