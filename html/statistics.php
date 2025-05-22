@@ -59,37 +59,53 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <img src="../assets/img/logocut.png" width="150" height="60" alt="CUT Logo">
+            <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
         </a>
-        <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse">
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
                 <a href="about.php" class="nav-item nav-link">Σχετικα</a>
-                <a href="application.php" class="nav-item nav-link">Applications</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="application.php" class="dropdown-item">Συμπλήρωση Αιτήσεων</a>
+                        <a href="application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                        <a href="application_inspection.php" class="dropdown-item">Επιθεώρηση Αιτήσεων</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                        <a href="lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
                 <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
                 <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρίσεις</a>
-                        <div class="dropdown-menu fade-down m-0">
-                                                    <a href="courses.php" class="dropdown-item">Μαθήματα</a>
-
-                            <a href="departments.php" class="dropdown-item">Τμήματα</a>
-                                                    <a href="academies.php" class="dropdown-item">Σχολές</a>
-                        </div>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="courses.php" class="dropdown-item">Μαθήματα</a>
+                        <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                        <a href="academies.php" class="dropdown-item">Σχολές</a>
                     </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
-                        <div class="dropdown-menu fade-down m-0">
-                            <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                            <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
-                            <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
-                        </div>
+                </div>
+                <div class="nav-item dropdown active">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+                        <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+                        <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="statistics.php" class="dropdown-item active">Στατιστικά</a>
                     </div>
-                    <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+                </div>
+                <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['username'])): ?>
                     <li class="nav-item dropdown">
@@ -124,7 +140,7 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
         background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('../assets/img/statistics.jpg') center center/cover no-repeat !important;
     }
     </style>
-    <div class="container my-5 wow fadeInUp" data-wow-delay="0.2s">
+    <div class="container my-5 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
         <!-- Total Requests at the Top -->
         <div class="row justify-content-center mb-5">
             <div class="col-lg-6 col-md-8">
@@ -139,7 +155,7 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
         <!-- 1st Report Print Button -->
         <button class="btn btn-primary mb-3" id="printReport1Btn">Εκτύπωση Αναφοράς 1</button>
         <!-- First Graph: Requests per Application Type -->
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-center mb-5 wow animate__animated animate__fadeInUp" data-wow-delay="0.3s">
             <div class="col-lg-10 col-md-12">
                 <div class="card shadow p-4 mb-4">
                     <h5 class="card-title text-center">Σύνολο Αιτήσεων που συμπληρώθηκαν ανά Τύπο Αίτησης</h5>
@@ -179,7 +195,7 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
             border-radius: 3px;
         }
         </style>
-        <div class="row justify-content-center mb-2 mt-2">
+        <div class="row justify-content-center mb-2 mt-2 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
             <div class="col-12">
                 <div class="card shadow p-3 mb-2">
                     <h5 class="card-title text-center mb-3">Αιτήσεις ανά Τμήμα (Pie Chart)</h5>
@@ -213,7 +229,7 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
             border-radius: 3px;
         }
         </style>
-        <div class="row justify-content-center mb-2 mt-2">
+        <div class="row justify-content-center mb-2 mt-2 wow animate__animated animate__fadeInUp" data-wow-delay="0.5s">
             <div class="col-12">
                 <div class="card shadow p-3 mb-2">
                     <h5 class="card-title text-center mb-3">Διαφορετικά Μαθήματα σε Ανοικτές Αιτήσεις (Pie Chart)</h5>
@@ -479,6 +495,7 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
         });
     </script>
     <script src="../lib/wow/wow.min.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>new WOW().init();</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -525,5 +542,15 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
             </div>
         </div>
         <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/wow/wow.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>new WOW().init();</script>
 </body>
 </html> 
