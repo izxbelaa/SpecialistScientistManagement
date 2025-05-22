@@ -41,39 +41,7 @@ if (!file_exists($backupDir)) {
     chown($backupDir, 'www-data');
     chgrp($backupDir, 'www-data');
 }
-/*
-// Function to log errors
-function logError($message) {
-    $logFile = __DIR__ . '/../logs/backup_errors.log';
-    $logDir = dirname($logFile);
-    
-    if (!file_exists($logDir)) {
-        if (!@mkdir($logDir, 0775, true)) {
-            // If we can't create the directory, we'll just return silently
-            return;
-        }
-        // Set proper ownership for Ubuntu Apache
-        chmod($logDir, 0775);
-        chown($logDir, 'www-data');
-        chgrp($logDir, 'www-data');
-    }
-    
-    $timestamp = date('Y-m-d H:i:s');
-    $logMessage = "[$timestamp] $message\n";
-    
-    // Try to write to the log file
-    if (!@file_put_contents($logFile, $logMessage, FILE_APPEND)) {
-        // If the file doesn't exist or isn't writable, try to create it
-        if (!file_exists($logFile)) {
-            touch($logFile);
-            chmod($logFile, 0664);
-            chown($logFile, 'www-data');
-            chgrp($logFile, 'www-data');
-            file_put_contents($logFile, $logMessage, FILE_APPEND);
-        }
-    }
-}
-*/
+
 // Function to create backup
 function createBackup($dbName, $backupDir) {
     global $dbHost, $dbUser, $dbPass;
@@ -99,7 +67,6 @@ function createBackup($dbName, $backupDir) {
     }
     
     if (!$mysqldump) {
-        logError("mysqldump not found in any of the common locations");
         return false;
     }
     
@@ -113,9 +80,6 @@ function createBackup($dbName, $backupDir) {
         $dbName,
         $backupFile
     );
-    
-    // Log the command (without password)
-   // logError("Executing command: mysqldump -h $dbHost -u $dbUser -p**** $dbName > \"$backupFile\"");
     
     // Execute the command and capture output
     $output = [];
@@ -144,45 +108,20 @@ function createBackup($dbName, $backupDir) {
         
         // Get the return value
         $returnVar = proc_close($process);
-        
-       /* // Log any output
-        if (!empty($stdout)) {
-            logError("Command stdout for $dbName: " . $stdout);
-        }
-        if (!empty($stderr)) {
-            logError("Command stderr for $dbName: " . $stderr);
-        }
     } else {
-        logError("Failed to execute command for $dbName");
-        return false;*/
-    }/*
+        return false;
+    }
     
     if ($returnVar !== 0) {
-        logError("Error backing up database $dbName. Return code: $returnVar");
-        
-        // Check for specific error messages
-        $errorOutput = $stderr . "\n" . $stdout;
-        if (strpos($errorOutput, "Access denied") !== false) {
-            logError("Database access denied. Please check user permissions.");
-        }
-        if (strpos($errorOutput, "Unknown database") !== false) {
-            logError("Database does not exist or is not accessible.");
-        }
-        if (strpos($errorOutput, "Can't connect") !== false) {
-            logError("Cannot connect to MySQL server. Please check if MySQL is running.");
-        }
-        
         return false;
     }
     
     if (!file_exists($backupFile)) {
-        logError("Backup file was not created for $dbName at: $backupFile");
         return false;
-    }*/
+    }
     
     // Check if file is empty
     if (filesize($backupFile) === 0) {
-        logError("Backup file is empty for $dbName at: $backupFile");
         unlink($backupFile); // Delete empty file
         return false;
     }
@@ -229,7 +168,6 @@ try {
     }
     
 } catch (Exception $e) {
-    logError($e->getMessage());
     $response = [
         'success' => false,
         'message' => "Σφάλμα κατά το backup: " . $e->getMessage()
