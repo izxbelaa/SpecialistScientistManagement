@@ -123,15 +123,23 @@
               <label for="email">Ηλεκτρονική Διεύθυνση *</label>
               <div class="invalid-feedback">Ηλεκτρονική Διεύθυνση είναι υποχρεωτική.</div>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
               <input type="password" class="form-control" id="password" name="password" placeholder="Password">
               <label for="password">Κωδικός Προσβασης *</label>
               <div class="invalid-feedback">Ο κωδικός Προσβασης είναι υποχρεωτικός.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="togglePassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
               <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
               <label for="confirm_password">Επιβεβαίωση Κωδικού Προσβασης *</label>
               <div class="invalid-feedback">Η επαληθέση του κωδικου προσβασης δεν ταιριαζει.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="toggleConfirmPassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
             <button type="submit" class="btn btn-success w-100 py-3">Εγγραφή</button>
             <p class="mt-3 text-center">

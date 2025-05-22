@@ -1,5 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirm_password");
+  const togglePassword = document.getElementById("togglePassword");
+  const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+
+  // Password visibility toggle
+  togglePassword.addEventListener("click", function () {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    
+    // Toggle the eye icon
+    const icon = this.querySelector("i");
+    icon.classList.toggle("bi-eye");
+    icon.classList.toggle("bi-eye-slash");
+  });
+
+  // Confirm password visibility toggle
+  toggleConfirmPassword.addEventListener("click", function () {
+    const type = confirmPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+    confirmPasswordInput.setAttribute("type", type);
+    
+    // Toggle the eye icon
+    const icon = this.querySelector("i");
+    icon.classList.toggle("bi-eye");
+    icon.classList.toggle("bi-eye-slash");
+  });
 
   const validators = {
     first_name: (value) => value.trim() !== "",
