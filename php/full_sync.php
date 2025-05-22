@@ -22,10 +22,12 @@ try {
         // Temporarily enable sync to allow sync_to_moodle.php to run
         $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 1");
         $stmt->execute();
-        
-        // Run the sync
+
+        // Start output buffering
+        ob_start();
         require_once 'sync_to_moodle.php';
-        
+        ob_end_clean(); // Discard all output
+
         // Now disable sync
         $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 0");
         $stmt->execute();
