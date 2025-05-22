@@ -19,7 +19,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="../../index.php" class="navbar-brand px-4 px-lg-5">
-      <img src="../../assets/img/logocut.png" width="150" height="60" alt="Logo" />
+      <img src="../assets/img/logocut.png" width="150" height="60" alt="Logo" />
     </a>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">

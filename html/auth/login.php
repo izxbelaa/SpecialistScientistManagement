@@ -125,7 +125,7 @@ session_start();
               <div class="invalid-feedback">Ο κωδικός είναι υποχρεωτικός.</div>
             </div>
             <div class="text-end mb-3">
-              <a href="/html/forgot-password.php" class="text-primary">Ξεχάσατε τον κωδικό;</a>
+             <a href="../forgot-password.php" class="text-primary">Ξεχάσατε τον κωδικό;</a>
             </div>
             <button type="submit" class="btn btn-primary w-100 py-3">Σύνδεση</button>
             <p class="mt-3 text-center">
