@@ -36,6 +36,6 @@ try {
         echo '<option value="">Select Academy First</option>';
     }
 } catch (PDOException $e) {
-    echo '<option value="">Error loading departments</option>';
+    echo '<option value="">Error loading departments: ' . htmlspecialchars($e->getMessage()) . '</option>';
 }
 ?> 
