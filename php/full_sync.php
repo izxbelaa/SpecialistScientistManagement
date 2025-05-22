@@ -19,24 +19,25 @@ if (!in_array($enabled, [0, 1], true)) {
 
 try {
     if ($enabled === 0) {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Windows path (XAMPP)
-            $phpPath = 'C:\\xampp\\php\\php.exe';
-            $scriptPath = 'C:\\xampp\\htdocs\\SpecialistScientistManagement\\php\\sync_to_moodle.php';
-            exec("\"$phpPath\" \"$scriptPath\"");
-        } else {
-            // Linux path (server)
-            $scriptPath = 'sync_to_moodle.php';
-            exec("php \"$scriptPath\" > /dev/null 2>&1 &");
-        }
+        // Temporarily enable sync to allow sync_to_moodle.php to run
+        $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 1");
+        $stmt->execute();
+        
+        // Run the sync
+        require_once 'sync_to_moodle.php';
+        
+        // Now disable sync
+        $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 0");
+        $stmt->execute();
+    } else {
+        // Just enable sync without running it
+        $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 1");
+        $stmt->execute();
     }
-
-    $stmt = $pdo->prepare("UPDATE full_sync SET enabled = ?");
-    $stmt->execute([$enabled]);
 
     echo json_encode([
         "status" => "success",
-        "message" => $enabled ? "Full sync enabled" : "Full sync disabled"
+        "message" => $enabled ? "Full sync enabled" : "Full sync disabled and sync completed"
     ]);
 } catch (Exception $e) {
     http_response_code(500);
