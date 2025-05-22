@@ -221,23 +221,23 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             <input type="hidden" name="action" value="save_template">
             <input type="hidden" id="templateId" name="template_id" value="">
             <div class="mb-3">
-              <label for="templateTitle" class="form-label">Τίτλος Αίτησης</label>
+              <label for="templateTitle" class="form-label">Τίτλος Αίτησης *</label>
               <input type="text" class="form-control" id="templateTitle" name="templateTitle" required>
             </div>
             <div class="mb-3">
-              <label for="templateDescription" class="form-label">Περιγραφή</label>
+              <label for="templateDescription" class="form-label">Περιγραφή *</label>
               <textarea class="form-control" id="templateDescription" name="templateDescription" rows="3" required></textarea>
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="startDate" class="form-label">Ημερομηνία Έναρξης και Ώρα Έναρξης</label>
+                <label for="startDate" class="form-label">Ημερομηνία Έναρξης και Ώρα Έναρξης *</label>
                 <div class="d-flex gap-2">
                   <input type="date" class="form-control" id="startDate" name="startDate" required>
                   <input type="time" class="form-control" id="startTime" name="startTime" required>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="endDate" class="form-label">Ημερομηνία Λήξης και Ώρα Λήξης</label>
+                <label for="endDate" class="form-label">Ημερομηνία Λήξης και Ώρα Λήξης *</label>
                 <div class="d-flex gap-2">
                   <input type="date" class="form-control" id="endDate" name="endDate" required>
                   <input type="time" class="form-control" id="endTime" name="endTime" required>
@@ -246,7 +246,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             </div>
             <div id="academyContainer">
               <div class="mb-3">
-                <label class="form-label">Σχολή</label>
+                <label class="form-label">Σχολή *</label>
                 <div class="d-flex gap-2 academy-row">
                   <select class="form-select academy-select" name="academies[]" required>
                   </select>
@@ -259,7 +259,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
 
             <div id="departmentContainer">
               <div class="mb-3">
-                <label class="form-label">Τμήμα</label>
+                <label class="form-label">Τμήμα *</label>
                 <div class="d-flex gap-2 department-row">
                   <select class="form-select department-select" name="departments[]" id="department_select_1" required>
                     <option value="">Επιλέξτε Τμήμα</option>
@@ -272,7 +272,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Μαθήματα</label>
+              <label class="form-label">Μαθήματα *</label>
               <div id="coursesContainer">
                 <!-- Courses will be populated here as checkboxes -->
               </div>
