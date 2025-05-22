@@ -42,7 +42,7 @@ if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
 // Add each backup file to the ZIP
 $addedFiles = 0;
 foreach ($files as $file) {
-    if (file_exists($file) && is_readable($file)) {
+    if (file_exists($file) ) {
         if ($zip->addFile($file, basename($file))) {
             $addedFiles++;
         }
