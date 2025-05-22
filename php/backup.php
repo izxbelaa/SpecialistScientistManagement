@@ -41,21 +41,39 @@ if (!file_exists($backupDir)) {
     chown($backupDir, 'www-data');
     chgrp($backupDir, 'www-data');
 }
-
+/*
 // Function to log errors
 function logError($message) {
     $logFile = __DIR__ . '/../logs/backup_errors.log';
     $logDir = dirname($logFile);
     
     if (!file_exists($logDir)) {
-        mkdir($logDir, 0755, true);
+        if (!@mkdir($logDir, 0775, true)) {
+            // If we can't create the directory, we'll just return silently
+            return;
+        }
+        // Set proper ownership for Ubuntu Apache
+        chmod($logDir, 0775);
+        chown($logDir, 'www-data');
+        chgrp($logDir, 'www-data');
     }
     
     $timestamp = date('Y-m-d H:i:s');
     $logMessage = "[$timestamp] $message\n";
-    file_put_contents($logFile, $logMessage, FILE_APPEND);
+    
+    // Try to write to the log file
+    if (!@file_put_contents($logFile, $logMessage, FILE_APPEND)) {
+        // If the file doesn't exist or isn't writable, try to create it
+        if (!file_exists($logFile)) {
+            touch($logFile);
+            chmod($logFile, 0664);
+            chown($logFile, 'www-data');
+            chgrp($logFile, 'www-data');
+            file_put_contents($logFile, $logMessage, FILE_APPEND);
+        }
+    }
 }
-
+*/
 // Function to create backup
 function createBackup($dbName, $backupDir) {
     global $dbHost, $dbUser, $dbPass;
@@ -97,7 +115,7 @@ function createBackup($dbName, $backupDir) {
     );
     
     // Log the command (without password)
-    logError("Executing command: mysqldump -h $dbHost -u $dbUser -p**** $dbName > \"$backupFile\"");
+   // logError("Executing command: mysqldump -h $dbHost -u $dbUser -p**** $dbName > \"$backupFile\"");
     
     // Execute the command and capture output
     $output = [];
@@ -127,7 +145,7 @@ function createBackup($dbName, $backupDir) {
         // Get the return value
         $returnVar = proc_close($process);
         
-        // Log any output
+       /* // Log any output
         if (!empty($stdout)) {
             logError("Command stdout for $dbName: " . $stdout);
         }
@@ -136,8 +154,8 @@ function createBackup($dbName, $backupDir) {
         }
     } else {
         logError("Failed to execute command for $dbName");
-        return false;
-    }
+        return false;*/
+    }/*
     
     if ($returnVar !== 0) {
         logError("Error backing up database $dbName. Return code: $returnVar");
@@ -160,7 +178,7 @@ function createBackup($dbName, $backupDir) {
     if (!file_exists($backupFile)) {
         logError("Backup file was not created for $dbName at: $backupFile");
         return false;
-    }
+    }*/
     
     // Check if file is empty
     if (filesize($backupFile) === 0) {
