@@ -100,3 +100,9 @@
     [action] => get
 )
 
+[22-May-2025 11:23:23 Europe/Berlin] Received action: get
+[22-May-2025 11:23:23 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+

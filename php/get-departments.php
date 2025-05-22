@@ -1,6 +1,13 @@
 <?php
 require_once('config.php');
 
+// Debug: See what is being received
+if (!isset($_GET['academy_ids'])) {
+    echo "No academy_ids parameter received";
+    exit;
+}
+var_dump($_GET['academy_ids']);
+
 try {
     $academyIds = isset($_GET['academy_ids']) ? $_GET['academy_ids'] : [];
     
