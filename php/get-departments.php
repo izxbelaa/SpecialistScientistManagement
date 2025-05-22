@@ -18,7 +18,7 @@ try {
     if (!empty($academyIds)) {
         $placeholders = str_repeat('?,', count($academyIds) - 1) . '?';
         
-        $sql = "SELECT DISTINCT d.id, CONCAT(d.department_name, ' (', d.department_code, ')') as department_display 
+        $sql = "SELECT DISTINCT d.id, d.department_name, CONCAT(d.department_name, ' (', d.department_code, ')') as department_display 
                 FROM departments d 
                 WHERE d.academy_id IN ($placeholders)
                 ORDER BY d.department_name";
