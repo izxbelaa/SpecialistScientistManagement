@@ -81,7 +81,7 @@ session_start();
   </div>
 <?php else: ?>
   <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-    Register <i class="fa fa-arrow-right ms-3"></i>
+    Εγγραφή <i class="fa fa-arrow-right ms-3"></i>
   </a>
 <?php endif; ?>
 
@@ -94,11 +94,11 @@ session_start();
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
-          <h1 class="display-3 text-white animated slideInDown">Login</h1>
+          <h1 class="display-3 text-white animated slideInDown">Σύνδεση</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Home</a></li>
-              <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Αρχική</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Σύνδεση</li>
             </ol>
           </nav>
         </div>

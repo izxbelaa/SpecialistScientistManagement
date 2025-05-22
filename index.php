@@ -87,8 +87,25 @@ if (isset($_SESSION['user_id'])) {
 
                 <a href="index.php" class="nav-item nav-link active">Αρχικη</a>
                 <a href="html/about.php" class="nav-item nav-link">Σχετικα</a>
-                <a href="html/application-status.php" class="nav-item nav-link">Application Status</a>
-                <a href="./html/application.php" class="nav-item nav-link">Applications</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="html/application.php" class="dropdown-item">Συμπλήρωση Αιτήσεων</a>
+                        <a href="html/application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                        <a href="html/application_inspection.php" class="dropdown-item">Επιθεώρηση Αιτήσεων</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="html/lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                        <a href="html/lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
                 <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
@@ -99,7 +116,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελίδες Διαχειριστή</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
                         <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
