@@ -44,43 +44,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../../index.php" class="nav-item nav-link">Home</a>
-        <a href="../about.html" class="nav-item nav-link">About</a>
-        <a href="../courses.html" class="nav-item nav-link">Courses</a>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-          <div class="dropdown-menu fade-down m-0">
-            <a href="../team.html" class="dropdown-item">Our Team</a>
-            <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-            <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
-            <a href="../404.html" class="dropdown-item">404 Page</a>
-          </div>
-        </div>
-        <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
+        
+          <a href="../../index.php" class="nav-item nav-link">Αρχικη</a>
+          <a href="../about.php" class="nav-item nav-link">Σχετικα</a>
+          <a href="login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+        
       </div>
-      <!-- (Optional) You can remove or adjust the Join Now button if needed -->
-      <a href="#" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Register<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
   </nav>
   <!-- Navbar End -->
 
-  <!-- Header Start -->
-  <div class="container-fluid bg-primary py-5 mb-5 page-header">
+  <!-- Header -->
+  <div class="container-fluid bg-primary py-5 mb-5 page-header" style="background: url('../../assets/img/register.jpg') center center/cover no-repeat;">
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
-          <h1 class="display-3 text-white animated slideInDown">Register</h1>
+          <h1 class="display-3 text-white animated slideInDown">Εγγραφή</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Home</a></li>
-              <li class="breadcrumb-item text-white active" aria-current="page">Register</li>
+              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Αρχική</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Εγγραφή</li>
             </ol>
           </nav>
         </div>
       </div>
     </div>
   </div>
-  <!-- Header End -->
 
   <!-- Display messages from register.php -->
 <div class="mb-3">
@@ -123,15 +112,23 @@
               <label for="email">Ηλεκτρονική Διεύθυνση *</label>
               <div class="invalid-feedback">Ηλεκτρονική Διεύθυνση είναι υποχρεωτική.</div>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
               <input type="password" class="form-control" id="password" name="password" placeholder="Password">
               <label for="password">Κωδικός Προσβασης *</label>
               <div class="invalid-feedback">Ο κωδικός Προσβασης είναι υποχρεωτικός.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="togglePassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
               <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
               <label for="confirm_password">Επιβεβαίωση Κωδικού Προσβασης *</label>
               <div class="invalid-feedback">Η επαληθέση του κωδικου προσβασης δεν ταιριαζει.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="toggleConfirmPassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
             <button type="submit" class="btn btn-success w-100 py-3">Εγγραφή</button>
             <p class="mt-3 text-center">

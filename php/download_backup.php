@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Διαχειρ
 }
 
 // Backup directory
-$backupDir = '/backups/';
+$backupDir = __DIR__ . '/../backups';
 
 // Verify backup directory is readable
 if (!is_readable($backupDir)) {

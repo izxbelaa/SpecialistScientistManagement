@@ -55,19 +55,11 @@ session_start();
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../../index.php" class="nav-item nav-link">Home</a>
-        <a href="../about.php" class="nav-item nav-link">About</a>
-        <a href="../courses.html" class="nav-item nav-link">Courses</a>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-          <div class="dropdown-menu fade-down m-0">
-            <a href="../team.html" class="dropdown-item">Our Team</a>
-            <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-            <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
-            <a href="../404.html" class="dropdown-item">404 Page</a>
-          </div>
-        </div>
-        <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
+       
+          <a href="../../index.php" class="nav-item nav-link">Αρχικη</a>
+          <a href="../about.php" class="nav-item nav-link">Σχετικα</a>
+          <a href="login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+        
       </div>
       <?php if (isset($_SESSION['username'])): ?>
   <div class="dropdown">
@@ -79,10 +71,6 @@ session_start();
       <!-- You can add more items here if needed -->
     </ul>
   </div>
-<?php else: ?>
-  <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-    Register <i class="fa fa-arrow-right ms-3"></i>
-  </a>
 <?php endif; ?>
 
     </div>
@@ -94,11 +82,11 @@ session_start();
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
-          <h1 class="display-3 text-white animated slideInDown">Login</h1>
+          <h1 class="display-3 text-white animated slideInDown">Σύνδεση</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Home</a></li>
-              <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+              <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Αρχική</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Σύνδεση</li>
             </ol>
           </nav>
         </div>
@@ -123,6 +111,10 @@ session_start();
               <input type="password" class="form-control" id="login-password" name="password" placeholder="Password">
               <label for="login-password">Κωδικός</label>
               <div class="invalid-feedback">Ο κωδικός είναι υποχρεωτικός.</div>
+              <button type="button" class="btn btn-link position-absolute text-decoration-none pe-3" 
+                      id="togglePassword" style="z-index: 5; right: 10px; top: 13px;">
+                <i class="bi bi-eye-slash"></i>
+              </button>
             </div>
             <div class="text-end mb-3">
              <a href="../forgot-password.php" class="text-primary">Ξεχάσατε τον κωδικό;</a>

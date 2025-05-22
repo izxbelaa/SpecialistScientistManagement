@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user = new Users(
                     $row['id'], $row['first_name'], $row['last_name'], $row['middle_name'],
                     $row['email'], $row['password'], $row['type_of_user'],
-                    $row['logged_in'], $row['disabled_user']
+                    $row['disabled_user']
                 );
 
                 $_SESSION['user_id'] = $user->id;

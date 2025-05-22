@@ -29,6 +29,8 @@ $data = [];
 foreach ($fields as $field) {
     $data[$field] = clean($field);
 }
+// Add main email
+$data['email'] = clean('email');
 
 // Basic validations
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['dob'])) {
@@ -87,7 +89,8 @@ try {
         municipality = :municipality,
         community = :community,
         nationality = :nationality,
-        email = :university_email,
+        email = :email,
+        university_email = :university_email,
         mobile_phone = :mobile_phone,
         landline_phone = :landline_phone";
 

@@ -12,12 +12,21 @@ set_time_limit(900);
 ini_set('max_execution_time', 900);
 
 // Database credentials
-$dbUser = 'root';
-$dbPass = '';
-$dbHost = 'localhost';
+$dbUser = 'cei326omada2user';
+$dbPass = 'Vp5!2BNFh!cHiN!U';
+$dbHost = 'localhost';  // This will be overridden by the actual server hostname
+
+// Get the actual database host from the configuration
+$configFile = __DIR__ . '/config.php';
+if (file_exists($configFile)) {
+    require_once $configFile;
+    if (isset($host)) {
+        $dbHost = $host;
+    }
+}
 
 // Backup directory setup
-$backupDir = '/backups/';
+$backupDir = __DIR__ . '/../backups';
 if (!file_exists($backupDir)) {
     if (!@mkdir($backupDir, 0775, true)) {
         header('Content-Type: application/json');
@@ -56,9 +65,10 @@ function createBackup($dbName, $backupDir) {
     
     // Try to find mysqldump in common locations
     $possiblePaths = [
-        '/usr/bin/mysqldump',                    // Ubuntu default
-        '/opt/lampp/bin/mysqldump',              // XAMPP Linux
+        '/usr/bin/mysqldump',                    // Ubuntu/Debian default
         '/usr/local/mysql/bin/mysqldump',        // Custom MySQL installation
+        '/usr/local/bin/mysqldump',              // Common server location
+        '/opt/mysql/bin/mysqldump',              // Alternative server location
         'mysqldump'                              // If in PATH
     ];
     
@@ -77,7 +87,7 @@ function createBackup($dbName, $backupDir) {
     
     // Build the command with basic options for maximum compatibility
     $command = sprintf(
-        '"%s" --routines --triggers --add-drop-table --quick -h%s -u%s -p%s %s > "%s" 2>&1',
+        '"%s" --routines --triggers --add-drop-table --quick --no-tablespaces --single-transaction -h%s -u%s -p%s %s > "%s" 2>&1',
         $mysqldump,
         $dbHost,
         $dbUser,
@@ -93,15 +103,57 @@ function createBackup($dbName, $backupDir) {
     $output = [];
     $returnVar = 0;
     
-    exec($command, $output, $returnVar);
+    // Use proc_open to capture both stdout and stderr
+    $descriptorspec = array(
+        0 => array("pipe", "r"),  // stdin
+        1 => array("pipe", "w"),  // stdout
+        2 => array("pipe", "w")   // stderr
+    );
     
-    // Log any output
-    if (!empty($output)) {
-        logError("Command output for $dbName: " . implode("\n", $output));
+    $process = proc_open($command, $descriptorspec, $pipes);
+    
+    if (is_resource($process)) {
+        // Close stdin
+        fclose($pipes[0]);
+        
+        // Read stdout
+        $stdout = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+        
+        // Read stderr
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
+        
+        // Get the return value
+        $returnVar = proc_close($process);
+        
+        // Log any output
+        if (!empty($stdout)) {
+            logError("Command stdout for $dbName: " . $stdout);
+        }
+        if (!empty($stderr)) {
+            logError("Command stderr for $dbName: " . $stderr);
+        }
+    } else {
+        logError("Failed to execute command for $dbName");
+        return false;
     }
     
     if ($returnVar !== 0) {
         logError("Error backing up database $dbName. Return code: $returnVar");
+        
+        // Check for specific error messages
+        $errorOutput = $stderr . "\n" . $stdout;
+        if (strpos($errorOutput, "Access denied") !== false) {
+            logError("Database access denied. Please check user permissions.");
+        }
+        if (strpos($errorOutput, "Unknown database") !== false) {
+            logError("Database does not exist or is not accessible.");
+        }
+        if (strpos($errorOutput, "Can't connect") !== false) {
+            logError("Cannot connect to MySQL server. Please check if MySQL is running.");
+        }
+        
         return false;
     }
     

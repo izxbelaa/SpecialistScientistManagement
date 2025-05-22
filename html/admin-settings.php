@@ -1,6 +1,14 @@
 <?php 
 include '../php/session_check.php';
-include '../php/get_full_sync_status.php'; 
+require_once '../php/config.php';
+// Get the full sync status directly
+try {
+    $stmt = $pdo->query("SELECT enabled FROM full_sync LIMIT 1");
+    $row = $stmt->fetch();
+    $fullSyncEnabled = $row ? (int)$row['enabled'] : 0;
+} catch (Exception $e) {
+    $fullSyncEnabled = 0; // or handle error as needed
+}
 ?>
 <?php
 include '../php/get-user-type.php';
@@ -25,7 +33,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Favicon -->
     <link href="../assets/img/logo.png" rel="icon">
 
-    <!-- Google Web Fonts -->x
+    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -110,27 +118,47 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="../index.php" class="nav-item nav-link">ΑΡΧΙΚΗ</a>
-                <a href="about.php" class="nav-item nav-link">ΣΧΕΤΙΚΑ</a>
-                <a href="application.php" class="nav-item nav-link">APPLICATIONS</a>
+                <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
+                <a href="about.php" class="nav-item nav-link">Σχετικα</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ΚΑΤΑΧΩΡΙΣΕΙΣ</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
                     <div class="dropdown-menu fade-down m-0">
-                                                <a href="courses.php" class="dropdown-item">Μαθήματα</a>
-
-                        <a href="departments.php" class="dropdown-item">Τμήματα</a>
-                                                    <a href="academies.php" class="dropdown-item">Σχολές</a>
+                        <a href="application.php" class="dropdown-item">Συμπλήρωση Αιτήσεων</a>
+                        <a href="application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                        <a href="application_inspection.php" class="dropdown-item">Επιθεώρηση Αιτήσεων</a>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                        <a href="lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="courses.php" class="dropdown-item">Μαθήματα</a>
+                        <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                        <a href="academies.php" class="dropdown-item">Σχολές</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown active">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
                         <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
                         <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
                     </div>
                 </div>
                 <a href="admin-settings.php" class="nav-item nav-link active">Ρυθμισεις Διαχειριστη</a>
+                <?php endif; ?>
                 <?php if (isset($_SESSION['username'])): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -138,7 +166,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
-                            <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
+                            <li><a class="dropdown-item active" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
                         </ul>
                     </li>
                 <?php else: ?>

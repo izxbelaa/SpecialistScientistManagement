@@ -221,7 +221,7 @@ $(document).ready(function() {
         // Reset form and clear template ID
         $('#addRequestForm')[0].reset();
         $('#templateId').val('');
-        $('#addRequestModalLabel').text('Add New Request Template');
+        $('#addRequestModalLabel').text('Προσθήκη νέου προτύπου αιτήματος');
         
         // Clear existing rows except first ones
         $('.academy-row:not(:first)').remove();
@@ -237,9 +237,9 @@ $(document).ready(function() {
     $('#searchInput').on('keyup', function() {
         const searchText = $(this).val().toLowerCase();
         
-        $('#requestsTable tbody tr').each(function() {
+        filteredData = $('#requestsTable tbody tr').filter(function() {
             const row = $(this);
-            if (!row.find('td').length) return; // Skip "no results" row
+            if (!row.find('td').length) return false;
             
             const title = row.find('td:eq(1)').text().toLowerCase();
             const description = row.find('td:eq(2)').text().toLowerCase();
@@ -247,18 +247,161 @@ $(document).ready(function() {
             const departments = row.find('td:eq(6)').text().toLowerCase();
             const courses = row.find('td:eq(7)').text().toLowerCase();
             
-            const matches = title.includes(searchText) ||
-                          description.includes(searchText) ||
-                          academies.includes(searchText) ||
-                          departments.includes(searchText) ||
-                          courses.includes(searchText);
-            
-            row.toggle(matches);
-        });
+            return title.includes(searchText) ||
+                   description.includes(searchText) ||
+                   academies.includes(searchText) ||
+                   departments.includes(searchText) ||
+                   courses.includes(searchText);
+        }).toArray();
         
-        updateRowNumbers();
-        updateEntriesCount();
+        currentPage = 1;
+        updateTable();
     });
+
+    // Initialize variables for pagination
+    let currentPage = 1;
+    let entriesPerPage = 5;
+    let filteredData = [];
+
+    // Handle entries per page change
+    $('#entriesSelect').on('change', function() {
+        entriesPerPage = parseInt($(this).val());
+        currentPage = 1;
+        updateTable();
+    });
+
+    // Handle pagination click
+    $(document).on('click', '.page-link', function(e) {
+        e.preventDefault();
+        const page = $(this).data('page');
+        if (page) {
+            currentPage = page;
+            updateTable();
+        }
+    });
+
+    // Function to update table with pagination
+    function updateTable() {
+        const start = (currentPage - 1) * entriesPerPage;
+        const end = start + entriesPerPage;
+        const paginatedData = filteredData.slice(start, end);
+        
+        // Update table body
+        const tbody = $('#requestsTable tbody');
+        tbody.empty();
+        
+        if (paginatedData.length === 0) {
+            tbody.html('<tr><td colspan="9" class="text-center">No requests found</td></tr>');
+        } else {
+            paginatedData.forEach((row, index) => {
+                tbody.append(row);
+            });
+        }
+        
+        // Update pagination controls
+        updatePagination();
+        updateEntriesCount();
+    }
+
+    // Function to update pagination controls
+    function updatePagination() {
+        const totalPages = Math.ceil(filteredData.length / entriesPerPage) || 1;
+        const paginationControls = $('#paginationControls');
+        paginationControls.empty();
+
+        // Only page numbers, with ellipsis if many pages
+        let maxPagesToShow = 7;
+        let startPage = 1;
+        let endPage = totalPages;
+        if (totalPages > maxPagesToShow) {
+            if (currentPage <= 4) {
+                startPage = 1;
+                endPage = 5;
+            } else if (currentPage >= totalPages - 3) {
+                startPage = totalPages - 4;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 2;
+                endPage = currentPage + 2;
+            }
+        }
+
+        // Always show first page
+        paginationControls.append(`
+            <li class="page-item${currentPage === 1 ? ' active' : ''}">
+                <a class="page-link" href="#" data-page="1">1</a>
+            </li>
+        `);
+
+        // Ellipsis after first page
+        if (startPage > 2) {
+            paginationControls.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+        }
+
+        // Page numbers in range
+        for (let i = Math.max(2, startPage); i <= Math.min(endPage, totalPages - 1); i++) {
+            paginationControls.append(`
+                <li class="page-item${currentPage === i ? ' active' : ''}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>
+            `);
+        }
+
+        // Ellipsis before last page
+        if (endPage < totalPages - 1) {
+            paginationControls.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+        }
+
+        // Always show last page if more than one
+        if (totalPages > 1) {
+            paginationControls.append(`
+                <li class="page-item${currentPage === totalPages ? ' active' : ''}">
+                    <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
+                </li>
+            `);
+        }
+    }
+
+    // Update the loadTemplates function to use pagination
+    function loadTemplates() {
+        $.ajax({
+            url: '../php/get-request-templates.php',
+            type: 'GET',
+            success: function(response) {
+                if (response === '') {
+                    filteredData = [];
+                } else {
+                    // Store all rows in filteredData
+                    const tempDiv = $('<div>').html(response);
+                    filteredData = tempDiv.find('tr').toArray();
+                }
+                updateTable();
+            },
+            error: function() {
+                $('#requestsTable tbody').html('<tr><td colspan="9" class="text-center">Error loading requests</td></tr>');
+            }
+        });
+    }
+
+    // Function to show error messages
+    function showError(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+        });
+    }
+
+    // Function to update entries count
+    function updateEntriesCount() {
+        const totalRows = $('#requestsTable tbody tr').length;
+        const visibleRows = $('#requestsTable tbody tr:visible').length;
+        const firstVisible = visibleRows > 0 ? 1 : 0;
+        
+        $('#entriesCount').text(
+            `Showing ${firstVisible} to ${visibleRows} of ${totalRows} entries`
+        );
+    }
 });
 
 // Function to load academies
@@ -369,25 +512,6 @@ function updateCourses() {
     } else {
         $('#coursesContainer').html('<div class="text-muted">Please select at least one department</div>');
     }
-}
-
-// Function to load existing templates
-function loadTemplates() {
-    $.ajax({
-        url: '../php/get-request-templates.php',
-        type: 'GET',
-        success: function(response) {
-            if (response === '') {
-                $('#requestsTable tbody').html('<tr><td colspan="9" class="text-center">No requests found</td></tr>');
-            } else {
-                $('#requestsTable tbody').html(response);
-            }
-            updateEntriesCount();
-        },
-        error: function() {
-            $('#requestsTable tbody').html('<tr><td colspan="9" class="text-center">Error loading requests</td></tr>');
-        }
-    });
 }
 
 // Function to save template
@@ -585,7 +709,7 @@ function loadTemplateForEdit(templateId) {
                     });
 
                     // Update modal title
-                    $('#addRequestModalLabel').text('Edit Request Template');
+                    $('#addRequestModalLabel').text('Επεξεργασία προτύπου αιτήματος');
                     $('#addRequestModal').modal('show');
                 }
             } catch (e) {
@@ -616,15 +740,6 @@ function loadAcademies(select) {
                 reject(error);
             }
         });
-    });
-}
-
-// Function to show error messages
-function showError(message) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: message
     });
 }
 

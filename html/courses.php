@@ -51,25 +51,44 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
                 <a href="about.php" class="nav-item nav-link">Σχετικα</a>
-                <a href="application.php" class="nav-item nav-link">Applications</a>
-                <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Διαχειριστής'): ?>
-                    <div class="nav-item dropdown active">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
-                        <div class="dropdown-menu fade-down m-0">
-                            <a href="courses.php" class="dropdown-item active">Μαθήματα</a>
-                            <a href="departments.php" class="dropdown-item">Τμήματα</a>
-                                                        <a href="academies.php" class="dropdown-item">Σχολές</a>
-                        </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="application.php" class="dropdown-item">Συμπλήρωση Αιτήσεων</a>
+                        <a href="application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                        <a href="application_inspection.php" class="dropdown-item">Επιθεώρηση Αιτήσεων</a>
+                        <?php endif; ?>
                     </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
-                        <div class="dropdown-menu fade-down m-0">
-                            <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                            <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
-                        </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                        <a href="lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                        <?php endif; ?>
                     </div>
-                    <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+                </div>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
+                <div class="nav-item dropdown active">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="courses.php" class="dropdown-item active">Μαθήματα</a>
+                        <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                        <a href="academies.php" class="dropdown-item">Σχολές</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+                        <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+                        <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
+                    </div>
+                </div>
+                <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['username'])): ?>
                     <li class="nav-item dropdown">
@@ -170,30 +189,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="CourseModalLabel">Add New Course</h5>
-                <input type="hidden" id="isEditing" value="0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="CourseModalLabel">Προσθήκη Νέου Μαθήματος</h5>
+                    <input type="hidden" id="isEditing" value="0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Κλείσιμο"></button>
                 </div>
                 <div class="modal-body">
                     <form id="academyForm">
                         <input type="hidden" id="CourseId" name="id">
                         <div class="mb-3">
-                            <label for="DepartmentName" class="form-label">Department Name *</label>
+                            <label for="DepartmentName" class="form-label">Όνομα Τμήματος *</label>
                             <input type="text" class="form-control" id="DepartmentName" name="departmentname" required>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseName" class="form-label">Course Name *</label>
+                            <label for="CourseName" class="form-label">Όνομα Μαθήματος *</label>
                             <input type="text" class="form-control" id="CourseName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseCode" class="form-label">Course Code *</label>
+                            <label for="CourseCode" class="form-label">Κωδικός Μαθήματος *</label>
                             <input type="text" class="form-control" id="CourseCode" name="code" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveCourse">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
+                    <button type="button" class="btn btn-primary" id="saveCourse">Αποθήκευση</button>
                 </div>
             </div>
         </div>

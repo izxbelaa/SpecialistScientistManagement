@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once __DIR__ . '/../php/session_check.php';
@@ -102,40 +101,60 @@ if (isset($_SESSION['user_id'])) {
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../index.php" class="nav-item nav-link">ΑΡΧΙΚΗ</a>
-        <a href="about.php" class="nav-item nav-link">ΣΧΕΤΙΚΑ</a>
-        <a href="application.php" class="nav-item nav-link active">APPLICATIONS</a>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ΚΑΤΑΧΩΡΙΣΕΙΣ</a>
-          <div class="dropdown-menu fade-down m-0">
-                                    <a href="./html/courses.php" class="dropdown-item">Μαθήματα</a>
-
-            <a href="departments.php" class="dropdown-item">Τμήματα</a>
-                                        <a href="academies.php" class="dropdown-item">Σχολές</a>
-          </div>
+        <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
+        <a href="about.php" class="nav-item nav-link">Σχετικα</a>
+        <div class="nav-item dropdown active">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
+            <div class="dropdown-menu fade-down m-0">
+                <a href="application.php" class="dropdown-item active">Συμπλήρωση Αιτήσεων</a>
+                <a href="application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                <a href="application_inspection.php" class="dropdown-item">Επιθεώρηση Αιτήσεων</a>
+                <?php endif; ?>
+            </div>
         </div>
         <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη </a>
-          <div class="dropdown-menu fade-down m-0">
-            <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-            <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-            <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
-          </div>
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+            <div class="dropdown-menu fade-down m-0">
+                <a href="lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                <a href="lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
+            <div class="dropdown-menu fade-down m-0">
+                <a href="courses.php" class="dropdown-item">Μαθήματα</a>
+                <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                <a href="academies.php" class="dropdown-item">Σχολές</a>
+            </div>
+        </div>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
+            <div class="dropdown-menu fade-down m-0">
+                <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+                <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+                <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
+            </div>
         </div>
         <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
-        <?php if (isset($_SESSION['username'])): ?>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
-              <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
-            </ul>
-          </li>
-        <?php else: ?>
-          <a href="auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
         <?php endif; ?>
+        <?php if (isset($_SESSION['username'])): ?>
+                <li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <?php echo htmlspecialchars($_SESSION['username']); ?>
+</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+  <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
+                    <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
+</ul>
+                </li>
+<?php else: ?>
+                <a href="auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+<?php endif; ?>
       </div>
 
  
@@ -146,14 +165,14 @@ if (isset($_SESSION['user_id'])) {
   <!-- Navbar End -->
 
 <!-- Header -->
-<div class="container-fluid bg-primary py-5 mb-5 page-header">
+<div class="container-fluid bg-primary py-5 mb-5 page-header" style="background: url('../assets/img/application.jpeg') center center/cover no-repeat;">
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-lg-10 text-center">
         <h1 class="display-3 text-white animated slideInDown">Αίτηση</h1>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item"><a class="text-white" href="../../index.php">Ταμπλό</a></li>
+            <li class="breadcrumb-item"><a class="text-white" href="../index.php">Αρχική</a></li>
             <li class="breadcrumb-item text-white active" aria-current="page">Αιτήσεις</li>
           </ol>
         </nav>
@@ -178,10 +197,12 @@ if (isset($_SESSION['user_id'])) {
 
 
           <div class="mb-3">
-            <label for="templateSelect" class="form-label">Επιλέξτε Αίτηση</label>
-            <select class="form-select" id="templateSelect" name="template_id" required>
-              <option value="">-- Επιλέξτε --</option>
-            </select>
+            <label for="templateSelectModalInput" class="form-label">Επιλέξτε Αίτηση <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="templateSelectModalInput" placeholder="-- Επιλέξτε --" readonly required>
+              <button type="button" class="btn btn-outline-secondary" id="openTemplateModalBtn">Αναζήτηση</button>
+            </div>
+            <input type="hidden" id="template_id" name="template_id" required>
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Περιγραφή</label>
@@ -198,13 +219,13 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
           <div class="mb-4">
-            <label for="courses" class="form-label">Μαθήματα</label>
-            <select class="form-select" id="courses" name="courses[]" multiple required></select>
-            <small class="text-muted">Κρατήστε Ctrl (ή Cmd σε Mac) για πολλαπλή επιλογή.</small>
+            <label for="coursesContainer" class="form-label">Μαθήματα <span class="text-danger">*</span></label>
+            <div id="coursesContainer"></div>
+            <small class="text-muted">Επιλέξτε ένα ή περισσότερα μαθήματα.</small>
           </div>
       <div class="mb-3">
-  <label for="cv" class="form-label">Επισύναψη Βιογραφικού (CV)</label>
-  <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+  <label for="cv" class="form-label">Επισύναψη Βιογραφικού (CV) <span class="text-danger">*</span></label>
+  <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
 </div>
 
 
@@ -234,7 +255,6 @@ if (isset($_SESSION['user_id'])) {
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/application.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../assets/js/application-filter.js"></script>
 
 
 <script>
@@ -266,8 +286,34 @@ if (isset($_SESSION['user_id'])) {
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
     }
+
+    if (!templateSelectModalInput || !openTemplateModalBtn || !templateList || !templateSearchInput || !templateIdHidden || !description || !startDate || !endDate || !coursesContainer || !academyInfo) {
+      console.error("One or more elements not found in the DOM. Check your HTML.");
+      return;
+    }
   });
 </script>
+
+<!-- Modal for selecting request template -->
+<div class="modal fade" id="templateSelectModal" tabindex="-1" aria-labelledby="templateSelectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="templateSelectModalLabel">Επιλογή Αίτησης</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="templateSearchInput" class="form-control mb-3" placeholder="Αναζήτηση...">
+        <div style="max-height: 400px; overflow-y: auto;">
+          <ul class="list-group" id="templateList"></ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

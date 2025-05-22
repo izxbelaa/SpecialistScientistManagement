@@ -20,9 +20,14 @@ try {
         $tid = $template['id'];
 
         // Fetch associated courses
-        $stmtC = $pdo->prepare("SELECT course_id FROM request_template_course WHERE template_id = ?");
+        $stmtC = $pdo->prepare(
+            "SELECT c.id as course_id, c.course_name, c.course_code
+             FROM request_template_course rtc
+             JOIN course c ON rtc.course_id = c.id
+             WHERE rtc.template_id = ?"
+        );
         $stmtC->execute([$tid]);
-        $template['courses'] = array_column($stmtC->fetchAll(PDO::FETCH_ASSOC), 'course_id');
+        $template['courses'] = $stmtC->fetchAll(PDO::FETCH_ASSOC);
 
         // Fetch associated academies
         $stmtA = $pdo->prepare("SELECT academy_id FROM request_template_academy WHERE template_id = ?");

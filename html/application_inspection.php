@@ -99,58 +99,81 @@ if (isset($_SESSION['user_id'])) {
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="../index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60">
+        <img src="../assets/img/logocut.png" alt="Tepak Logo" width="150" height="60" class="d-inline-block align-top">
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../index.php" class="nav-item nav-link">Home</a>
-        <a href="./about.html" class="nav-item nav-link">About</a>
-        <a href="./courses.html" class="nav-item nav-link">Courses</a>
-        <a href="./html/departments.php" class="nav-item nav-link">Departments</a>
+            <a href="../index.php" class="nav-item nav-link">Αρχικη</a>
+            <a href="about.php" class="nav-item nav-link">Σχετικα</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Αιτησεις</a>
+                <div class="dropdown-menu fade-down m-0">
+                    <a href="application.php" class="dropdown-item">Συμπλήρωση Αιτήσεων</a>
+                    <a href="application-status.php" class="dropdown-item">Κατάσταση Αιτήσεων</a>
+                    <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής' || $_SESSION['user_type'] == 'Επιθεωρητής')): ?>
+                    <a href="application_inspection.php" class="dropdown-item active">Επιθεώρηση Αιτήσεων</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Moodle</a>
+                <div class="dropdown-menu fade-down m-0">
+                    <a href="lms_sync.php" class="dropdown-item">Πρόσβαση στο Moodle</a>
+                    <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] == 'Διαχειριστής'  || $_SESSION['user_type'] == 'Προϊστάμενος Ανθρώπινου Δυναμικού')): ?>
+                    <a href="lms-reports.php" class="dropdown-item">Αναφορές LMS</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if (isset($_SESSION['user_type']) && ($_SESSION['user_type'] === 'Διαχειριστής' || $_SESSION['user_type'] == 5)): ?>
         <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Καταχωρισεις</a>
           <div class="dropdown-menu fade-down m-0">
-            <a href="./team.html" class="dropdown-item">Our Team</a>
-            <a href="./testimonial.html" class="dropdown-item">Testimonial</a>
-            <a href="./404.html" class="dropdown-item">404 Page</a>
-            <a href="./departments.php" class="dropdown-item">Departments</a>
+                    <a href="courses.php" class="dropdown-item">Μαθήματα</a>
+                    <a href="departments.php" class="dropdown-item">Τμήματα</a>
+                    <a href="academies.php" class="dropdown-item">Σχολές</a>
           </div>
         </div>
-        <a href="../php/settings.php" class="nav-item nav-link">Settings</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
+                <div class="dropdown-menu fade-down m-0">
+                    <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
+                    <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
+                    <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                    <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
+                </div>
       </div>
-      <!-- (Optional) You can remove or adjust the Join Now button if needed -->
+            <a href="admin-settings.php" class="nav-item nav-link">Ρυθμισεις Διαχειριστη</a>
+            <?php endif; ?>
      <?php if (isset($_SESSION['username'])): ?>
-  <div class="dropdown pe-4">
+                <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
       <?php echo htmlspecialchars($_SESSION['username']); ?>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
       <li><a class="dropdown-item" href="../php/logout.php">Αποσύνδεση</a></li>
-      <li><a class="dropdown-item" href="../html/edit_user.php">Επεξεργασία Προφίλ</a></li>
+                    <li><a class="dropdown-item" href="edit_user.php">Επεξεργασία Προφίλ</a></li>
     </ul>
-  </div>
+                </li>
 <?php else: ?>
-  <a href="../html/auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-    Login <i class="fa fa-arrow-right ms-3"></i>
-  </a>
+                <a href="auth/login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
 <?php endif; ?>
-
+        </div>
     </div>
   </nav>
   <!-- Navbar End -->
 
     <!-- Header Start -->
-  <div class="container-fluid bg-primary py-5 mb-5 page-header">
+  <div class="container-fluid bg-primary py-5 mb-5 page-header" style="background: url('../assets/img/inspection.jpeg') center center/cover no-repeat;">
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center">
           <h1 class="display-3 text-white animated slideInDown">Επιθεώρηση Αιτήσεων</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item"><a class="text-white" href="../index.php">Ταμπλό</a></li>
+              <li class="breadcrumb-item"><a class="text-white" href="../index.php">Αρχική</a></li>
               <li class="breadcrumb-item text-white active" aria-current="page">Επιθεώρηση</li>
             </ol>
           </nav>
@@ -178,8 +201,54 @@ if (isset($_SESSION['user_id'])) {
           <!-- JS will fill this -->
         </tbody>
       </table>
+
+      
     </div>
   </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-4">
+        <div class="row g-4 justify-content-between align-items-start">
+
+            <!-- TEPAK Logo -->
+            <div class="col-md-3 d-flex align-items-start">
+                <img src="../assets/img/logocut.png" alt="Tepak Logo" width="250" class="me-2 mt-1">
+            </div>
+
+            <!-- ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ -->
+            <div class="col-md-4">
+                <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
+                <ul class="list-unstyled small">
+                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="http://localhost/SpecialistScientistManagement/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                    <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
+                </ul>
+        </div>
+
+            <!-- ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑ -->
+            <div class="col-md-4">
+                <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑ</h6>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Αρχ. Κυπριανού 30, 3036 Λεμεσός</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-2"></i>2500 2500</p>
+                <p class="mb-2"><i class="fa fa-envelope me-2"></i>administration@cut.ac.cy</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social me-2" href="https://x.com/i/flow/login?redirect_after_login=%2Fcyunitech" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.facebook.com/CyprusUniversityTechnology/?fref=ts" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.instagram.com/cyprusuniversitytechnology" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-outline-light btn-social me-2" href="https://www.youtube.com/channel/UCYgPdWWp7FZguifTCdukDJA" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/school/cyprus-university-of-technology/posts/?feedView=all" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container text-center mt-4 pt-3 border-top border-secondary">
+        <p class="mb-0 small text-muted">© Cyprus University of Technology. All rights reserved.</p>
+        </div>
+    </div>
+    <!-- Footer End -->
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -305,8 +374,10 @@ function rejectApplication(id) {
 }
 </script>
 
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-  <!-- Libraries -->
+<!-- JavaScript Libraries -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="../lib/wow/wow.min.js"></script>
   <script src="../lib/easing/easing.min.js"></script>
