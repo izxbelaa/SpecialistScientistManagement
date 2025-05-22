@@ -25,6 +25,42 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("entriesSelect").addEventListener("change", function () {
         setPagination(filteredUsers); // Recalculate pagination when entries per page changes
     });
+
+    // Add User modal submit handler
+    document.getElementById("addUserForm").onsubmit = function(event) {
+        event.preventDefault();
+        const userType = document.getElementById("addUserType").value;
+        if (!userType) {
+            alert("Παρακαλώ επιλέξτε τύπο χρήστη.");
+            return;
+        }
+        const newUser = {
+            firstName: document.getElementById("addFirstName").value,
+            lastName: document.getElementById("addLastName").value,
+            middleName: document.getElementById("addMiddleName").value,
+            email: document.getElementById("addEmail").value,
+            userType: userType,
+            disabledUser: document.getElementById("addDisabledUser").value === '1' ? 1 : 0,
+            password: document.getElementById("addPassword").value
+        };
+        console.log(newUser);
+        fetch("../php/add_user.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert("Failed to add user: " + (data.error || "Unknown error"));
+            }
+        })
+        .catch(error => alert("Error adding user: " + error));
+    };
 });
 
 // Function to filter the table based on search input
@@ -69,7 +105,7 @@ function setPagination(users) {
             <td>${user.last_name}</td>
             <td>${user.middle_name || 'N/A'}</td>
             <td>${user.email}</td>
-            <td>${user.type_of_user}</td>
+            <td>${getUserTypeName(user.type_of_user)}</td>
             <td>${user.disabled_user ? 'Yes' : 'No'}</td>
             <td>
                 <button class="btn btn-info btn-action me-1" title="Edit" onclick="editUser(${user.id}, '${user.first_name}', '${user.last_name}', '${user.middle_name}', '${user.email}', '${user.type_of_user}', ${user.disabled_user})">
@@ -170,7 +206,7 @@ function updateTableRow(id, updatedUser) {
             row.querySelector("td:nth-child(2)").textContent = updatedUser.lastName;
             row.querySelector("td:nth-child(3)").textContent = updatedUser.middleName || 'N/A';
             row.querySelector("td:nth-child(4)").textContent = updatedUser.email;
-            row.querySelector("td:nth-child(5)").textContent = updatedUser.userType;
+            row.querySelector("td:nth-child(5)").textContent = getUserTypeName(updatedUser.userType);
             row.querySelector("td:nth-child(6)").textContent = updatedUser.disabledUser == '1' ? 'Yes' : 'No';
         }
     });
@@ -196,4 +232,16 @@ function deleteUser(id, row) {
         }
     })
     .catch(error => console.error("Error disabling user:", error));
+}
+
+function getUserTypeName(type) {
+    const types = {
+        0: "Χρήστης",
+        1: "Υποψήφιος",
+        2: "Ειδικός Επιστήμονας",
+        3: "Επιθεωρητής",
+        4: "Προϊστάμενος Ανθρώπινου Δυναμικού",
+        5: "Διαχειριστής"
+    };
+    return types[type] ?? type;
 }
