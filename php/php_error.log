@@ -106,3 +106,23 @@
     [action] => get
 )
 
+Array
+(
+    [firstName] => dwa
+    [lastName] => dwa
+    [middleName] => dsa
+    [email] => ari@gmail.com
+    [userType] => 0
+    [disabledUser] => 0
+    [password] => Christos!
+)
+Array
+(
+    [firstName] => dwa
+    [lastName] => dwa
+    [middleName] => dsa
+    [email] => ari@gmail.com
+    [userType] => 0
+    [disabledUser] => 0
+    [password] => Christos!
+)

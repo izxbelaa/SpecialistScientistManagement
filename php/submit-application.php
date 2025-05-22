@@ -14,7 +14,7 @@ $fileUploaded = $_FILES['cv'] ?? null;
 
 try {
     // 1. Insert into requests
-    $stmt = $pdo->prepare("INSERT INTO requests (template_id, consent_forms_id) VALUES (?, NULL)");
+    $stmt = $pdo->prepare("INSERT INTO requests (template_id) VALUES (?)");
     $stmt->execute([$template_id]);
     $request_id = $pdo->lastInsertId();
 
