@@ -55,19 +55,11 @@ session_start();
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="../../index.php" class="nav-item nav-link">Home</a>
-        <a href="../about.php" class="nav-item nav-link">About</a>
-        <a href="../courses.html" class="nav-item nav-link">Courses</a>
-        <div class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-          <div class="dropdown-menu fade-down m-0">
-            <a href="../team.html" class="dropdown-item">Our Team</a>
-            <a href="html/assign-reviewers.html" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-            <a href="../testimonial.html" class="dropdown-item">Testimonial</a>
-            <a href="../404.html" class="dropdown-item">404 Page</a>
-          </div>
-        </div>
-        <a href="../../php/settings.php" class="nav-item nav-link">Settings</a>
+       
+          <a href="../../index.php" class="nav-item nav-link">Αρχικη</a>
+          <a href="../about.php" class="nav-item nav-link">Σχετικα</a>
+          <a href="login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Σύνδεση <i class="fa fa-arrow-right ms-3"></i></a>
+        
       </div>
       <?php if (isset($_SESSION['username'])): ?>
   <div class="dropdown">
@@ -79,10 +71,6 @@ session_start();
       <!-- You can add more items here if needed -->
     </ul>
   </div>
-<?php else: ?>
-  <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
-    Εγγραφή <i class="fa fa-arrow-right ms-3"></i>
-  </a>
 <?php endif; ?>
 
     </div>
