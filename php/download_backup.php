@@ -10,18 +10,18 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Διαχειρ
 // Backup directory
 $backupDir = __DIR__ . '/../backups';
 
-// Verify backup directory is readable
-if (!is_readable($backupDir)) {
+// Verify backup directory exists and is readable
+if (!file_exists($backupDir) || !is_readable($backupDir)) {
     header('Content-Type: application/json');
     echo json_encode([
         'success' => false,
-        'message' => 'Ο φάκελος backup δεν είναι αναγνώσιμος. Ελέγξτε τα δικαιώματα: ' . $backupDir
+        'message' => 'Ο φάκελος backup δεν είναι διαθέσιμος. Ελέγξτε τα δικαιώματα: ' . $backupDir
     ]);
     exit;
 }
 
 // Get all backup files
-$files = glob($backupDir . '*.sql');
+$files = glob($backupDir . '/*.sql');
 
 if (empty($files)) {
     header('Content-Type: application/json');
@@ -40,13 +40,24 @@ if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
 }
 
 // Add each backup file to the ZIP
+$addedFiles = 0;
 foreach ($files as $file) {
-    if (file_exists($file) && is_readable($file)) {
-        $zip->addFile($file, basename($file));
+    if (file_exists($file) ) {
+        if ($zip->addFile($file, basename($file))) {
+            $addedFiles++;
+        }
     }
 }
 
 $zip->close();
+
+// Check if any files were added to the ZIP
+if ($addedFiles === 0) {
+    unlink($zipFile); // Clean up the empty ZIP file
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Δεν ήταν δυνατή η προσθήκη αρχείων στο ZIP.']);
+    exit;
+}
 
 // Verify ZIP file was created and has content
 if (!file_exists($zipFile) || filesize($zipFile) === 0) {
@@ -56,7 +67,7 @@ if (!file_exists($zipFile) || filesize($zipFile) === 0) {
 }
 
 // Clean the output buffer
-if (ob_get_level()) {
+while (ob_get_level()) {
     ob_end_clean();
 }
 
@@ -69,7 +80,11 @@ header('Pragma: no-cache');
 header('Expires: 0');
 
 // Output ZIP file content
-readfile($zipFile);
+if (readfile($zipFile) === false) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Σφάλμα κατά την αποστολή του αρχείου.']);
+    exit;
+}
 
 // Clean up the temporary ZIP file
 unlink($zipFile);

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Moodle API setup
 $token = '4a422108f9b3d9f1bba55c35bec1e607';
-$baseUrl = 'http://localhost/SpecialistScientistManagement/moodle/webservice/rest/server.php';
+$baseUrl = 'https://cei326-omada2.cut.ac.cy/moodle/webservice/rest/server.php';
 
 // Fetch categories
 $catUrl = $baseUrl . '?' . http_build_query([

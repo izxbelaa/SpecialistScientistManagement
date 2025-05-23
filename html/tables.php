@@ -149,7 +149,7 @@
             </div>
           </div>
           <div class="col-md-4 text-end">
-            <button class="btn btn-orange" id="addUserBtn" data-bs-toggle="modal" data-bs-target="#editModal">
+            <button class="btn btn-orange" id="addUserBtn" data-bs-toggle="modal" data-bs-target="#addUserModal">
               <i class="fas fa-plus me-2"></i>Προσθήκη Χρήστη
             </button>
           </div>
@@ -223,11 +223,75 @@
           </div>
           <div class="mb-3">
             <label for="editUserType" class="form-label">Τύπος Χρήστη</label>
-            <input type="text" class="form-control" id="editUserType" required>
+            <select class="form-select" id="editUserType" required>
+              <option value="" disabled>Επιλέξτε τύπο</option>
+              <option value="0">Χρήστης</option>
+              <option value="1">Υποψήφιος</option>
+              <option value="2">Ειδικός Επιστήμονας</option>
+              <option value="3">Επιθεωρητής</option>
+              <option value="4">Προϊστάμενος Ανθρώπινου Δυναμικού</option>
+              <option value="5">Διαχειριστής</option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="editDisabledUser" class="form-label">Απενεργοποιημένος Χρήστης</label>
             <select class="form-select" id="editDisabledUser">
+              <option value="0">Όχι</option>
+              <option value="1">Ναι</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for adding user information -->
+<div class="modal" tabindex="-1" id="addUserModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Προσθήκη Χρήστη</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addUserForm">
+          <div class="mb-3">
+            <label for="addFirstName" class="form-label">Όνομα</label>
+            <input type="text" class="form-control" id="addFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="addLastName" class="form-label">Επώνυμο</label>
+            <input type="text" class="form-control" id="addLastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="addMiddleName" class="form-label">Μεσαίο Όνομα</label>
+            <input type="text" class="form-control" id="addMiddleName">
+          </div>
+          <div class="mb-3">
+            <label for="addEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="addEmail" required>
+          </div>
+          <div class="mb-3">
+            <label for="addPassword" class="form-label">Κωδικός Πρόσβασης</label>
+            <input type="password" class="form-control" id="addPassword" required>
+          </div>
+          <div class="mb-3">
+            <label for="addUserType" class="form-label">Τύπος Χρήστη</label>
+            <select class="form-select" id="addUserType" required>
+              <option value="" disabled selected>Επιλέξτε τύπο</option>
+              <option value="0">Χρήστης</option>
+              <option value="1">Υποψήφιος</option>
+              <option value="2">Ειδικός Επιστήμονας</option>
+              <option value="3">Επιθεωρητής</option>
+              <option value="4">Προϊστάμενος Ανθρώπινου Δυναμικού</option>
+              <option value="5">Διαχειριστής</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="addDisabledUser" class="form-label">Απενεργοποιημένος Χρήστης</label>
+            <select class="form-select" id="addDisabledUser">
               <option value="0">Όχι</option>
               <option value="1">Ναι</option>
             </select>
@@ -259,7 +323,7 @@
                 <div class="col-md-4">
                     <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="http://localhost/SpecialistScientistManagement/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                        <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
                         <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
                     </ul>
                 </div>
