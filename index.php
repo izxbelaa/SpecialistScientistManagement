@@ -23,7 +23,8 @@ if (isset($_SESSION['user_id'])) {
         }
     }
 }
-
+$flash = $_SESSION['reset_success'] ?? null;
+unset($_SESSION['reset_success']);
 
 ?>
 <!DOCTYPE html>
