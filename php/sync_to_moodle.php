@@ -279,16 +279,7 @@ foreach ($courseMap as $code => $mc) {
 
 // Step 5: Sync role assignments based on accepted requests
 
-// Get all accepted requests and their course mappings
-$requests = $pdo->query("
-    SELECT cu.user_id, cu.request_id, cu.status, rc.course_id, u.email 
-    FROM candidate_users cu 
-    JOIN request_course rc ON cu.request_id = rc.request_id 
-    JOIN users u ON cu.user_id = u.id 
-    WHERE cu.status = 1
-")->fetchAll();
-
-// Get all Moodle courses for mapping
+// First, get all Moodle courses and create a mapping of course codes to Moodle course IDs
 $courseResp = file_get_contents("$baseUrl?" . http_build_query([
     'wstoken' => $token,
     'moodlewsrestformat' => 'json',
@@ -301,6 +292,16 @@ foreach ($moodleCourses as $course) {
         $moodleCourseMap[$course['idnumber']] = $course['id'];
     }
 }
+
+// Get all accepted requests and their course mappings
+$requests = $pdo->query("
+    SELECT cu.user_id, cu.request_id, cu.status, rc.course_id, u.email, c.course_code 
+    FROM candidate_users cu 
+    JOIN request_course rc ON cu.request_id = rc.request_id 
+    JOIN users u ON cu.user_id = u.id 
+    JOIN course c ON rc.course_id = c.id
+    WHERE cu.status = 1
+")->fetchAll();
 
 foreach ($requests as $request) {
     // Get Moodle user ID
@@ -320,42 +321,33 @@ foreach ($requests as $request) {
     
     $moodleUserId = $userResp[0]['id'];
     
-    // Get course details from local DB
-    $stmt = $pdo->prepare("SELECT course_code FROM course WHERE id = ?");
-    $stmt->execute([$request['course_id']]);
-    $course = $stmt->fetch();
-    
-    if (!$course) {
-        echo "Warning: Course ID {$request['course_id']} not found in local DB\n";
-        continue;
-    }
-    
-    $moodleCourseId = $moodleCourseMap[$course['course_code']] ?? null;
+    // Get Moodle course ID using the course code
+    $moodleCourseId = $moodleCourseMap[$request['course_code']] ?? null;
     if (!$moodleCourseId) {
-        echo "Warning: Course {$course['course_code']} not found in Moodle\n";
+        echo "Warning: Course {$request['course_code']} not found in Moodle\n";
         continue;
     }
     
-    // Assign role (5 is the default student role ID in Moodle)
-    $assignParams = http_build_query([
+    // Enrol user as teacher using enrol_manual_enrol_users
+    $enrolParams = http_build_query([
         'wstoken' => $token,
         'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_role_assign_roles',
-        'assignments[0][roleid]' => 5,
-        'assignments[0][userid]' => $moodleUserId,
-        'assignments[0][contextid]' => $moodleCourseId
+        'wsfunction' => 'enrol_manual_enrol_users',
+        'enrolments[0][roleid]' => 3, // Teacher
+        'enrolments[0][userid]' => $moodleUserId,
+        'enrolments[0][courseid]' => $moodleCourseId
     ]);
-    
-    $assignResp = file_get_contents("$baseUrl?$assignParams");
-    echo "Assigned user {$request['email']} to course {$course['course_code']}\n";
+    $enrolResp = file_get_contents("$baseUrl?$enrolParams");
+    echo "Enrolled user {$request['email']} as teacher to course {$request['course_code']} (Moodle ID: $moodleCourseId) — Response: $enrolResp\n";
 }
 
 // Handle role unassignments for rejected/cancelled requests
 $removedRequests = $pdo->query("
-    SELECT cu.user_id, cu.request_id, rc.course_id, u.email 
+    SELECT cu.user_id, cu.request_id, rc.course_id, u.email, c.course_code 
     FROM candidate_users cu 
     JOIN request_course rc ON cu.request_id = rc.request_id 
     JOIN users u ON cu.user_id = u.id 
+    JOIN course c ON rc.course_id = c.id
     WHERE cu.status != 1
 ")->fetchAll();
 
@@ -374,28 +366,20 @@ foreach ($removedRequests as $request) {
     
     $moodleUserId = $userResp[0]['id'];
     
-    // Get course details
-    $stmt = $pdo->prepare("SELECT course_code FROM course WHERE id = ?");
-    $stmt->execute([$request['course_id']]);
-    $course = $stmt->fetch();
-    
-    if (!$course) continue;
-    
-    $moodleCourseId = $moodleCourseMap[$course['course_code']] ?? null;
+    // Get Moodle course ID using the course code
+    $moodleCourseId = $moodleCourseMap[$request['course_code']] ?? null;
     if (!$moodleCourseId) continue;
     
-    // Unassign role
-    $unassignParams = http_build_query([
+    // Unenrol user from course using enrol_manual_unenrol_users
+    $unenrolParams = http_build_query([
         'wstoken' => $token,
         'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_role_unassign_roles',
-        'unassignments[0][roleid]' => 5,
-        'unassignments[0][userid]' => $moodleUserId,
-        'unassignments[0][contextid]' => $moodleCourseId
+        'wsfunction' => 'enrol_manual_unenrol_users',
+        'enrolments[0][userid]' => $moodleUserId,
+        'enrolments[0][courseid]' => $moodleCourseId
     ]);
-    
-    $unassignResp = file_get_contents("$baseUrl?$unassignParams");
-    echo "Unassigned user {$request['email']} from course {$course['course_code']}\n";
+    $unenrolResp = file_get_contents("$baseUrl?$unenrolParams");
+    echo "Unenrolled user {$request['email']} from course {$request['course_code']} (Moodle ID: $moodleCourseId) — Response: $unenrolResp\n";
 }
 
 echo "Role sync completed.\n";
