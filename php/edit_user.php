@@ -32,6 +32,11 @@ foreach ($fields as $field) {
 // Add main email
 $data['email'] = clean('email');
 
+// Set university_email to null if empty
+if ($data['university_email'] === '') {
+    $data['university_email'] = null;
+}
+
 // Basic validations
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['dob'])) {
     $errors['dob'] = 'Μη έγκυρη ημερομηνία.';
@@ -41,7 +46,7 @@ if (!in_array($data['gender'], ['M', 'F'], true)) {
     $errors['gender'] = 'Μη έγκυρο φύλο.';
 }
 
-if (!filter_var($data['university_email'], FILTER_VALIDATE_EMAIL)) {
+if ($data['university_email'] !== null && !filter_var($data['university_email'], FILTER_VALIDATE_EMAIL)) {
     $errors['university_email'] = 'Μη έγκυρη διεύθυνση email.';
 }
 
