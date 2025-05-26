@@ -135,7 +135,7 @@ try {
 
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header edituser-header">
-        <div class="container py-5">
+      <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
                     <h1 class="display-3 text-white animated slideInDown">Επεξεργασία Προφίλ</h1>
@@ -148,127 +148,167 @@ try {
                 </div>
             </div>
         </div>
-    </div>
+     </div>
     <!-- Header End -->
 
     <!-- Edit Profile Form Start -->
     <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-  <form id="editProfileForm" method="POST" action="../php/edit_user.php">
-        <h5 class="mt-5 mb-3 text-primary">Προσωπικά Στοιχεία Αιτητή</h5>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <form id="editProfileForm" method="POST" action="../php/edit_user.php" autocomplete="off">
+              <h5 class="mt-5 mb-3 text-primary">Προσωπικά Στοιχεία Αιτητή</h5>
 
-        <div class="form-floating mb-3">
-            <input type="date" class="form-control" id="dob" name="dob" value="<?= htmlspecialchars($user['dob'] ?? '') ?>">
-            <label for="dob">Ημερομηνία Γέννησης*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="dob" name="dob"
+                       value="<?= htmlspecialchars($user['dob'] ?? '') ?>">
+                <label for="dob">Ημερομηνία Γέννησης*</label>
+                <div class="error-message" id="dob_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <select class="form-select" id="gender" name="gender">
-                <option value="" disabled selected>-- Επιλέξτε --</option>
-                <option value="M" <?= ($user['gender'] ?? '') === 'M' ? 'selected' : '' ?>>Άρρεν</option>
-                <option value="F" <?= ($user['gender'] ?? '') === 'F' ? 'selected' : '' ?>>Θήλυ</option>
-            </select>
-            <label for="gender">Φύλο*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" id="gender" name="gender">
+                  <option value="" disabled selected>-- Επιλέξτε --</option>
+                  <option value="M" <?= ($user['gender'] ?? '') === 'M' ? 'selected' : '' ?>>Άρρεν</option>
+                  <option value="F" <?= ($user['gender'] ?? '') === 'F' ? 'selected' : '' ?>>Θήλυ</option>
+                </select>
+                <label for="gender">Φύλο*</label>
+                <div class="error-message" id="gender_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="social_security_number" name="social_security_number" value="<?= htmlspecialchars($user['social_security_number'] ?? '') ?>" placeholder="ΑΚΑ">
-            <label for="social_security_number">Αριθμός Κοινωνικής Ασφάλισης (ΑΚΑ)*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="social_security_number" name="social_security_number"
+                       value="<?= htmlspecialchars($user['social_security_number'] ?? '') ?>" placeholder="ΑΚΑ">
+                <label for="social_security_number">Αριθμός Κοινωνικής Ασφάλισης (ΑΚΑ)*</label>
+                <div class="error-message" id="social_security_number_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="cypriot_id" name="cypriot_id" value="<?= htmlspecialchars($user['cypriot_id'] ?? '') ?>" placeholder="ΑΔΤ">
-            <label for="cypriot_id">Αριθμός Ταυτότητας*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text"
+       class="form-control"
+       id="cypriot_id"
+       name="cypriot_id"
+       autocomplete="national-id"
+       value="<?= htmlspecialchars($user['cypriot_id'] ?? '') ?>"
+       placeholder="ΑΔΤ">
+                <label for="cypriot_id">Αριθμός Ταυτότητας*</label>
+                <div class="error-message" id="cypriot_id_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="postal_code" name="postal_code" value="<?= htmlspecialchars($user['postal_code'] ?? '') ?>" placeholder="Τ.Κ.">
-            <label for="postal_code">Ταχυδρομικός Κώδικας*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="postal_code" name="postal_code"
+                       value="<?= htmlspecialchars($user['postal_code'] ?? '') ?>" placeholder="Τ.Κ.">
+                <label for="postal_code">Ταχυδρομικός Κώδικας*</label>
+                <div class="error-message" id="postal_code_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="street_address" name="street_address" value="<?= htmlspecialchars($user['street_address'] ?? '') ?>" placeholder="Οδός και Αριθμός">
-            <label for="street_address">Οδός και Αριθμός*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="street_address" name="street_address"
+                       value="<?= htmlspecialchars($user['street_address'] ?? '') ?>" placeholder="Οδός και Αριθμός">
+                <label for="street_address">Οδός και Αριθμός*</label>
+                <div class="error-message" id="street_address_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="city" name="city" value="<?= htmlspecialchars($user['city'] ?? '') ?>" placeholder="Πόλη">
-            <label for="city">Πόλη*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="city" name="city"
+                       value="<?= htmlspecialchars($user['city'] ?? '') ?>" placeholder="Πόλη">
+                <label for="city">Πόλη*</label>
+                <div class="error-message" id="city_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="country" name="country" value="<?= htmlspecialchars($user['country'] ?? '') ?>" placeholder="Χώρα">
-            <label for="country">Χώρα*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="country" name="country"
+                       value="<?= htmlspecialchars($user['country'] ?? '') ?>" placeholder="Χώρα">
+                <label for="country">Χώρα*</label>
+                <div class="error-message" id="country_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="municipality" name="municipality" value="<?= htmlspecialchars($user['municipality'] ?? '') ?>" placeholder="Δήμος">
-            <label for="municipality">Δήμος</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="municipality" name="municipality"
+                       value="<?= htmlspecialchars($user['municipality'] ?? '') ?>" placeholder="Δήμος">
+                <label for="municipality">Δήμος</label>
+                <div class="error-message" id="municipality_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="community" name="community" value="<?= htmlspecialchars($user['community'] ?? '') ?>" placeholder="Κοινότητα">
-            <label for="community">Κοινότητα</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="community" name="community"
+                       value="<?= htmlspecialchars($user['community'] ?? '') ?>" placeholder="Κοινότητα">
+                <label for="community">Κοινότητα</label>
+                <div class="error-message" id="community_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="nationality" name="nationality" value="<?= htmlspecialchars($user['nationality'] ?? '') ?>" placeholder="Εθνικότητα">
-            <label for="nationality">Εθνικότητα*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nationality" name="nationality"
+                       value="<?= htmlspecialchars($user['nationality'] ?? '') ?>" placeholder="Εθνικότητα">
+                <label for="nationality">Εθνικότητα*</label>
+                <div class="error-message" id="nationality_error"></div>
+              </div>
 
-        <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
+              <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
 
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
-            <label for="email">Email*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" name="email"
+                       value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Email">
+                <label for="email">Email*</label>
+                <div class="error-message" id="email_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="university_email" name="university_email" value="<?= htmlspecialchars($user['university_email'] ?? '') ?>" placeholder="University Email">
-            <label for="university_email">University Email</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="university_email" name="university_email"
+                       value="<?= htmlspecialchars($user['university_email'] ?? '') ?>" placeholder="University Email">
+                <label for="university_email">University Email</label>
+                <div class="error-message" id="university_email_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="tel" class="form-control" id="mobile_phone" name="mobile_phone" value="<?= htmlspecialchars($user['mobile_phone'] ?? '') ?>" placeholder="Κινητό Τηλέφωνο">
-            <label for="mobile_phone">Κινητό Τηλέφωνο*</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="mobile_phone" name="mobile_phone"
+                       value="<?= htmlspecialchars($user['mobile_phone'] ?? '') ?>" placeholder="Κινητό Τηλέφωνο">
+                <label for="mobile_phone">Κινητό Τηλέφωνο*</label>
+                <div class="error-message" id="mobile_phone_error"></div>
+              </div>
 
-        <div class="form-floating mb-3">
-            <input type="tel" class="form-control" id="landline_phone" name="landline_phone" value="<?= htmlspecialchars($user['landline_phone'] ?? '') ?>" placeholder="Σταθερό Τηλέφωνο">
-            <label for="landline_phone">Σταθερό Τηλέφωνο</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="landline_phone" name="landline_phone"
+                       value="<?= htmlspecialchars($user['landline_phone'] ?? '') ?>" placeholder="Σταθερό Τηλέφωνο">
+                <label for="landline_phone">Σταθερό Τηλέφωνο</label>
+                <div class="error-message" id="landline_phone_error"></div>
+              </div>
 
-        <h5 class="mt-5 mb-3 text-primary">Ασφάλεια</h5>
+              <h5 class="mt-5 mb-3 text-primary">Ασφάλεια</h5>
 
-        <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Τρέχων Κωδικός">
-            <label for="old_password">Τρέχων Κωδικός</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Νέος Κωδικός">
-            <label for="password">Νέος Κωδικός</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Επιβεβαίωση Κωδικού">
-            <label for="confirm_password">Επιβεβαίωση Κωδικού</label>
-        </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Τρέχων Κωδικός">
+                <label for="old_password">Τρέχων Κωδικός</label>
+                <div class="error-message" id="old_password_error"></div>
+              </div>
 
-        <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary w-100 py-3">Αποθήκευση Αλλαγών</button>
-            <a href="../index.php" class="btn btn-secondary w-100 py-3">Ακύρωση</a>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Νέος Κωδικός">
+                <label for="password">Νέος Κωδικός</label>
+                <div class="error-message" id="password_error"></div>
+                <div id="password_strength" class="mt-1"></div>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Επιβεβαίωση Κωδικού">
+                <label for="confirm_password">Επιβεβαίωση Κωδικού</label>
+                <div class="error-message" id="confirm_password_error"></div>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary w-100 py-3">Αποθήκευση Αλλαγών</button>
+                <a href="../index.php" class="btn btn-secondary w-100 py-3">Ακύρωση</a>
+              </div>
+            </form>
+          </div>
         </div>
-    </form>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
     <!-- Edit Profile Form End -->
 
     <!-- Footer Start -->
-<div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-4">
+    <div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+     <div class="container py-4">
         <div class="row g-4 justify-content-between align-items-start">
 
             <!-- TEPAK Logo -->
@@ -320,10 +360,79 @@ try {
     <script src="../lib/easing/easing.min.js"></script>
     <script src="../lib/waypoints/waypoints.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
-
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
- <script>
+
+    <!-- Real-time Validations -->
+    <script>
+    const validators = {
+      dob: v => v ? '' : 'Η ημερομηνία γέννησης είναι υποχρεωτική.',
+      gender: v => v ? '' : 'Το φύλο είναι υποχρεωτικό.',
+      social_security_number: v => /^\d{9}$/.test(v) ? '' : 'Ο ΑΚΑ πρέπει να έχει 9 αριθμούς.',
+      cypriot_id: v => /^\d{10}$/.test(v)? '': 'Ο Αριθμός Ταυτότητας πρέπει να αποτελείται από 10 ψηφία.',
+
+      postal_code: v => /^\d{4}$/.test(v) ? '' : 'Ο ΤΚ πρέπει να έχει 4 ψηφία.',
+      street_address: v => v.trim() ? '' : 'Η οδός & αριθμός είναι υποχρεωτικά.',
+      city: v => v.trim() ? '' : 'Η πόλη είναι υποχρεωτική.',
+      country: v => v.trim() ? '' : 'Η χώρα είναι υποχρεωτική.',
+      municipality: _ => '',  // προαιρετικό
+      community: _ => '',     // προαιρετικό
+      nationality: v => v.trim() ? '' : 'Η εθνικότητα είναι υποχρεωτική.',
+      email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Εισάγετε έγκυρο email.',
+      university_email: v => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Εισάγετε έγκυρο πανεπιστημιακό email.',
+      mobile_phone: v => /^(?:\+357)?9\d{7}$/.test(v) ? '' : 'Το κινητό πρέπει να ξεκινά με 9 και να έχει 8 ψηφία.',
+      landline_phone: v => !v || /^(?:\+357)?2\d{7}$/.test(v) ? '' : 'Το σταθερό πρέπει να ξεκινά με 2 και να έχει 8 ψηφία.',
+      old_password: _ => '',   // optional
+      password: v => {
+        if (!v) return '';
+        const errs = [];
+        if (v.length<8) errs.push('>=8 χαρακτήρες');
+        if (!/[A-Z]/.test(v)) errs.push('1 κεφαλαίο');
+        if (!/[a-z]/.test(v)) errs.push('1 πεζό');
+        if (!/\d/.test(v)) errs.push('1 αριθμό');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(v)) errs.push('1 ειδικό σύμβολο');
+        return errs.length ? 'Ο κωδικός πρέπει: '+errs.join(', ') : '';
+      },
+      confirm_password: v => v===document.getElementById('password').value ? '' : 'Οι κωδικοί δεν ταιριάζουν.'
+    };
+
+    function validateField(id) {
+      const val = document.getElementById(id).value;
+      const err = validators[id](val);
+      document.getElementById(id+'_error').textContent = err;
+      return !err;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Object.keys(validators).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          validateField(id);
+          if (id==='password') {
+            const msg = validators.password(el.value);
+            const strength = document.getElementById('password_strength');
+            strength.textContent = msg
+              ? ''
+              : 'Ο κωδικός πληροί όλες τις απαιτήσεις';
+            strength.className = msg ? 'text-danger' : 'text-success';
+          }
+        });
+      });
+
+      document.getElementById('editProfileForm').addEventListener('submit', e => {
+        let ok = true;
+        Object.keys(validators).forEach(id => {
+          if (!validateField(id)) ok = false;
+        });
+        if (!ok) {
+          e.preventDefault();
+          return false;
+        }
+      });
+    });
+    </script>
+    <script>
     // Password validation function
     function validatePassword(password) {
         const errors = [];
@@ -454,8 +563,8 @@ try {
 </script>
 
     <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
-</html> 
+</html>
 </html> 
