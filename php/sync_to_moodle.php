@@ -328,19 +328,17 @@ foreach ($requests as $request) {
         continue;
     }
     
-    // Calculate the correct context ID for the course
-    $contextId = 3 * $moodleCourseId;
-    // Assign role (3 is the teacher role ID in Moodle)
-    $assignParams = http_build_query([
+    // Enrol user as teacher using enrol_manual_enrol_users
+    $enrolParams = http_build_query([
         'wstoken' => $token,
         'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_role_assign_roles',
-        'assignments[0][roleid]' => 3,  // Teacher role
-        'assignments[0][userid]' => $moodleUserId,
-        'assignments[0][contextid]' => $contextId
+        'wsfunction' => 'enrol_manual_enrol_users',
+        'enrolments[0][roleid]' => 3, // Teacher
+        'enrolments[0][userid]' => $moodleUserId,
+        'enrolments[0][courseid]' => $moodleCourseId
     ]);
-    $assignResp = file_get_contents("$baseUrl?$assignParams");
-    echo "Assigned user {$request['email']} as teacher to course {$request['course_code']} — Response: $assignResp\n";
+    $enrolResp = file_get_contents("$baseUrl?$enrolParams");
+    echo "Enrolled user {$request['email']} as teacher to course {$request['course_code']} (Moodle ID: $moodleCourseId) — Response: $enrolResp\n";
 }
 
 // Handle role unassignments for rejected/cancelled requests
@@ -372,19 +370,16 @@ foreach ($removedRequests as $request) {
     $moodleCourseId = $moodleCourseMap[$request['course_code']] ?? null;
     if (!$moodleCourseId) continue;
     
-    // Calculate the correct context ID for the course
-    $contextId = 3 * $moodleCourseId;
-    // Unassign all roles for this user in this course
-    $unassignParams = http_build_query([
+    // Unenrol user from course using enrol_manual_unenrol_users
+    $unenrolParams = http_build_query([
         'wstoken' => $token,
         'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_role_unassign_roles',
-        'unassignments[0][roleid]' => 3,  // Teacher role
-        'unassignments[0][userid]' => $moodleUserId,
-        'unassignments[0][contextid]' => $contextId
+        'wsfunction' => 'enrol_manual_unenrol_users',
+        'enrolments[0][userid]' => $moodleUserId,
+        'enrolments[0][courseid]' => $moodleCourseId
     ]);
-    $unassignResp = file_get_contents("$baseUrl?$unassignParams");
-    echo "Removed user {$request['email']} from course {$request['course_code']} — Response: $unassignResp\n";
+    $unenrolResp = file_get_contents("$baseUrl?$unenrolParams");
+    echo "Unenrolled user {$request['email']} from course {$request['course_code']} (Moodle ID: $moodleCourseId) — Response: $unenrolResp\n";
 }
 
 echo "Role sync completed.\n";
