@@ -328,32 +328,19 @@ foreach ($requests as $request) {
         continue;
     }
     
-    // Get the context ID for the course
-    $contextUrl = "$baseUrl?" . http_build_query([
-        'wstoken' => $token,
-        'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_course_get_courses',
-        'options[ids][0]' => $moodleCourseId
-    ]);
-    $contextResp = json_decode(file_get_contents($contextUrl), true);
-    
-    if (empty($contextResp[0]['id'])) {
-        echo "Warning: Could not get context for course {$request['course_code']}\n";
-        continue;
-    }
-    
+    // Calculate the correct context ID for the course
+    $contextId = 3 * $moodleCourseId;
     // Assign role (3 is the teacher role ID in Moodle)
     $assignParams = http_build_query([
         'wstoken' => $token,
         'moodlewsrestformat' => 'json',
         'wsfunction' => 'core_role_assign_roles',
-        'assignments[0][roleid]' => 3,  // Changed from 5 to 3 for teacher role
+        'assignments[0][roleid]' => 3,  // Teacher role
         'assignments[0][userid]' => $moodleUserId,
-        'assignments[0][contextid]' => $contextResp[0]['id']
+        'assignments[0][contextid]' => $contextId
     ]);
-    
     $assignResp = file_get_contents("$baseUrl?$assignParams");
-    echo "Assigned user {$request['email']} as teacher to course {$request['course_code']}\n";
+    echo "Assigned user {$request['email']} as teacher to course {$request['course_code']} — Response: $assignResp\n";
 }
 
 // Handle role unassignments for rejected/cancelled requests
@@ -385,17 +372,8 @@ foreach ($removedRequests as $request) {
     $moodleCourseId = $moodleCourseMap[$request['course_code']] ?? null;
     if (!$moodleCourseId) continue;
     
-    // Get the context ID for the course
-    $contextUrl = "$baseUrl?" . http_build_query([
-        'wstoken' => $token,
-        'moodlewsrestformat' => 'json',
-        'wsfunction' => 'core_course_get_courses',
-        'options[ids][0]' => $moodleCourseId
-    ]);
-    $contextResp = json_decode(file_get_contents($contextUrl), true);
-    
-    if (empty($contextResp[0]['id'])) continue;
-    
+    // Calculate the correct context ID for the course
+    $contextId = 3 * $moodleCourseId;
     // Unassign all roles for this user in this course
     $unassignParams = http_build_query([
         'wstoken' => $token,
@@ -403,11 +381,10 @@ foreach ($removedRequests as $request) {
         'wsfunction' => 'core_role_unassign_roles',
         'unassignments[0][roleid]' => 3,  // Teacher role
         'unassignments[0][userid]' => $moodleUserId,
-        'unassignments[0][contextid]' => $contextResp[0]['id']
+        'unassignments[0][contextid]' => $contextId
     ]);
-    
     $unassignResp = file_get_contents("$baseUrl?$unassignParams");
-    echo "Removed user {$request['email']} from course {$request['course_code']}\n";
+    echo "Removed user {$request['email']} from course {$request['course_code']} — Response: $unassignResp\n";
 }
 
 echo "Role sync completed.\n";
