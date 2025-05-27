@@ -84,6 +84,29 @@ if (isset($_SESSION['user_id'])) {
     .btn-orange:hover {
       background-color: #f3ece7;
     }
+    /* Add sorting styles */
+    #inspectionTable th {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding-right: 25px;
+    }
+    #inspectionTable th:hover {
+      background-color: #f8f9fa;
+    }
+    .sort-arrow {
+      display: inline-block;
+      margin-left: 15px;
+      transition: color 0.2s;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    #inspectionTable th[data-sort="asc"] .sort-arrow,
+    #inspectionTable th[data-sort="desc"] .sort-arrow {
+      color: #0099ff;
+    }
   </style>
 </head>
 
@@ -184,27 +207,45 @@ if (isset($_SESSION['user_id'])) {
       <!-- Header End -->
 
 <!-- Πίνακας Αιτήσεων Start -->
-  <div class="container mb-5">
-    <h2 class="mb-4 text-center">Λίστα Αιτήσεων</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped text-center">
-        <thead class="table-primary">
-  <tr>
-    <th>Α/Α</th>
-    <th>Ονοματεπώνυμο Αιτούντα</th>
-    <th>Όνομα Αίτησης</th>
-    <th>Περιγραφή</th>
-    <th>Ενέργειες</th>
-  </tr>
-</thead>
-        <tbody id="applications-table-body">
-          <!-- JS will fill this -->
-        </tbody>
-      </table>
-
-      
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h2 class="mb-0">Λίστα Αιτήσεων</h2>
+      </div>
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <input type="text" class="form-control" id="searchInput" style="max-width:350px;min-width:200px;" placeholder="Αναζήτηση Αιτήσεων...">
+        <select id="entriesPerPage" class="form-control" style="max-width:150px;min-width:120px;">
+          <option value="5">5 Αιτήσεις</option>
+          <option value="10" selected>10 Αιτήσεις</option>
+          <option value="20">20 Αιτήσεις</option>
+          <option value="100">100 Αιτήσεις</option>
+        </select>
+      </div>
+      <div class="table-responsive">
+        <table id="inspectionTable" class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 70px; min-width: 60px;">Α/Α</th>
+              <th>Ονοματεπώνυμο Αιτούντα</th>
+              <th>Όνομα Αίτησης</th>
+              <th>Περιγραφή</th>
+              <th>Ενέργειες</th>
+            </tr>
+          </thead>
+          <tbody id="inspectionTableBody">
+            <!-- JS will fill this -->
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="paginationControls">
+          <!-- Pagination will be loaded here -->
+        </ul>
+      </nav>
     </div>
   </div>
+</div>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -312,7 +353,7 @@ function rejectApplication(id) {
     fetch('../php/get-requests.php')
       .then(res => res.json())
       .then(data => {
-        const tbody = document.getElementById('applications-table-body');
+        const tbody = document.getElementById('inspectionTableBody');
         tbody.innerHTML = '';
 
         if (!data || data.length === 0 || data.error) {
@@ -339,7 +380,7 @@ function rejectApplication(id) {
       })
       .catch(error => {
         console.error('Σφάλμα κατά τη φόρτωση:', error);
-        document.getElementById('applications-table-body').innerHTML =
+        document.getElementById('inspectionTableBody').innerHTML =
           '<tr><td colspan="5">Σφάλμα κατά τη φόρτωση των αιτήσεων.</td></tr>';
       });
   });
@@ -385,6 +426,7 @@ function rejectApplication(id) {
   <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
   <script src="../assets/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/application-inspection.js"></script>
 
 </body>
 </html>

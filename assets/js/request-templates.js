@@ -233,35 +233,89 @@ $(document).ready(function() {
         $('#coursesContainer').empty();
     });
 
-    // Handle search input
-    $('#searchInput').on('keyup', function() {
-        const searchText = $(this).val().toLowerCase();
-        
-        filteredData = $('#requestsTable tbody tr').filter(function() {
-            const row = $(this);
-            if (!row.find('td').length) return false;
-            
-            const title = row.find('td:eq(1)').text().toLowerCase();
-            const description = row.find('td:eq(2)').text().toLowerCase();
-            const academies = row.find('td:eq(5)').text().toLowerCase();
-            const departments = row.find('td:eq(6)').text().toLowerCase();
-            const courses = row.find('td:eq(7)').text().toLowerCase();
-            
-            return title.includes(searchText) ||
-                   description.includes(searchText) ||
-                   academies.includes(searchText) ||
-                   departments.includes(searchText) ||
-                   courses.includes(searchText);
-        }).toArray();
-        
-        currentPage = 1;
-        updateTable();
-    });
-
     // Initialize variables for pagination
     let currentPage = 1;
     let entriesPerPage = 5;
     let filteredData = [];
+    let allRows = [];
+    let sortColumn = null;
+    let sortDirection = 1; // 1 = asc, -1 = desc
+
+    function compareValues(a, b) {
+        if (typeof a === 'string' && typeof b === 'string') {
+            return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        }
+        return a < b ? -1 : a > b ? 1 : 0;
+    }
+
+    function sortRequests(rows) {
+        if (sortColumn === null) return rows;
+        return [...rows].sort((rowA, rowB) => {
+            const tdA = $(rowA).find('td').eq(sortColumn).text().trim();
+            const tdB = $(rowB).find('td').eq(sortColumn).text().trim();
+            return compareValues(tdA, tdB) * sortDirection;
+        });
+    }
+
+    function setupRequestsTableSorting() {
+        $('#requestsTable thead th').each(function(idx) {
+            if (idx === 8) { // Skip actions column
+                $(this).css('cursor', 'default').off('click');
+                $(this).html($(this).text().replace(/[▲▼]/g, '').trim());
+                return;
+            }
+            if (!$(this).data('label')) $(this).data('label', $(this).text().replace(/[▲▼]/g, '').trim());
+            $(this).css('cursor', 'pointer');
+            let arrow = '<span class="sort-arrow" style="float:right; margin-left:8px; color:#888;">▼</span>';
+            if (sortColumn === idx) {
+                arrow = sortDirection === 1
+                    ? '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▲</span>'
+                    : '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▼</span>';
+            }
+            $(this).html($(this).data('label') + arrow);
+            $(this).off('click').on('click', function() {
+                if (sortColumn === idx) {
+                    sortDirection *= -1;
+                } else {
+                    sortColumn = idx;
+                    sortDirection = 1;
+                }
+                setupRequestsTableSorting();
+                updateTable();
+            });
+        });
+    }
+
+    // Handle search input
+    $('#searchInput').on('keyup', function() {
+        const searchText = $(this).val().toLowerCase();
+        if (!searchText) {
+            filteredData = allRows.slice();
+        } else {
+            filteredData = allRows.filter(function(row) {
+                const $row = $(row);
+                if (!$row.find('td').length) return false;
+                const serial = $row.find('td:eq(0)').text().toLowerCase();
+                const title = $row.find('td:eq(1)').text().toLowerCase();
+                const description = $row.find('td:eq(2)').text().toLowerCase();
+                const start = $row.find('td:eq(3)').text().toLowerCase();
+                const end = $row.find('td:eq(4)').text().toLowerCase();
+                const academies = $row.find('td:eq(5)').text().toLowerCase();
+                const departments = $row.find('td:eq(6)').text().toLowerCase();
+                const courses = $row.find('td:eq(7)').text().toLowerCase();
+                return serial.includes(searchText) ||
+                       title.includes(searchText) ||
+                       description.includes(searchText) ||
+                       start.includes(searchText) ||
+                       end.includes(searchText) ||
+                       academies.includes(searchText) ||
+                       departments.includes(searchText) ||
+                       courses.includes(searchText);
+            });
+        }
+        currentPage = 1;
+        updateTable();
+    });
 
     // Handle entries per page change
     $('#entriesSelect').on('change', function() {
@@ -280,16 +334,15 @@ $(document).ready(function() {
         }
     });
 
-    // Function to update table with pagination
+    // Function to update table with pagination and sorting
     function updateTable() {
         const start = (currentPage - 1) * entriesPerPage;
         const end = start + entriesPerPage;
-        const paginatedData = filteredData.slice(start, end);
-        
+        let sortedData = sortRequests(filteredData);
+        const paginatedData = sortedData.slice(start, end);
         // Update table body
         const tbody = $('#requestsTable tbody');
         tbody.empty();
-        
         if (paginatedData.length === 0) {
             tbody.html('<tr><td colspan="9" class="text-center">No requests found</td></tr>');
         } else {
@@ -297,8 +350,7 @@ $(document).ready(function() {
                 tbody.append(row);
             });
         }
-        
-        // Update pagination controls
+        setupRequestsTableSorting();
         updatePagination();
         updateEntriesCount();
     }
@@ -368,17 +420,24 @@ $(document).ready(function() {
             url: '../php/get-request-templates.php',
             type: 'GET',
             success: function(response) {
+                const tbody = $('#requestsTable tbody');
                 if (response === '') {
+                    tbody.html('<tr><td colspan="9" class="text-center">No requests found</td></tr>');
+                    allRows = [];
                     filteredData = [];
                 } else {
-                    // Store all rows in filteredData
-                    const tempDiv = $('<div>').html(response);
-                    filteredData = tempDiv.find('tr').toArray();
+                    tbody.html(response);
+                    allRows = $('#requestsTable tbody tr').toArray();
+                    filteredData = allRows.slice();
                 }
+                currentPage = 1;
                 updateTable();
             },
             error: function() {
                 $('#requestsTable tbody').html('<tr><td colspan="9" class="text-center">Error loading requests</td></tr>');
+                allRows = [];
+                filteredData = [];
+                updateTable();
             }
         });
     }

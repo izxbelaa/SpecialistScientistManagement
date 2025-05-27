@@ -41,6 +41,31 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
     <link href="../assets/css/requests-admin.css" rel="stylesheet">
+    <style>
+      /* Add sorting styles */
+      #requestsTable th {
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        padding-right: 25px;
+      }
+      #requestsTable th:hover {
+        background-color: #f8f9fa;
+      }
+      .sort-arrow {
+        display: inline-block;
+        margin-left: 15px;
+        transition: color 0.2s;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      #requestsTable th[data-sort="asc"] .sort-arrow,
+      #requestsTable th[data-sort="desc"] .sort-arrow {
+        color: #0099ff;
+      }
+    </style>
 
 </head>
 
@@ -170,7 +195,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
           <table id="requestsTable" class="table table-striped align-middle">
             <thead>
               <tr>
-                <th>A/A</th>
+                <th style="width: 70px; min-width: 60px;">A/A</th>
                 <th>Τίτλος Αίτησης</th>
                 <th>Περιγραφή</th>
                 <th>Ημερομηνία Έναρξης</th>
@@ -181,7 +206,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                 <th>Ενέργειες</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="requestsTableBody">
               <!-- Table rows will be populated dynamically -->
             </tbody>
           </table>
@@ -352,6 +377,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!-- Custom Javascript -->
     <script src="../assets/js/request-templates.js"></script>
+    <script src="../assets/js/requests-admin.js"></script>
 </body>
 
 </html>
