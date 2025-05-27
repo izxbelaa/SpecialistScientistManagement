@@ -34,12 +34,14 @@ $ees = $pdo->query("SELECT * FROM users WHERE type_of_user = 2")->fetchAll(PDO::
 $rows = [];
 foreach ($ees as $i => $ee) {
     $moodleUser = checkMoodleAccess($ee['email'], $token, $baseUrl);
-    $isEnabled = $moodleUser ? true : false;
+    $isEnabled = ($moodleUser && isset($moodleUser['suspended']) && $moodleUser['suspended'] == 0) ? true : false;
     $rows[] = [
         'aa' => $i + 1,
         'name' => htmlspecialchars($ee['first_name'] . ' ' . $ee['last_name']),
         'email' => htmlspecialchars($ee['email']),
-        'lmsStatus' => $isEnabled ? 'Έχει πρόσβαση' : 'Χωρίς πρόσβαση',
+        'lmsStatus' => $isEnabled
+            ? '<span class="badge bg-success">Έχει πρόσβαση</span>'
+            : '<span class="badge bg-danger">Χωρίς πρόσβαση</span>',
         'actions' =>
             '<button class="btn btn-sm ' . ($isEnabled ? 'btn-warning' : 'btn-primary') . ' me-1 toggle-lms-access" data-user-id="' . $ee['id'] . '" data-enabled="' . ($isEnabled ? '1' : '0') . '" title="' . ($isEnabled ? 'Απενεργοποίηση πρόσβασης' : 'Ενεργοποίηση πρόσβασης') . '">' .
                 '<i class="fas ' . ($isEnabled ? 'fa-user-slash' : 'fa-user-check') . '"></i>' .
