@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Configure Submission Period - CUT</title>
+  <title>Manage Departments - CUT</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="Submission period page" name="keywords">
   <meta content="Submission period page for Cyprus University of Technology" name="description">
@@ -53,6 +53,29 @@
     }
     .btn-orange:hover {
       background-color: #f3ece7;
+    }
+    /* Add sorting styles */
+    #departmentsTable th {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding-right: 25px;
+    }
+    #departmentsTable th:hover {
+      background-color: #f8f9fa;
+    }
+    .sort-arrow {
+      display: inline-block;
+      margin-left: 15px;
+      transition: color 0.2s;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    #departmentsTable th[data-sort="asc"] .sort-arrow,
+    #departmentsTable th[data-sort="desc"] .sort-arrow {
+      color: #0099ff;
     }
   </style>
 </head>
@@ -157,7 +180,7 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h2 class="mb-0">Λιστα Τμημάτων</h2>
+        <h2 class="mb-0">Λίστα Τμημάτων</h2>
         <button class="btn btn-info text-white" id="addDepartmentBtn" data-bs-toggle="modal" data-bs-target="#departmentModal">
           <i class="fas fa-plus me-2"></i>Προσθήκη Νέου Τμήματος
         </button>
@@ -172,7 +195,7 @@
         </select>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped">
+        <table id="departmentsTable" class="table table-striped">
           <thead>
             <tr>
               <th style="width: 70px; min-width: 60px;">Α/Α</th>
@@ -277,7 +300,7 @@
             <div class="col-md-4">
                 <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle/" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
                     <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
                 </ul>
         </div>

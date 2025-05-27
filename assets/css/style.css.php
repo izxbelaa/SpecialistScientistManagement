@@ -732,3 +732,19 @@ table.lms-table thead tr {
 
 /* Remove requests-table custom colors to use Bootstrap defaults */
 /* .requests-table thead th, .requests-table tbody tr:nth-of-type(odd), .requests-table tbody tr:nth-of-type(even), .requests-table td, .requests-table th { } */
+
+.sort-arrow {
+  display: inline-block;
+  min-width: 1.2em;
+  text-align: right;
+  vertical-align: middle;
+  font-size: 1em;
+  line-height: 1;
+  margin-left: 8px;
+}
+
+#CourseTable th {
+  min-width: 150px;
+  padding-right: 36px;
+  position: relative;
+}

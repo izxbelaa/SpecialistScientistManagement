@@ -3,7 +3,6 @@
 session_start();
 require_once __DIR__ . '/../php/session_check.php';
 require_once __DIR__ . '/../php/config.php';
-require_once __DIR__ . '/../php/fetch-application-status.php';
 
 ?>
 <!DOCTYPE html>
@@ -24,6 +23,31 @@ require_once __DIR__ . '/../php/fetch-application-status.php';
   <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/css/style.css.php" rel="stylesheet">
+  <style>
+    /* Add sorting styles */
+    #applicationsTable th {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding-right: 25px;
+    }
+    #applicationsTable th:hover {
+      background-color: #f8f9fa;
+    }
+    .sort-arrow {
+      display: inline-block;
+      margin-left: 15px;
+      transition: color 0.2s;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    #applicationsTable th[data-sort="asc"] .sort-arrow,
+    #applicationsTable th[data-sort="desc"] .sort-arrow {
+      color: #0099ff;
+    }
+  </style>
 </head>
 <body>
   <!-- Spinner -->
@@ -126,44 +150,35 @@ require_once __DIR__ . '/../php/fetch-application-status.php';
       <i class="fas fa-list me-2 text-primary"></i>
       <h5 class="mb-0 fw-bold">Λίστα Αιτήσεων</h5>
     </div>
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered align-middle mb-0 text-center">
-        <thead style="background-color: #e6f2ff;">
-          <tr>
-            <th style="width: 10%;">#</th>
-            <th>Τίτλος Αίτησης</th>
-            <th>Κατάσταση</th>
-          </tr>
-        </thead>
-        <tbody>
-
-        
-          <?php if (!empty($applications)): ?>
-            <?php foreach ($applications as $index => $app): ?>
-              <tr>
-                <td><?= $index + 1 ?></td>
-                <td><?= htmlspecialchars($app['request_name']) ?></td>
-                <td>
-                  <?php
-                    $status = $app['katastasi'];
-                    $badgeClass = match ($status) {
-                      'Εγκρίθηκε'    => 'bg-success',
-                      'Απορρίφθηκε'  => 'bg-danger',
-                      default        => 'bg-warning text-dark',
-                    };
-                  ?>
-                  <span class="badge <?= $badgeClass ?>"><?= $status ?></span>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
+    <div class="card-body">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <input type="text" id="searchInput" class="form-control" style="max-width:350px;min-width:200px;" placeholder="Αναζήτηση Αιτήσεων..." oninput="searchApplications()">
+        <select id="entriesPerPage" class="form-control" style="max-width:150px;min-width:120px;" onchange="loadApplications()">
+          <option value="5">5 Αιτήσεις</option>
+          <option value="10" selected>10 Αιτήσεις</option>
+          <option value="20">20 Αιτήσεις</option>
+          <option value="100">100 Αιτήσεις</option>
+        </select>
+      </div>
+      <div class="table-responsive">
+        <table id="applicationsTable" class="table table-striped">
+          <thead>
             <tr>
-              <td colspan="3" class="text-muted">Δεν υπάρχουν αιτήσεις.</td>
+              <th style="width: 70px; min-width: 60px;">Α/Α</th>
+              <th>Τίτλος Αίτησης</th>
+              <th>Κατάσταση</th>
             </tr>
-          <?php endif; ?>
-</tbody>
-
-      </table>
+          </thead>
+          <tbody id="applicationsTableBody">
+            <!-- Applications will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="paginationControls">
+          <!-- Pagination will be loaded here -->
+        </ul>
+      </nav>
     </div>
   </div>
 
@@ -181,6 +196,7 @@ require_once __DIR__ . '/../php/fetch-application-status.php';
   <script src="../lib/waypoints/waypoints.min.js"></script>
   <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
   <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/application-status.js"></script>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
