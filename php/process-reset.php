@@ -1,59 +1,46 @@
 <?php
 session_start();
-require 'config.php';
+if ($_SERVER['REQUEST_METHOD']!=='POST') exit;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $newPassword = trim($_POST['new_password'] ?? '');
-    $confirmPassword = trim($_POST['confirm_password'] ?? '');
+require __DIR__.'/config.php';
 
-    if ($newPassword !== $confirmPassword) {
-        $_SESSION['reset_error'] = "Οι κωδικοί δεν ταιριάζουν.";
-        header("Location: ../html/reset-password-form.php");
-        exit;
-    }
+$code     = trim($_POST['code'] ?? '');
+$new      = trim($_POST['new_password'] ?? '');
+$confirm  = trim($_POST['confirm_password'] ?? '');
 
-    if (!isset($_SESSION['verification_email'])) {
-        $_SESSION['reset_error'] = "Η συνεδρία έληξε. Ξεκινήστε ξανά.";
-        header("Location: ../html/forgot-password.php");
-        exit;
-    }
-
-    $email = $_SESSION['verification_email'];
-    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-    try {
-        // Update password
-        $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE email = ?");
-        $stmt->execute([$hashedPassword, $email]);
-
-        // Get user info (id + first_name)
-        $userStmt = $pdo->prepare("SELECT id, first_name FROM users WHERE email = ?");
-        $userStmt->execute([$email]);
-        $user = $userStmt->fetch();
-
-        if (!$user) {
-            $_SESSION['reset_error'] = "Ο χρήστης δεν βρέθηκε.";
-            header("Location: ../html/reset-password-form.php");
-            exit;
-        }
-
-        // Set login session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['first_name'];
-
-        // Clean up
-        unset($_SESSION['verification_email']);
-        unset($_SESSION['verification_code']);
-
-        $_SESSION['reset_success'] = "Ο κωδικός σας αλλάχθηκε με επιτυχία!";
-        header("Location: ../index.php");
-        exit;
-
-    } catch (PDOException $e) {
-        $_SESSION['reset_error'] = "Σφάλμα βάσης δεδομένων: " . $e->getMessage();
-        header("Location: ../html/reset-password-form.php");
-        exit;
-    }
-} else {
-    echo "Μη εξουσιοδοτημένο αίτημα.";
+// 1) Verify code
+if (!isset($_SESSION['verification_code'], $_SESSION['verification_email'])
+ || $_SESSION['verification_code'] !== $code) {
+  $_SESSION['reset_error'] = 'Άκυρος κωδικός.';
+  header('Location: ../html/reset-password-form.php');
+  exit;
 }
+
+// 2) Validate passwords
+if ($new !== $confirm || strlen($new) < 8) {
+  $_SESSION['reset_error'] = 'Οι κωδικοί πρέπει να ταιριάζουν και ≥8 chars.';
+  header('Location: ../html/reset-password-form.php');
+  exit;
+}
+
+// 3) Update the password in your users table
+$hash = password_hash($new, PASSWORD_DEFAULT);
+$stmt = $pdo->prepare("UPDATE users SET password = ? WHERE email = ?");
+$stmt->execute([$hash, $_SESSION['verification_email']]);
+
+// 4) Fetch the user row so we can log them in
+$userStmt = $pdo->prepare("SELECT id, first_name FROM users WHERE email = ?");
+$userStmt->execute([$_SESSION['verification_email']]);
+$user = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+// 5) Clean up reset session vars
+unset($_SESSION['verification_code'], $_SESSION['verification_email']);
+
+// 6) Write login session vars
+$_SESSION['user_id']  = $user['id'];
+$_SESSION['username'] = $user['first_name'];    // or email, whichever you show in nav
+$_SESSION['reset_success'] = 'Ο κωδικός άλλαξε με επιτυχία!';
+
+// 7) Redirect to home (or dashboard)
+header('Location: ../index.php');
+exit;
