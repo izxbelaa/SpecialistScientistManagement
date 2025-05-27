@@ -38,8 +38,8 @@ if (!file_exists($backupDir)) {
     }
     // Set proper ownership for Ubuntu Apache
     chmod($backupDir, 0775);
-    chown($backupDir, 'www-data');
-    chgrp($backupDir, 'www-data');
+    @chown($backupDir, 'www-data');
+    @chgrp($backupDir, 'www-data');
 }
 
 // Function to create backup
@@ -47,9 +47,9 @@ function createBackup($dbName, $backupDir) {
     global $dbHost, $dbUser, $dbPass;
     
     $timestamp = date('Y-m-d_H-i-s');
-    $backupFile = $backupDir . $dbName . '_' . $timestamp . '.sql';
+    $backupFile = $backupDir . DIRECTORY_SEPARATOR . $dbName . '_' . $timestamp . '.sql';
     
-    // Try to find mysqldump in common locations
+    // Try to find mysqldump in common Linux locations
     $possiblePaths = [
         '/usr/bin/mysqldump',                    // Ubuntu/Debian default
         '/usr/local/mysql/bin/mysqldump',        // Custom MySQL installation
@@ -67,7 +67,8 @@ function createBackup($dbName, $backupDir) {
     }
     
     if (!$mysqldump) {
-        return false;
+        error_log('mysqldump not found in any known location.');
+        return ['success' => false, 'error' => 'mysqldump not found'];
     }
     
     // Build the command with basic options for maximum compatibility
@@ -94,6 +95,8 @@ function createBackup($dbName, $backupDir) {
     
     $process = proc_open($command, $descriptorspec, $pipes);
     
+    $stdout = '';
+    $stderr = '';
     if (is_resource($process)) {
         // Close stdin
         fclose($pipes[0]);
@@ -109,24 +112,27 @@ function createBackup($dbName, $backupDir) {
         // Get the return value
         $returnVar = proc_close($process);
     } else {
-        return false;
+        return ['success' => false, 'error' => 'proc_open failed'];
     }
     
     if ($returnVar !== 0) {
-        return false;
+        if (file_exists($backupFile)) {
+            unlink($backupFile);
+        }
+        return ['success' => false, 'error' => "mysqldump failed: $stderr $stdout", 'command' => $command];
     }
     
     if (!file_exists($backupFile)) {
-        return false;
+        return ['success' => false, 'error' => 'Backup file not created', 'command' => $command, 'stderr' => $stderr, 'stdout' => $stdout];
     }
     
     // Check if file is empty
     if (filesize($backupFile) === 0) {
         unlink($backupFile); // Delete empty file
-        return false;
+        return ['success' => false, 'error' => 'Backup file is empty', 'command' => $command, 'stderr' => $stderr, 'stdout' => $stdout];
     }
     
-    return $backupFile;
+    return ['success' => true, 'file' => $backupFile];
 }
 
 try {
@@ -140,20 +146,20 @@ try {
     
     // Backup first database (cei326omada2)
     $db1 = 'cei326omada2';
-    $backupFile1 = createBackup($db1, $backupDir);
-    if ($backupFile1) {
-        $backupFiles[$db1] = basename($backupFile1);
+    $result1 = createBackup($db1, $backupDir);
+    if ($result1['success']) {
+        $backupFiles[$db1] = basename($result1['file']);
         
         // Only proceed with second database if first backup was successful
         $db2 = 'moodle_omada2';
-        $backupFile2 = createBackup($db2, $backupDir);
-        if ($backupFile2) {
-            $backupFiles[$db2] = basename($backupFile2);
+        $result2 = createBackup($db2, $backupDir);
+        if ($result2['success']) {
+            $backupFiles[$db2] = basename($result2['file']);
         } else {
-            $errors[] = "Αποτυχία backup για τη βάση $db2";
+            $errors[] = "Αποτυχία backup για τη βάση $db2: " . ($result2['error'] ?? 'Άγνωστο σφάλμα');
         }
     } else {
-        $errors[] = "Αποτυχία backup για τη βάση $db1";
+        $errors[] = "Αποτυχία backup για τη βάση $db1: " . ($result1['error'] ?? 'Άγνωστο σφάλμα');
     }
     
     if (empty($errors)) {
