@@ -22,8 +22,8 @@ try {
 // — Mail (Gmail SMTP) —
 define('MAIL_HOST',       'smtp.gmail.com');
 define('MAIL_PORT',       587);
-define('MAIL_USERNAME',   'nedialkova230@gmail.com');
-define('MAIL_PASSWORD',   'gnamxfancgtorevd');  // ← your 16-char App Password, no spaces
+define('MAIL_USERNAME',   'noreplyspecialscientist@gmail.com');
+define('MAIL_PASSWORD',   'bavu rxze pjhm ctpv');  // ← your 16-char App Password, no spaces
 define('MAIL_ENCRYPTION', 'tls');
-define('MAIL_FROM',       'nedialkova230@gmail.com');
+define('MAIL_FROM',       'noreplyspecialscientist@gmail.com');
 define('MAIL_FROM_NAME',  'CUT Password Reset');

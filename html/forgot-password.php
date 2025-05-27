@@ -132,30 +132,33 @@
       });
     });
 
-    document.getElementById('codeForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const code = document.getElementById('verificationCode').value.trim();
-      const codeError = document.getElementById('codeError');
+   document.getElementById('codeForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const codeInput = document.getElementById('verificationCode');
+  const code = codeInput.value.trim();
+  const codeError = document.getElementById('codeError');
 
-      fetch('../php/verify-code.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          window.location.href = "reset-password-form.php";
-        } else {
-          codeError.style.display = 'block';
-          codeError.textContent = data.message || "Λανθασμένος κωδικός. Προσπαθήστε ξανά.";
-        }
-      })
-      .catch(() => {
-        codeError.style.display = 'block';
-        codeError.textContent = "Σφάλμα επικοινωνίας. Προσπαθήστε ξανά.";
-      });
-    });
+  fetch('../php/verify-code.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code: code })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // carry the code forward so the reset form can pick it up
+      const encoded = encodeURIComponent(code);
+      window.location.href = `reset-password-form.php?code=${encoded}`;
+    } else {
+      codeError.style.display = 'block';
+      codeError.textContent = data.message || "Λανθασμένος κωδικός. Προσπαθήστε ξανά.";
+    }
+  })
+  .catch(() => {
+    codeError.style.display = 'block';
+    codeError.textContent = "Σφάλμα επικοινωνίας. Προσπαθήστε ξανά.";
+  });
+});
   </script>
 </body>
 
