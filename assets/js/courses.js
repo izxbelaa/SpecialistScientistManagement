@@ -71,6 +71,7 @@ function loadCourses() {
     })
     .then(res => res.json())
     .then(data => {
+        console.log("Data fetched from courses.php:", data);
         const tbody = document.getElementById("CourseTableBody");
         tbody.innerHTML = "";
 
@@ -157,9 +158,33 @@ document.getElementById("CourseModal").addEventListener("hidden.bs.modal", funct
 
 let allCourses = [];
 let currentPage = 1;
+let sortColumn = null;
+let sortDirection = 1; // 1 = asc, -1 = desc
 
 function getRowsPerPage() {
     return parseInt(document.getElementById("entriesPerPage").value) || 10;
+}
+
+function compareValues(a, b) {
+    if (typeof a === 'string' && typeof b === 'string') {
+        return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    }
+    return a < b ? -1 : a > b ? 1 : 0;
+}
+
+function sortCourses(courses) {
+    if (sortColumn === null) return courses;
+    return [...courses].sort((a, b) => {
+        let valA, valB;
+        switch (sortColumn) {
+            case 0: valA = a.id; valB = b.id; break;
+            case 1: valA = a.department_name; valB = b.department_name; break;
+            case 2: valA = a.course_name; valB = b.course_name; break;
+            case 3: valA = a.course_code; valB = b.course_code; break;
+            default: return 0;
+        }
+        return compareValues(valA, valB) * sortDirection;
+    });
 }
 
 function renderPaginatedCourses(courses, page = 1) {
@@ -167,11 +192,17 @@ function renderPaginatedCourses(courses, page = 1) {
     const tbody = document.getElementById("CourseTableBody");
     tbody.innerHTML = "";
 
+    // Sort before paginating
+    const sortedCourses = sortCourses(courses);
+
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    const paginatedItems = courses.slice(start, end);
+    const paginatedItems = sortedCourses.slice(start, end);
 
-    paginatedItems.forEach(course => {
+    paginatedItems.forEach((course, idx) => {
+        // Calculate the serial number as the row index on the current page (1, 2, 3...)
+        const serial = start + idx + 1;
+        console.log(`Rendering row: course ID=${course.id}, idx=${idx}, start=${start}, calculated serial=${serial}`);
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${course.id}</td>
@@ -191,6 +222,7 @@ function renderPaginatedCourses(courses, page = 1) {
     });
 
     renderPaginationControls(courses.length, page);
+    setupCourseTableSorting(); // Always re-attach listeners
 }
 
 function renderPaginationControls(totalItems, currentPage) {
@@ -278,9 +310,56 @@ loadCourses = function () {
     })
     .then(res => res.json())
     .then(data => {
+        console.log("Data fetched from courses.php:", data);
         allCourses = data;
         currentPage = 1;
         renderPaginatedCourses(filteredCourses(), currentPage);
     });
 };
+
+function setupCourseTableSorting() {
+    const ths = document.querySelectorAll("#CourseTable thead th");
+    console.log("Setting up sorting (courses)", ths.length, ths);
+    ths.forEach((th, idx) => {
+        if (idx === 4) {
+            th.innerHTML = th.textContent.replace(/[\u25B2\u25BC\u2193\u2191]/g, '').trim();
+            th.style.cursor = "default";
+            th.onclick = null;
+            return;
+        }
+        if (!th.dataset.label) th.dataset.label = th.textContent.replace(/[\u25B2\u25BC\u2193\u2191]/g, '').trim();
+        th.style.cursor = "pointer";
+        let arrow = '<span class="sort-arrow" style="float:right; margin-left:8px; color:#888;">▼</span>';
+        if (sortColumn === idx) {
+            arrow = sortDirection === 1
+                ? '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▲</span>'
+                : '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▼</span>';
+        }
+        th.innerHTML = th.dataset.label + arrow;
+        th.onclick = function () {
+            if (sortColumn === idx) {
+                sortDirection *= -1;
+            } else {
+                sortColumn = idx;
+                sortDirection = 1;
+            }
+            ths.forEach((t, i) => {
+                if (i === 4) {
+                    t.innerHTML = t.textContent.replace(/[\u25B2\u25BC\u2193\u2191]/g, '').trim();
+                    t.style.cursor = "default";
+                    t.onclick = null;
+                    return;
+                }
+                let arrow = '<span class="sort-arrow" style="float:right; margin-left:8px; color:#888;">▼</span>';
+                if (i === sortColumn) {
+                    arrow = sortDirection === 1
+                        ? '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▲</span>'
+                        : '<span class="sort-arrow" style="float:right; margin-left:8px; color:#0099ff;">▼</span>';
+                }
+                t.innerHTML = t.dataset.label + arrow;
+            });
+            renderPaginatedCourses(allCourses, 1);
+        };
+    });
+}
 

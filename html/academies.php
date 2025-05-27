@@ -29,6 +29,31 @@
 
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
+    <style>
+        /* Add sorting styles */
+        #academiesTable th {
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            padding-right: 25px;
+        }
+        #academiesTable th:hover {
+            background-color: #f8f9fa;
+        }
+        .sort-arrow {
+            display: inline-block;
+            margin-left: 15px;
+            transition: color 0.2s;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #academiesTable th[data-sort="asc"] .sort-arrow,
+        #academiesTable th[data-sort="desc"] .sort-arrow {
+            color: #0099ff;
+        }
+    </style>
 </head>
 <body class="academies-page">
     <!-- Spinner Start -->
@@ -140,14 +165,24 @@
                                 </button>
                             </div>
 
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                                <input type="text" id="searchInput" class="form-control" style="max-width:350px;min-width:200px;" placeholder="Αναζήτηση Σχολών..." oninput="searchAcademies()">
+                                <select id="entriesPerPage" class="form-control" style="max-width:150px;min-width:120px;" onchange="loadAcademies()">
+                                    <option value="5">5 Σχολές</option>
+                                    <option value="10" selected>10 Σχολές</option>
+                                    <option value="20">20 Σχολές</option>
+                                    <option value="100">100 Σχολές</option>
+                                </select>
+                            </div>
+
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table id="academiesTable" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Α/Α</th>
-                                            <th>Σχολή</th>
+                                            <th style="width: 70px; min-width: 60px;">Α/Α</th>
+                                            <th>Όνομα Σχολής</th>
                                             <th>Κωδικός</th>
-                                            <th>Ενέργειες</th>
+                                            <th style="width: 100px;">Ενέργειες</th>
                                         </tr>
                                     </thead>
                                     <tbody id="academiesTableBody">
@@ -155,6 +190,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center" id="paginationControls">
+                                    <!-- Pagination will be loaded here -->
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -206,7 +246,7 @@
             <div class="col-md-4">
                 <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle/" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
                     <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
                 </ul>
         </div>

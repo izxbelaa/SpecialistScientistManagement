@@ -136,7 +136,7 @@
                 <div class="card shadow">
                     <div class="card-body p-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h2 class="mb-0">Λιστα Μαθημάτων</h2>
+                            <h2 class="mb-0">Λίστα Μαθημάτων</h2>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CourseModal">
                                 <i class="fa fa-plus me-2"></i>Προσθήκη Νέου Μαθήματος
                             </button>
@@ -154,7 +154,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table id="CourseTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Α/Α</th>
@@ -256,7 +256,8 @@
             <div class="col-md-4">
                 <h6 class="text-uppercase text-white mb-3 border-bottom pb-1">ΧΡΗΣΙΜΟΙ ΣΥΝΔΕΣΜΟΙ</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="http://localhost/SpecialistScientistManagement/moodle" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+                    <li class="mb-2"><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://cei326-omada2.cut.ac.cy/moodle/" class="text-light text-decoration-none" target="_blank">eLearning (Moodle)</a></li>
+
                     <li><i class="fa fa-chevron-right me-2 text-primary"></i><a href="https://www.cut.ac.cy/" class="text-light text-decoration-none" target="_blank">Ιστοσελίδα ΤΕΠΑΚ</a></li>
                 </ul>
         </div>

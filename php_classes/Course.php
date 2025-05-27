@@ -25,7 +25,18 @@ class Course {
 
     public function addCourse($departmentId, $courseName, $courseCode) {
         $stmt = $this->pdo->prepare("INSERT INTO course (department_id, course_name, course_code) VALUES (?, ?, ?)");
-        return $stmt->execute([$departmentId, $courseName, $courseCode]);
+        $result = $stmt->execute([$departmentId, $courseName, $courseCode]);
+
+        if ($result) {
+            // Try to get the last inserted ID
+            $lastId = $this->pdo->lastInsertId();
+            error_log("Course added successfully. Last Insert ID: " . $lastId); // Log to server error log
+            return true; // Return true if insertion was successful
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            error_log("Failed to add course. Error Info: " . print_r($errorInfo, true)); // Log error details
+            return false; // Return false if insertion failed
+        }
     }
 
     public function deleteCourse($id) {
