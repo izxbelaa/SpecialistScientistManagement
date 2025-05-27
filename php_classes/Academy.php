@@ -13,9 +13,9 @@ class Academy {
             throw new Exception("Academy name must be between 2 and 255 characters");
         }
 
-        // Validate code format (alphanumeric, 2-50 characters)
-        if (!preg_match('/^[A-Za-z0-9]{2,50}$/', $code)) {
-            throw new Exception("Academy code must be alphanumeric and between 2-50 characters");
+        // Validate code format (alphanumeric, 1-50 characters)
+        if (!preg_match('/^[A-Za-z0-9]{1,50}$/', $code)) {
+            throw new Exception("Academy code must be alphanumeric and between 1-50 characters");
         }
 
         // Check for duplicate name

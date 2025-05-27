@@ -126,3 +126,308 @@ Array
     [disabledUser] => 0
     [password] => Christos!
 )
+[27-May-2025 19:45:50 Europe/Berlin] Received action: get
+[27-May-2025 19:45:50 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:45:54 Europe/Berlin] Received action: get
+[27-May-2025 19:45:54 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:47:03 Europe/Berlin] Received action: get
+[27-May-2025 19:47:03 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:47:06 Europe/Berlin] Received action: get
+[27-May-2025 19:47:06 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:47:18 Europe/Berlin] Received action: update
+[27-May-2025 19:47:18 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:47:18 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:47:18 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:47:32 Europe/Berlin] Received action: update
+[27-May-2025 19:47:32 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:47:32 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:47:32 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:49:31 Europe/Berlin] Received action: get
+[27-May-2025 19:49:31 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:49:33 Europe/Berlin] Received action: get
+[27-May-2025 19:49:33 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:49:39 Europe/Berlin] Received action: update
+[27-May-2025 19:49:39 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:49:39 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:49:39 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:49:50 Europe/Berlin] Received action: get
+[27-May-2025 19:49:50 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:49:51 Europe/Berlin] Received action: get
+[27-May-2025 19:49:51 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:49:57 Europe/Berlin] Received action: update
+[27-May-2025 19:49:57 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:49:57 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:49:57 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:55:17 Europe/Berlin] Received action: get
+[27-May-2025 19:55:17 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:55:18 Europe/Berlin] Received action: get
+[27-May-2025 19:55:18 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:55:25 Europe/Berlin] Received action: update
+[27-May-2025 19:55:25 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:55:25 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:55:25 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:59:24 Europe/Berlin] Received action: update
+[27-May-2025 19:59:24 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:59:24 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:59:24 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 19:59:28 Europe/Berlin] Received action: get
+[27-May-2025 19:59:28 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 19:59:29 Europe/Berlin] Received action: get
+[27-May-2025 19:59:29 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 19:59:29 Europe/Berlin] Received action: update
+[27-May-2025 19:59:29 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 19:59:29 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 19:59:29 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 20:01:22 Europe/Berlin] Received action: update
+[27-May-2025 20:01:22 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1  
+    [id] => 1
+)
+
+[27-May-2025 20:01:22 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 20:01:22 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 20:01:28 Europe/Berlin] Received action: update
+[27-May-2025 20:01:28 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:01:28 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 20:01:28 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 20:01:29 Europe/Berlin] Received action: update
+[27-May-2025 20:01:29 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 12
+    [id] => 1
+)
+
+[27-May-2025 20:01:31 Europe/Berlin] Received action: get
+[27-May-2025 20:01:31 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:01:32 Europe/Berlin] Received action: get
+[27-May-2025 20:01:32 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 20:01:35 Europe/Berlin] Received action: update
+[27-May-2025 20:01:35 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:01:35 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 20:01:35 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 20:01:48 Europe/Berlin] Received action: update
+[27-May-2025 20:01:48 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:01:48 Europe/Berlin] Error in academies.php: Academy code must be alphanumeric and between 2-50 characters
+[27-May-2025 20:01:48 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\SpecialistScientistManagement\php_classes\Academy.php(84): Academy->validateInput('\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1', '1')
+#1 C:\xampp\htdocs\SpecialistScientistManagement\php\academies.php(84): Academy->update('1', '\xCE\xA3\xCF\x87\xCE\xBF\xCE\xBB\xCE\xAE \xCE\x93\xCE\xB5...', '1')
+#2 {main}
+[27-May-2025 20:01:53 Europe/Berlin] Received action: get
+[27-May-2025 20:01:53 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:03:07 Europe/Berlin] Received action: get
+[27-May-2025 20:03:07 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:03:08 Europe/Berlin] Received action: get
+[27-May-2025 20:03:08 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 20:03:09 Europe/Berlin] Received action: update
+[27-May-2025 20:03:09 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:03:10 Europe/Berlin] Received action: get
+[27-May-2025 20:03:10 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:03:16 Europe/Berlin] Received action: get
+[27-May-2025 20:03:16 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 20:03:21 Europe/Berlin] Received action: update
+[27-May-2025 20:03:21 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:03:21 Europe/Berlin] Received action: get
+[27-May-2025 20:03:21 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:04:04 Europe/Berlin] Received action: get
+[27-May-2025 20:04:04 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+

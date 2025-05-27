@@ -239,7 +239,7 @@
   <div class="row g-3">
     <!-- Ακαδημία -->
     <div class="col-md-6">
-      <label for="academy_id" class="form-label">Σχολή</label>
+      <label for="academy_id" class="form-label">Σχολή <span>*</span></label>
       <select id="academy_id" name="academy_id" class="form-select">
         <option value="">Επιλέξτε Σχολή</option>
         <!-- Other options loaded dynamically -->

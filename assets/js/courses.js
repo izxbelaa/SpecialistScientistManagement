@@ -9,8 +9,40 @@ document.addEventListener("DOMContentLoaded", function () {
         const name = document.getElementById("CourseName").value.trim();
         const code = document.getElementById("CourseCode").value.trim();
     
+        // Validation: required fields
         if (!dept || !name || !code) {
-            alert("All fields are required.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Σφάλμα',
+                text: 'Όλα τα πεδία είναι υποχρεωτικά.'
+            });
+            ["DepartmentName", "CourseName", "CourseCode"].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el.value.trim()) el.classList.add('is-invalid');
+                else el.classList.remove('is-invalid');
+            });
+            return;
+        }
+        // Validation: no numbers in names
+        let valid = true;
+        if (/\d/.test(name)) {
+            document.getElementById("CourseName").classList.add('is-invalid');
+            valid = false;
+        } else {
+            document.getElementById("CourseName").classList.remove('is-invalid');
+        }
+        if (/\d/.test(dept)) {
+            document.getElementById("DepartmentName").classList.add('is-invalid');
+            valid = false;
+        } else {
+            document.getElementById("DepartmentName").classList.remove('is-invalid');
+        }
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Σφάλμα',
+                text: 'Τα ονόματα δεν πρέπει να περιέχουν αριθμούς.'
+            });
             return;
         }
     
@@ -34,7 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("CourseModalLabel").textContent = "Add New Course";
                 bootstrap.Modal.getInstance(document.getElementById("CourseModal")).hide();
             } else {
-                alert("Failed to save course.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Σφάλμα',
+                    text: 'Αποτυχία αποθήκευσης μαθήματος.'
+                });
             }
         });
     });
@@ -48,19 +84,14 @@ function loadDepartments() {
     })
     .then(res => res.json())
     .then(data => {
-        const deptInput = document.getElementById("DepartmentName");
-        deptInput.setAttribute("list", "departmentList");
-
-        const dataList = document.createElement("datalist");
-        dataList.id = "departmentList";
-
+        const deptSelect = document.getElementById("DepartmentName");
+        deptSelect.innerHTML = '<option value="" disabled selected>Επιλέξτε Τμήμα</option>';
         data.forEach(d => {
             const option = document.createElement("option");
             option.value = d.department_name;
-            dataList.appendChild(option);
+            option.textContent = d.department_name;
+            deptSelect.appendChild(option);
         });
-
-        deptInput.parentNode.appendChild(dataList);
     });
 }
 

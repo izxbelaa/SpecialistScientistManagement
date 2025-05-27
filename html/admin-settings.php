@@ -281,7 +281,7 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                     }
                     if (!$hasCei || !$hasMoodle): ?>
                         <p class="text-center mt-2 text-muted" style="font-size:0.95rem;">
-                            Αν δεν υπάρχει διαθέσιμο αντίγραφο ασφαλείας για τη βάση, θα εμφανιστεί σχετικό μήνυμα σφάλματος.
+                             Δεν υπάρχουν διαθέσιμα αντίγραφα ασφαλείας για τη βάση.
                         </p>
                     <?php endif; ?>
                 </div>

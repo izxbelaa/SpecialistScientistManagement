@@ -29,6 +29,9 @@
 
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="courses-page">
     <!-- Spinner Start -->
@@ -197,15 +200,18 @@
                     <form id="academyForm">
                         <input type="hidden" id="CourseId" name="id">
                         <div class="mb-3">
-                            <label for="DepartmentName" class="form-label">Όνομα Τμήματος *</label>
-                            <input type="text" class="form-control" id="DepartmentName" name="departmentname" required>
+                            <label for="DepartmentName" class="form-label">Όνομα Τμήματος <span>*</span></label>
+                            <select class="form-select" id="DepartmentName" name="departmentname" required>
+                                <option value="" disabled selected>Επιλέξτε Τμήμα</option>
+                                <!-- Options will be populated by JS -->
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseName" class="form-label">Όνομα Μαθήματος *</label>
+                            <label for="CourseName" class="form-label">Όνομα Μαθήματος <span>*</span></label>
                             <input type="text" class="form-control" id="CourseName" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="CourseCode" class="form-label">Κωδικός Μαθήματος *</label>
+                            <label for="CourseCode" class="form-label">Κωδικός Μαθήματος <span>*</span></label>
                             <input type="text" class="form-control" id="CourseCode" name="code" required>
                         </div>
                     </form>
@@ -298,6 +304,7 @@
     <script src="../lib/easing/easing.min.js"></script>
     <script src="../lib/waypoints/waypoints.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    
 
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>

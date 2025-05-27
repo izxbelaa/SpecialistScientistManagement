@@ -54,6 +54,8 @@
             color: #0099ff;
         }
     </style>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="academies-page">
     <!-- Spinner Start -->
@@ -216,7 +218,7 @@
                         <input type="hidden" id="academyId" name="id">
                         <div class="mb-3">
                             <label for="academyName" class="form-label">Όνομα Σχολής *</label>
-                            <input type="text" class="form-control" id="academyName" name="name" required>
+                            <input type="text" class="form-control" id="academyName" name="name" required maxlength="255">
                         </div>
                         <div class="mb-3">
                             <label for="academyCode" class="form-label">Κωδικός Σχολής *</label>

@@ -182,45 +182,84 @@ document.addEventListener("DOMContentLoaded", function () {
   departmentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const isNameValid = validateField(document.getElementById("department_name"), "Το όνομα τμήματος είναι υποχρεωτικό.");
-    const isCodeValid = validateField(document.getElementById("department_code"), "Ο κωδικός τμήματος είναι υποχρεωτικός.");
-    const isAcademyValid = validateField(document.getElementById("academy_id"), "Πρέπει να επιλέξετε σχολή.");
+    const academyEl = document.getElementById("academy_id");
+    const nameEl = document.getElementById("department_name");
+    const codeEl = document.getElementById("department_code");
+    let valid = true;
 
-    if (!isNameValid || !isCodeValid || !isAcademyValid) return;
+    // Required fields
+    if (!academyEl.value.trim()) {
+        academyEl.classList.add("is-invalid");
+        valid = false;
+    } else {
+        academyEl.classList.remove("is-invalid");
+    }
+    if (!nameEl.value.trim()) {
+        nameEl.classList.add("is-invalid");
+        valid = false;
+    } else {
+        nameEl.classList.remove("is-invalid");
+    }
+    if (!codeEl.value.trim()) {
+        codeEl.classList.add("is-invalid");
+        valid = false;
+    } else {
+        codeEl.classList.remove("is-invalid");
+    }
+    if (!valid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Όλα τα πεδία είναι υποχρεωτικά.'
+        });
+        return;
+    }
+    // No numbers in department name
+    if (/\d/.test(nameEl.value)) {
+        nameEl.classList.add("is-invalid");
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Το όνομα τμήματος δεν πρέπει να περιέχει αριθμούς.'
+        });
+        return;
+    } else {
+        nameEl.classList.remove("is-invalid");
+    }
 
     const formData = new FormData(departmentForm);
 
     try {
-      const response = await fetch("../php/departments.php", {
-        method: "POST",
-        body: formData
-      });
-      const data = await response.json();
+        const response = await fetch("../php/departments.php", {
+            method: "POST",
+            body: formData
+        });
+        const data = await response.json();
 
-      if (data.success) {
-        await fetchDepartments();
-        bootstrap.Modal.getInstance(document.getElementById("departmentModal")).hide();
-        Swal.fire({
-          icon: 'success',
-          title: 'Επιτυχία!',
-          text: 'Το τμήμα αποθηκεύτηκε.',
-          timer: 1500,
-          showConfirmButton: false
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Σφάλμα',
-          text: data.message || "Αποτυχία αποθήκευσης."
-        });
-      }
+        if (data.success) {
+            await fetchDepartments();
+            bootstrap.Modal.getInstance(document.getElementById("departmentModal")).hide();
+            Swal.fire({
+                icon: 'success',
+                title: 'Επιτυχία!',
+                text: 'Το τμήμα αποθηκεύτηκε.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Σφάλμα',
+                text: data.message || "Αποτυχία αποθήκευσης."
+            });
+        }
     } catch (err) {
-      console.error("Σφάλμα κατά την υποβολή:", err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Σφάλμα',
-        text: 'Αποτυχία σύνδεσης με τον server.'
-      });
+        console.error("Σφάλμα κατά την υποβολή:", err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Αποτυχία σύνδεσης με τον server.'
+        });
     }
   });
 
