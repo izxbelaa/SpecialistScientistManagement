@@ -60,13 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $email,
                 $hashed_password,
                 0,                  // type_of_user
-                0,                  // logged_in
                 0                   // disabled_user
             );
 
             $stmt = $pdo->prepare("
-                INSERT INTO users (first_name, middle_name, last_name, email, password, type_of_user, logged_in, disabled_user)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO users (first_name, middle_name, last_name, email, password, type_of_user, disabled_user)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             ");
 
             $stmt->execute([
@@ -76,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user->email,
                 $user->password,
                 $user->type_of_user,
-                $user->logged_in,
                 $user->disabled_user
             ]);
 
