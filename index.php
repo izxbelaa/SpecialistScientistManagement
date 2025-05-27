@@ -125,8 +125,8 @@ unset($_SESSION['reset_success']);
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="./html/assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                        <a href="./html/tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                        <a href="./html/requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="./html/tables.php" class="dropdown-item">Πίνακας Χρηστών</a>
+                        <a href="./html/requests-admin.php" class="dropdown-item">Διαχείριση Αιτήσεων</a>
                         <a href="./html/statistics.php" class="dropdown-item">Στατιστικά</a>
                     </div>
             </div>

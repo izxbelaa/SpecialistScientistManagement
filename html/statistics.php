@@ -100,8 +100,8 @@ $totalStats = $pdo->query('SELECT COUNT(*) as total FROM requests')->fetch(PDO::
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                        <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                        <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="tables.php" class="dropdown-item">Πίνακας Χρηστών</a>
+                        <a href="requests-admin.php" class="dropdown-item">Διαχείριση Αιτήσεων</a>
                         <a href="statistics.php" class="dropdown-item active">Στατιστικά</a>
                     </div>
                 </div>

@@ -47,11 +47,27 @@ try {
 
     <!-- Template Stylesheet -->
     <link href="../assets/css/style.css.php" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .error-message {
             color: red;
             font-size: 0.875em;
             margin-top: 0.25rem;
+        }
+        /* Make Select2 match Bootstrap input size */
+        .select2-container .select2-selection--single {
+            height: 58px !important;
+            padding: 1.25rem 0.75rem !important;
+            font-size: 1rem;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 58px !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 58px !important;
         }
     </style>
 </head>
@@ -108,8 +124,8 @@ try {
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Σελιδες Διαχειριστη</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="assign-reviewers.php" class="dropdown-item">Ανάθεση Αξιολογητών</a>
-                        <a href="tables.php" class="dropdown-item">Πινακας Χρηστων</a>
-                        <a href="requests-admin.php" class="dropdown-item">Διαχειριση Αιτησεων</a>
+                        <a href="tables.php" class="dropdown-item">Πίνακας Χρηστών</a>
+                        <a href="requests-admin.php" class="dropdown-item">Διαχείριση Αιτήσεων</a>
                         <a href="statistics.php" class="dropdown-item">Στατιστικά</a>
                     </div>
                 </div>
@@ -216,11 +232,20 @@ try {
                 <div class="error-message" id="city_error"></div>
               </div>
 
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="country" name="country"
-                       value="<?= htmlspecialchars($user['country'] ?? '') ?>" placeholder="Χώρα">
-                <label for="country">Χώρα*</label>
+              <div class="mb-3">
+                <label for="country" class="form-label">Χώρα*</label>
+                <select class="form-select form-control" id="country" name="country">
+                  <option value="">Επιλέξτε Χώρα</option>
+                </select>
                 <div class="error-message" id="country_error"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="nationality" class="form-label">Εθνικότητα*</label>
+                <select class="form-select form-control" id="nationality" name="nationality">
+                  <option value="">Επιλέξτε Εθνικότητα</option>
+                </select>
+                <div class="error-message" id="nationality_error"></div>
               </div>
 
               <div class="form-floating mb-3">
@@ -237,13 +262,6 @@ try {
                 <div class="error-message" id="community_error"></div>
               </div>
 
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="nationality" name="nationality"
-                       value="<?= htmlspecialchars($user['nationality'] ?? '') ?>" placeholder="Εθνικότητα">
-                <label for="nationality">Εθνικότητα*</label>
-                <div class="error-message" id="nationality_error"></div>
-              </div>
-
               <h5 class="mt-5 mb-3 text-primary">Στοιχεία Επικοινωνίας</h5>
 
               <div class="form-floating mb-3">
@@ -255,8 +273,8 @@ try {
 
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="university_email" name="university_email"
-                       value="<?= htmlspecialchars($user['university_email'] ?? '') ?>" placeholder="University Email">
-                <label for="university_email">University Email</label>
+                       value="<?= htmlspecialchars($user['university_email'] ?? '') ?>" placeholder="Πανεπιστημιακό Email">
+                <label for="university_email">Πανεπιστημιακό Email</label>
                 <div class="error-message" id="university_email_error"></div>
               </div>
 
@@ -566,6 +584,44 @@ try {
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+    // List of all countries in Greek
+    const countries = [
+      "Αφγανιστάν","Αλβανία","Αλγερία","Ανδόρα","Ανγκόλα","Αντίγκουα και Μπαρμπούντα","Αργεντινή","Αρμενία","Αυστραλία","Αυστρία","Αζερμπαϊτζάν","Μπαχάμες","Μπαχρέιν","Μπανγκλαντές","Μπαρμπάντος","Λευκορωσία","Βέλγιο","Μπελίζ","Μπενίν","Μπουτάν","Βολιβία","Βοσνία και Ερζεγοβίνη","Μποτσουάνα","Βραζιλία","Μπρουνέι","Βουλγαρία","Μπουρκίνα Φάσο","Μπουρούντι","Πράσινο Ακρωτήριο","Καμπότζη","Καμερούν","Καναδάς","Κεντροαφρικανική Δημοκρατία","Τσαντ","Χιλή","Κίνα","Κολομβία","Κομόρες","Λαϊκή Δημοκρατία του Κονγκό","Δημοκρατία του Κονγκό","Κόστα Ρίκα","Ακτή Ελεφαντοστού","Κροατία","Κούβα","Κύπρος","Τσεχία","Δανία","Τζιμπουτί","Ντομίνικα","Δομινικανή Δημοκρατία","Ισημερινός","Αίγυπτος","Ελ Σαλβαδόρ","Ισημερινή Γουινέα","Ερυθραία","Εσθονία","Εσουατίνι","Αιθιοπία","Φίτζι","Φινλανδία","Γαλλία","Γκαμπόν","Γκάμπια","Γεωργία","Γερμανία","Γκάνα","Ελλάδα","Γρενάδα","Γουατεμάλα","Γουινέα","Γουινέα-Μπισσάου","Γουιάνα","Αϊτή","Ονδούρα","Ουγγαρία","Ισλανδία","Ινδία","Ινδονησία","Ιράν","Ιράκ","Ιρλανδία","Ισραήλ","Ιταλία","Τζαμάικα","Ιαπωνία","Ιορδανία","Καζακστάν","Κένυα","Κιριμπάτι","Βόρεια Κορέα","Νότια Κορέα","Κόσοβο","Κουβέιτ","Κιργιζία","Λάος","Λετονία","Λίβανος","Λεσότο","Λιβερία","Λιβύη","Λιχτενστάιν","Λιθουανία","Λουξεμβούργο","Μαδαγασκάρη","Μαλάουι","Μαλαισία","Μαλδίβες","Μάλι","Μάλτα","Νήσοι Μάρσαλ","Μαυριτανία","Μαυρίκιος","Μεξικό","Μικρονησία","Μολδαβία","Μονακό","Μογγολία","Μαυροβούνιο","Μαρόκο","Μοζαμβίκη","Μιανμάρ (Βιρμανία)","Ναμίμπια","Ναουρού","Νεπάλ","Ολλανδία","Νέα Ζηλανδία","Νικαράγουα","Νίγηρας","Νιγηρία","Βόρεια Μακεδονία","Νορβηγία","Ομάν","Πακιστάν","Παλάου","Παλαιστίνη","Παναμάς","Παπούα Νέα Γουινέα","Παραγουάη","Περού","Φιλιππίνες","Πολωνία","Πορτογαλία","Κατάρ","Ρουμανία","Ρωσία","Ρουάντα","Άγιος Χριστόφορος και Νέβις","Αγία Λουκία","Άγιος Βικέντιος και Γρεναδίνες","Σαμόα","Άγιος Μαρίνος","Σάο Τομέ και Πρίνσιπε","Σαουδική Αραβία","Σενεγάλη","Σερβία","Σεϋχέλλες","Σιέρα Λεόνε","Σιγκαπούρη","Σλοβακία","Σλοβενία","Νήσοι Σολομώντα","Σομαλία","Νότια Αφρική","Νότιο Σουδάν","Ισπανία","Σρι Λάνκα","Σουδάν","Σουρινάμ","Σουηδία","Ελβετία","Συρία","Ταϊβάν","Τατζικιστάν","Τανζανία","Ταϊλάνδη","Ανατολικό Τιμόρ","Τόγκο","Τόνγκα","Τρινιντάντ και Τομπάγκο","Τυνησία","Τουρκία","Τουρκμενιστάν","Τουβαλού","Ουγκάντα","Ουκρανία","Ηνωμένα Αραβικά Εμιράτα","Ηνωμένο Βασίλειο","Ηνωμένες Πολιτείες","Ουρουγουάη","Ουζμπεκιστάν","Βανουάτου","Βατικανό","Βενεζουέλα","Βιετνάμ","Υεμένη","Ζάμπια","Ζιμπάμπουε"
+    ];
+    // List of ethnicities in Greek
+    const ethnicities = [
+      "Αφρικανική","Αραβική","Αρμενική","Ασιατική","Ασσύρια","Αβορίγινων Αυστραλίας","Αυστρονησιακή","Βαλκανική","Βαλτική","Βασκική","Βερβερική","Μαύρη","Καυκάσια","Κεντροασιατική","Κινέζικη","Κουβανική","Κυπριακή","Ολλανδική","Ανατολικοασιατική","Ανατολικοευρωπαϊκή","Αγγλική","Εσκιμώων/Ινουίτ","Αιθιοπική","Ευρωπαϊκή","Φιλιπινέζικη","Γαλλική","Γερμανική","Ελληνική","Ισπανόφωνη/Λατινοαμερικανική","Ινδική","Ιθαγενής Αμερικανική","Ιρανική/Περσική","Ιρλανδική","Ισραηλινή","Ιταλική","Ιαπωνική","Εβραϊκή","Κορεατική","Λατινοαμερικανική","Μαλαισιανή","Μεσογειακή","Μεξικανική","Μέσης Ανατολής","Ιθαγενής Αμερικανική","Βορειοαφρικανική","Βόρειοευρωπαϊκή","Νησιώτης Ειρηνικού","Πολωνική","Πορτογαλική","Ρομά","Ρωσική","Σκανδιναβική","Σκωτσέζικη","Σημιτική","Σερβική","Σλαβική","Νοτιοασιατική","Νοτιοανατολικοασιατική","Νοτιοευρωπαϊκή","Ισπανική","Σουηδική","Τουρκική","Ουκρανική","Βιετναμέζικη","Δυτικοαφρικανική","Λευκή","Άλλη"
+    ];
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sort arrays alphabetically (Greek locale)
+      countries.sort((a, b) => a.localeCompare(b, 'el'));
+      ethnicities.sort((a, b) => a.localeCompare(b, 'el'));
+      // Populate countries
+      const countrySelect = document.getElementById('country');
+      countries.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        if (c === "<?= htmlspecialchars($user['country'] ?? '') ?>") opt.selected = true;
+        countrySelect.appendChild(opt);
+      });
+      // Populate ethnicities
+      const nationalitySelect = document.getElementById('nationality');
+      ethnicities.forEach(e => {
+        const opt = document.createElement('option');
+        opt.value = e;
+        opt.textContent = e;
+        if (e === "<?= htmlspecialchars($user['nationality'] ?? '') ?>") opt.selected = true;
+        nationalitySelect.appendChild(opt);
+      });
+      // Initialize Select2
+      $(countrySelect).select2({ width: '100%', placeholder: 'Επιλέξτε Χώρα' });
+      $(nationalitySelect).select2({ width: '100%', placeholder: 'Επιλέξτε Εθνικότητα' });
+    });
+    </script>
+
 </body>
-</html>
 </html> 
