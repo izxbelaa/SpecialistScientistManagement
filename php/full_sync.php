@@ -31,7 +31,7 @@ try {
         // Now disable sync
         $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 0");
         $stmt->execute();
-    } else {
+        } else {
         // Just enable sync without running it
         $stmt = $pdo->prepare("UPDATE full_sync SET enabled = 1");
         $stmt->execute();

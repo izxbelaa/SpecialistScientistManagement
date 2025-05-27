@@ -31,6 +31,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="userstable-page">
@@ -206,11 +209,11 @@
       <div class="modal-body">
         <form id="editUserForm">
           <div class="mb-3">
-            <label for="editFirstName" class="form-label">Όνομα</label>
+            <label for="editFirstName" class="form-label">Όνομα <span>*</span></label>
             <input type="text" class="form-control" id="editFirstName" required>
           </div>
           <div class="mb-3">
-            <label for="editLastName" class="form-label">Επώνυμο</label>
+            <label for="editLastName" class="form-label">Επώνυμο <span>*</span></label>
             <input type="text" class="form-control" id="editLastName" required>
           </div>
           <div class="mb-3">
@@ -218,11 +221,11 @@
             <input type="text" class="form-control" id="editMiddleName">
           </div>
           <div class="mb-3">
-            <label for="editEmail" class="form-label">Email</label>
+            <label for="editEmail" class="form-label">Email <span>*</span></label>
             <input type="email" class="form-control" id="editEmail" required>
           </div>
           <div class="mb-3">
-            <label for="editUserType" class="form-label">Τύπος Χρήστη</label>
+            <label for="editUserType" class="form-label">Τύπος Χρήστη <span>*</span></label>
             <select class="form-select" id="editUserType" required>
               <option value="" disabled>Επιλέξτε τύπο</option>
               <option value="0">Χρήστης</option>
@@ -258,11 +261,11 @@
       <div class="modal-body">
         <form id="addUserForm">
           <div class="mb-3">
-            <label for="addFirstName" class="form-label">Όνομα</label>
+            <label for="addFirstName" class="form-label">Όνομα <span>*</span></label>
             <input type="text" class="form-control" id="addFirstName" required>
           </div>
           <div class="mb-3">
-            <label for="addLastName" class="form-label">Επώνυμο</label>
+            <label for="addLastName" class="form-label">Επώνυμο <span>*</span></label>
             <input type="text" class="form-control" id="addLastName" required>
           </div>
           <div class="mb-3">
@@ -270,15 +273,15 @@
             <input type="text" class="form-control" id="addMiddleName">
           </div>
           <div class="mb-3">
-            <label for="addEmail" class="form-label">Email</label>
+            <label for="addEmail" class="form-label">Email <span>*</span></label>
             <input type="email" class="form-control" id="addEmail" required>
           </div>
           <div class="mb-3">
-            <label for="addPassword" class="form-label">Κωδικός Πρόσβασης</label>
+            <label for="addPassword" class="form-label">Κωδικός Πρόσβασης <span>*</span></label>
             <input type="password" class="form-control" id="addPassword" required>
           </div>
           <div class="mb-3">
-            <label for="addUserType" class="form-label">Τύπος Χρήστη</label>
+            <label for="addUserType" class="form-label">Τύπος Χρήστη <span>*</span></label>
             <select class="form-select" id="addUserType" required>
               <option value="" disabled selected>Επιλέξτε τύπο</option>
               <option value="0">Χρήστης</option>

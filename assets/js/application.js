@@ -117,5 +117,5 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       alert('Παρακαλώ επιλέξτε τουλάχιστον ένα μάθημα.');
     }
-  });
+    });
 });

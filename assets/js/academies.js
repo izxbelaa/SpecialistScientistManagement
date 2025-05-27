@@ -212,7 +212,45 @@ function deleteAcademy(id) {
 }
 
 // Save academy
-document.getElementById('saveAcademy').addEventListener('click', function() {
+document.getElementById('saveAcademy').addEventListener('click', function () {
+    const nameEl = document.getElementById('academyName');
+    // Validation: no numbers in academy name
+    if (/\d/.test(nameEl.value)) {
+        nameEl.classList.add('is-invalid');
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Το όνομα σχολής δεν πρέπει να περιέχει αριθμούς.'
+        });
+        return;
+    } else {
+        nameEl.classList.remove('is-invalid');
+    }
+    // Validation: max 255 characters
+    if (nameEl.value.length > 255) {
+        nameEl.classList.add('is-invalid');
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Το όνομα σχολής δεν μπορεί να ξεπερνά τους 255 χαρακτήρες.'
+        });
+        return;
+    } else {
+        nameEl.classList.remove('is-invalid');
+    }
+    const codeEl = document.getElementById('academyCode');
+    // Validation: code must be 1-50 alphanumeric characters
+    if (!/^[A-Za-z0-9]{1,50}$/.test(codeEl.value)) {
+        codeEl.classList.add('is-invalid');
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα',
+            text: 'Ο κωδικός σχολής πρέπει να είναι αλφαριθμητικός και από 1 έως 50 χαρακτήρες.'
+        });
+        return;
+    } else {
+        codeEl.classList.remove('is-invalid');
+    }
     const form = document.getElementById('academyForm');
     const formData = new FormData(form);
     const id = formData.get('id');

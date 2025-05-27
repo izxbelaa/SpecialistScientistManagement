@@ -1,8 +1,35 @@
+let allUsers = [];
+let filteredUsers = [];
+let currentPage = 1;
+let sortColumn = null;
+let sortDirection = 1; // 1 = asc, -1 = desc
+
+function compareValues(a, b) {
+  if (typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b, undefined, { sensitivity: 'base' });
+  }
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
+function sortUsers(data) {
+  if (sortColumn === null) return data;
+  if (sortColumn === 'index') {
+    return [...data].sort((a, b) => (a.originalIndex - b.originalIndex) * sortDirection);
+  }
+  return [...data].sort((a, b) => {
+    let valA = a[sortColumn];
+    let valB = b[sortColumn];
+    return compareValues(valA, valB) * sortDirection;
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // Fetch user data and populate the table
     fetch("../php/fetch_users.php")
         .then(response => response.json())
         .then(users => {
+            // Assign originalIndex to each user
+            users.forEach((user, i) => user.originalIndex = i + 1);
             console.log("Fetched Users:", users);
             const tableBody = document.querySelector("#usersTable tbody");
 
@@ -26,9 +53,54 @@ document.addEventListener("DOMContentLoaded", function () {
         setPagination(filteredUsers); // Recalculate pagination when entries per page changes
     });
 
+    // Add sorting event listeners to table headers
+    const ths = Array.from(document.querySelectorAll('#usersTable thead th'));
+    const colKeys = ['index', 'first_name', 'last_name', 'middle_name', 'email', 'type_of_user', 'disabled_user'];
+    ths.forEach((th, idx) => {
+      if (!th.dataset.label) th.dataset.label = th.textContent.replace(/[▲▼]/g, '').trim();
+      th.style.cursor = idx === 7 ? 'default' : 'pointer';
+      let arrow = '';
+      if (idx !== 7) {
+        arrow = '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#888; vertical-align:middle;">▼</span>';
+        if (sortColumn === colKeys[idx]) {
+          arrow = sortDirection === 1
+            ? '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#0099ff; vertical-align:middle;">▲</span>'
+            : '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#0099ff; vertical-align:middle;">▼</span>';
+        }
+      }
+      th.innerHTML = `<span style='display:inline-flex;align-items:center'>${th.dataset.label}${arrow}</span>`;
+      if (idx !== 7) {
+        th.onclick = function() {
+          if (sortColumn === colKeys[idx]) {
+            sortDirection *= -1;
+          } else {
+            sortColumn = colKeys[idx];
+            sortDirection = 1;
+          }
+          ths.forEach((t, i) => {
+            if (!t.dataset.label) t.dataset.label = t.textContent.replace(/[▲▼]/g, '').trim();
+            let arrow = '';
+            if (i !== 7) {
+              arrow = '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#888; vertical-align:middle;">▼</span>';
+              if (colKeys[i] === sortColumn) {
+                arrow = sortDirection === 1
+                  ? '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#0099ff; vertical-align:middle;">▲</span>'
+                  : '<span class="sort-arrow" style="margin-left:6px; min-width:18px; display:inline-block; color:#0099ff; vertical-align:middle;">▼</span>';
+              }
+            }
+            t.innerHTML = `<span style='display:inline-flex;align-items:center'>${t.dataset.label}${arrow}</span>`;
+          });
+          setPagination(filteredUsers);
+        };
+      } else {
+        th.onclick = null;
+      }
+    });
+
     // Add User modal submit handler
     document.getElementById("addUserForm").onsubmit = function(event) {
         event.preventDefault();
+        if (!validateUserForm('add')) return;
         const userType = document.getElementById("addUserType").value;
         if (!userType) {
             alert("Παρακαλώ επιλέξτε τύπο χρήστη.");
@@ -75,18 +147,20 @@ function filterTable() {
 }
 
 // Function to set the pagination based on user selection and filtered data
-let allUsers = [];
-let filteredUsers = [];
-let currentPage = 1;
-
 function setPagination(users) {
     // Determine the number of entries to show per page
     const entriesPerPage = parseInt(document.getElementById("entriesSelect").value, 10) || 5;
 
+    // Sort users before paginating
+    let sortedUsers = users;
+    if (sortColumn !== null) {
+      sortedUsers = sortUsers(users);
+    }
+
     // Slice the filtered users based on the current page and entries per page
     const start = (currentPage - 1) * entriesPerPage;
     const end = currentPage * entriesPerPage;
-    const usersToDisplay = users.slice(start, end);
+    const usersToDisplay = sortedUsers.slice(start, end);
 
     // Rebuild the table with the current slice of users
     const tableBody = document.querySelector("#usersTable tbody");
@@ -100,7 +174,7 @@ function setPagination(users) {
         }
 
         row.innerHTML = `
-            <td>${start + idx + 1}</td>
+            <td>${user.originalIndex}</td>
             <td>${user.first_name}</td>
             <td>${user.last_name}</td>
             <td>${user.middle_name || 'N/A'}</td>
@@ -165,6 +239,7 @@ function editUser(id, firstName, lastName, middleName, email, userType, disabled
 
     document.getElementById("editUserForm").onsubmit = function (event) {
         event.preventDefault();
+        if (!validateUserForm('edit')) return;
         
         const updatedUser = {
             id,
@@ -244,4 +319,79 @@ function getUserTypeName(type) {
         5: "Διαχειριστής"
     };
     return types[type] ?? type;
+}
+
+// Add User modal submit handler
+function validateUserForm(formPrefix) {
+  let valid = true;
+  const requiredFields = [
+    `${formPrefix}FirstName`,
+    `${formPrefix}LastName`,
+    `${formPrefix}Email`,
+    `${formPrefix}UserType`,
+  ];
+  let missingField = false;
+  requiredFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) {
+      el.classList.add('is-invalid');
+      valid = false;
+      missingField = true;
+    } else {
+      el.classList.remove('is-invalid');
+    }
+  });
+  // Name fields should not contain numbers
+  let nameHasNumber = false;
+  ['FirstName', 'LastName', 'MiddleName'].forEach(field => {
+    const el = document.getElementById(`${formPrefix}${field}`);
+    if (el && /\d/.test(el.value)) {
+      el.classList.add('is-invalid');
+      valid = false;
+      nameHasNumber = true;
+    } else if (el) {
+      el.classList.remove('is-invalid');
+    }
+  });
+  // Password only for add form
+  if (formPrefix === 'add') {
+    const pwd = document.getElementById('addPassword');
+    if (!pwd.value.trim()) {
+      pwd.classList.add('is-invalid');
+      valid = false;
+      missingField = true;
+    } else {
+      pwd.classList.remove('is-invalid');
+    }
+  }
+  // Email format check
+  const emailEl = document.getElementById(`${formPrefix}Email`);
+  if (emailEl && emailEl.value && !/^\S+@\S+\.\S+$/.test(emailEl.value)) {
+    emailEl.classList.add('is-invalid');
+    valid = false;
+    missingField = true;
+  }
+  // Show SweetAlert2 error if needed
+  if (missingField) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Σφάλμα',
+      text: 'Όλα τα πεδία είναι υποχρεωτικά και πρέπει να είναι έγκυρα.'
+    });
+  } else if (nameHasNumber) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Σφάλμα',
+      text: 'Τα ονόματα δεν πρέπει να περιέχουν αριθμούς.'
+    });
+  }
+  return valid;
+}
+
+// Add validation feedback CSS if not present
+if (!document.getElementById('user-form-validation-style')) {
+  const style = document.createElement('style');
+  style.id = 'user-form-validation-style';
+  style.innerHTML = `.is-invalid { border-color: #dc3545 !important; } .is-invalid:focus { box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25) !important; } .invalid-feedback { color: #dc3545; font-size: 0.9em; display: block; }`;
+  document.head.appendChild(style);
 }

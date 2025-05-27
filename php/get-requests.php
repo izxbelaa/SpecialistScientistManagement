@@ -15,18 +15,18 @@ $type_of_user = $_SESSION['type_of_user'];
 
 if ($type_of_user == 5) {
     // Admin: see all
-    $sql = "SELECT 
-        c.id AS candidate_user_id,
-        c.request_id,
-        CONCAT(u.first_name, ' ', u.last_name) AS requester_name,
-        t.title AS request_title,
-        t.description
-    FROM candidate_users c
-    LEFT JOIN users u ON c.user_id = u.id
-    LEFT JOIN requests r ON c.request_id = r.id
-    LEFT JOIN request_templates t ON r.template_id = t.id
-    WHERE c.status = 0
-    ORDER BY c.id ASC";
+$sql = "SELECT 
+    c.id AS candidate_user_id,
+    c.request_id,
+    CONCAT(u.first_name, ' ', u.last_name) AS requester_name,
+    t.title AS request_title,
+    t.description
+FROM candidate_users c
+LEFT JOIN users u ON c.user_id = u.id
+LEFT JOIN requests r ON c.request_id = r.id
+LEFT JOIN request_templates t ON r.template_id = t.id
+WHERE c.status = 0
+ORDER BY c.id ASC";
     $params = [];
 } elseif ($type_of_user == 3) {
     // Inspector: only assigned requests
