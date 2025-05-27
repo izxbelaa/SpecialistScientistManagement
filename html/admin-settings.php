@@ -269,7 +269,21 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                             </span>
                         </a>
                     </div>
-                    <p class="text-center mt-2 text-muted" style="font-size:0.95rem;">Αν δεν υπάρχει διαθέσιμο αντίγραφο ασφαλείας για τη βάση, θα εμφανιστεί σχετικό μήνυμα σφάλματος.</p>
+                    <?php
+                    $backupDir = realpath(__DIR__ . '/../backups');
+                    $hasCei = false;
+                    $hasMoodle = false;
+                    if ($backupDir) {
+                        $cei = glob($backupDir . '/cei326omada2_*.sql');
+                        $moodle = glob($backupDir . '/moodle_omada2_*.sql');
+                        $hasCei = $cei && count($cei) > 0;
+                        $hasMoodle = $moodle && count($moodle) > 0;
+                    }
+                    if (!$hasCei || !$hasMoodle): ?>
+                        <p class="text-center mt-2 text-muted" style="font-size:0.95rem;">
+                            Αν δεν υπάρχει διαθέσιμο αντίγραφο ασφαλείας για τη βάση, θα εμφανιστεί σχετικό μήνυμα σφάλματος.
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
