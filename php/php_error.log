@@ -431,3 +431,37 @@ Array
     [action] => get
 )
 
+[27-May-2025 20:12:53 Europe/Berlin] Received action: get
+[27-May-2025 20:12:53 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:12:54 Europe/Berlin] Received action: get
+[27-May-2025 20:12:54 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
+[27-May-2025 20:12:55 Europe/Berlin] Received action: get
+[27-May-2025 20:12:55 Europe/Berlin] POST data: Array
+(
+    [action] => get
+    [id] => 1
+)
+
+[27-May-2025 20:13:03 Europe/Berlin] Received action: update
+[27-May-2025 20:13:03 Europe/Berlin] POST data: Array
+(
+    [action] => update
+    [name] => Σχολή Γεωτεχνικών Επιστημών και Διαχείρισης Περιβάλλοντος
+    [code] => 1
+    [id] => 1
+)
+
+[27-May-2025 20:13:03 Europe/Berlin] Received action: get
+[27-May-2025 20:13:03 Europe/Berlin] POST data: Array
+(
+    [action] => get
+)
+
