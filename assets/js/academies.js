@@ -201,10 +201,18 @@ function deleteAcademy(id) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Academy deleted successfully');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Επιτυχία',
+                    text: 'Η σχολή διαγράφηκε επιτυχώς.'
+                });
                 loadAcademies();
             } else {
-                alert(data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Σφάλμα',
+                    text: data.message || 'Παρουσιάστηκε άγνωστο σφάλμα.'
+                });
             }
         })
         .catch(error => console.error('Error:', error));
@@ -273,18 +281,30 @@ document.getElementById('saveAcademy').addEventListener('click', function () {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Academy saved successfully');
+            Swal.fire({
+                icon: 'success',
+                title: 'Επιτυχία',
+                text: 'Η σχολή αποθηκεύτηκε επιτυχώς.'
+            });
             bootstrap.Modal.getInstance(document.getElementById('academyModal')).hide();
             form.reset();
             loadAcademies();
         } else {
-            alert(data.message || 'An unknown error occurred');
+            Swal.fire({
+                icon: 'error',
+                title: 'Σφάλμα',
+                text: data.message || 'Παρουσιάστηκε άγνωστο σφάλμα.'
+            });
             console.error('Server error:', data);
         }
     })
     .catch(error => {
         console.error('Network error:', error);
-        alert('A network error occurred. Please check the console for details.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Σφάλμα δικτύου',
+            text: 'Παρουσιάστηκε σφάλμα δικτύου. Ελέγξτε την κονσόλα για λεπτομέρειες.'
+        });
     });
 });
 
