@@ -262,14 +262,14 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                                 <span id="backupText">Δημιουργία Backup</span>
                             </span>
                         </button>
-                        <button id="downloadBtn" class="btn btn-success px-4 py-2">
+                        <a href="../php/download_backup.php" class="btn btn-success px-4 py-2" target="_blank">
                             <span class="d-inline-flex align-items-center">
                                 <i class="fas fa-download me-2"></i>
-                                <span>Λήψη Backup</span>
+                                <span>Λήψη Τελευταίων Backups</span>
                             </span>
-                        </button>
+                        </a>
                     </div>
-                    <div id="backupStatus" class="mt-3"></div>
+                    <p class="text-center mt-2 text-muted" style="font-size:0.95rem;">Αν δεν υπάρχει διαθέσιμο αντίγραφο ασφαλείας για τη βάση, θα εμφανιστεί σχετικό μήνυμα σφάλματος.</p>
                 </div>
             </div>
         </div>
@@ -344,7 +344,6 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
     <script>
         $(document).ready(function() {
             const backupBtn = $('#backupBtn');
-            const downloadBtn = $('#downloadBtn');
             const backupSpinner = $('#backupSpinner');
             const backupText = $('#backupText');
             const backupStatus = $('#backupStatus');
@@ -352,7 +351,6 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
             backupBtn.click(function() {
                 // Disable buttons and show spinner
                 backupBtn.prop('disabled', true);
-                downloadBtn.prop('disabled', true);
                 backupSpinner.removeClass('d-none');
                 backupText.text('Δημιουργία...');
                 backupStatus.html('');
@@ -380,44 +378,10 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== "Διαχειρ
                         Swal.fire('Σφάλμα', 'Σφάλμα κατά τη δημιουργία του backup: ' + error, 'error');
                     },
                     complete: function() {
-                        // Re-enable buttons and hide spinner
+                        // Re-enable button and hide spinner
                         backupBtn.prop('disabled', false);
-                        downloadBtn.prop('disabled', false);
                         backupSpinner.addClass('d-none');
                         backupText.text('Δημιουργία Backup');
-                    }
-                });
-            });
-
-            downloadBtn.click(function() {
-                // Show loading state
-                downloadBtn.prop('disabled', true);
-                
-                // First check if there are backup files
-                $.ajax({
-                    url: '../php/download_backup.php',
-                    type: 'HEAD',
-                    error: function(xhr) {
-                        downloadBtn.prop('disabled', false);
-                        if (xhr.status === 404) {
-                            Swal.fire('Σφάλμα', 'Δεν βρέθηκαν αρχεία backup. Παρακαλώ δημιουργήστε πρώτα ένα backup.', 'error');
-                        } else {
-                            Swal.fire('Σφάλμα', 'Σφάλμα κατά τη λήψη του backup.', 'error');
-                        }
-                    },
-                    success: function() {
-                        // If check passes, trigger download
-                        const iframe = document.createElement('iframe');
-                        iframe.style.display = 'none';
-                        document.body.appendChild(iframe);
-                        
-                        iframe.src = '../php/download_backup.php';
-                        
-                        // Remove iframe after download starts
-                        setTimeout(function() {
-                            document.body.removeChild(iframe);
-                            downloadBtn.prop('disabled', false);
-                        }, 1000);
                     }
                 });
             });
