@@ -49,7 +49,7 @@ $mail->addEmbeddedImage(
 
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
   $mail->addAddress($email);
-  $mail->Subject = 'Special Scientist System CUT | Κωδικός Επαλήθευσης';
+  $mail->Subject = 'Special Scientist System CUT | Password Reset';
  // Build the HTML email
 $html = '
 <!DOCTYPE html>
