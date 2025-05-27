@@ -59,7 +59,7 @@ function renderTable() {
       <td>${row.aa}</td>
       <td>${row.name}</td>
       <td>${row.email}</td>
-      <td><span class="badge bg-success">${row.lmsStatus}</span></td>
+      <td>${row.lmsStatus}</td>
       <td class="text-center">${row.actions}</td>
     `;
     tbody.appendChild(tr);
